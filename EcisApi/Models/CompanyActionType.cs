@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace EcisApi.Models
 {
-    public class Role : BaseModel
+    public class CompanyActionType : BaseModel
     {
         public int ID { get; set; }
-        public string RoleName { get; set; }
+        public string TypeName { get; set; }
         public string Description { get; set; }
 
-        public ICollection<Account> Accounts { get; set; }
+        public ICollection<CompanyAction> CompanyActions { get; set; }
     }
 }
