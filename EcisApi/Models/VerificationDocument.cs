@@ -19,5 +19,6 @@ namespace EcisApi.Models
 
         public VerificationProcess VerificationProcess { get; set; }
         public DocumentType DocumentType { get; set; }
+        public ICollection<DocumentType> DocumentTypes { get; set; }
     }
 }
