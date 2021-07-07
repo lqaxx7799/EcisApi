@@ -24,7 +24,7 @@ namespace EcisApi.Repositories
         {
             try
             {
-                return db.Set<Account>().SingleOrDefault(x => x.ID == id);
+                return db.Set<Account>().SingleOrDefault(x => x.Id == id);
             }
             catch (Exception)
             {

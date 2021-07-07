@@ -7,11 +7,11 @@ namespace EcisApi.Models
 {
     public class DocumentReview : BaseModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Content { get; set; }
         public bool IsAccepted { get; set; }
 
-        public int VerificationDocumentID { get; set; }
+        public int VerificationDocumentId { get; set; }
 
         public VerificationDocument VerificationDocument { get; set; }
     }

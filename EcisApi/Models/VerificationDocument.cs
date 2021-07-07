@@ -7,18 +7,19 @@ namespace EcisApi.Models
 {
     public class VerificationDocument : BaseModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Content { get; set; }
         public string DocumentName { get; set; }
         public string ResourceType { get; set; }
         public string ResourceUrl { get; set; }
         public string UploaderType { get; set; }
         
-        public int VerificationProcessID { get; set; }
-        public int DocumentTypeID { get; set; }
+        public int VerificationProcessId { get; set; }
+        public int DocumentTypeId { get; set; }
 
         public VerificationProcess VerificationProcess { get; set; }
         public DocumentType DocumentType { get; set; }
-        public ICollection<DocumentType> DocumentTypes { get; set; }
+
+        public ICollection<DocumentReview> DocumentReviews { get; set; }
     }
 }

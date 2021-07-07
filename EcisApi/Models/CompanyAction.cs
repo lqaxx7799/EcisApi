@@ -7,23 +7,26 @@ namespace EcisApi.Models
 {
     public class CompanyAction : BaseModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string ActionTitle { get; set; }
         public string Description { get; set; }
         public DateTime AcceptedAt { get; set; }
         public DateTime HandledAt { get; set; }
         public bool IsHandled { get; set; }
 
-        public int VerificationProcessID { get; set; }
-        public int CompanyActionTypeID { get; set; }
-        public int TargetedCompanyID { get; set; }
-        public int CreatorCompanyID { get; set; }
-        public int AssignedAgentID { get; set; }
+        public int VerificationProcessId { get; set; }
+        public int CompanyActionTypeId { get; set; }
+        public int TargetedCompanyId { get; set; }
+        public int CreatorCompanyId { get; set; }
+        public int AssignedAgentId { get; set; }
 
         public VerificationProcess VerificationProcess { get; set; }
         public CompanyActionType CompanyActionType { get; set; }
         public Company TargetedCompany { get; set; }
         public Company CreatorCompany { get; set; }
         public Agent AssignedAgent { get; set; }
+
+        public ICollection<CompanyActionAttachment> CompanyActionAttachments { get; set; }
+        public ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
     }
 }

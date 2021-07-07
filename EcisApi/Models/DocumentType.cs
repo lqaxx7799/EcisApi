@@ -7,7 +7,7 @@ namespace EcisApi.Models
 {
     public class DocumentType : BaseModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string TypeName { get; set; }
         public string Description { get; set; }
 

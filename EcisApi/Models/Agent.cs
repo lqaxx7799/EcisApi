@@ -7,7 +7,7 @@ namespace EcisApi.Models
 {
     public class Agent : BaseModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
@@ -15,8 +15,11 @@ namespace EcisApi.Models
         public string Gender { get; set; }
         public string Address { get; set; }
 
-        public int AccountID { get; set; }
+        public int AccountId { get; set; }
         
         public Account Account { get; set; }
+
+        public ICollection<VerificationProcess> VerificationProcesses { get; set; }
+        public ICollection<CompanyAction> CompanyActions { get; set; }
     }
 }
