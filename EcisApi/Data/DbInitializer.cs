@@ -1,4 +1,5 @@
 ﻿using EcisApi.Models;
+using EcisApi.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,25 @@ namespace EcisApi.Data
                 return;   // DB has been seeded
             }
 
-            context.Roles.Add(new Role
+            var adminRole = new Role
             {
                 RoleName = "ADMIN",
                 CreatedAt = DateTime.Now,
                 Description = "Admin Role",
                 IsDeleted = false,
                 UpdatedAt = DateTime.Now
+            };
+            context.Roles.Add(adminRole);
+
+            context.Accounts.Add(new Account
+            {
+                Email = "qanh@gmail.com",
+                Password = CommonUtils.GenerateSHA1("abcd1234"),
+                Role = adminRole,
+                IsDeleted = false,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                IsVerified = true
             });
 
             context.SaveChanges();

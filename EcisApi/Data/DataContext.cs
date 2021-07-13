@@ -31,18 +31,38 @@ namespace EcisApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().ToTable("Account");
-            modelBuilder.Entity<Account>().ToTable("Agent");
+            modelBuilder.Entity<Agent>().ToTable("Agent");
             modelBuilder.Entity<Company>().ToTable("Company");
-            modelBuilder.Entity<Account>().ToTable("CompanyAction");
-            modelBuilder.Entity<Account>().ToTable("CompanyActionAttachment");
-            modelBuilder.Entity<Account>().ToTable("CompanyType");
-            modelBuilder.Entity<Account>().ToTable("CompanyTypeModification");
-            modelBuilder.Entity<Account>().ToTable("DocumentReview");
-            modelBuilder.Entity<Account>().ToTable("DocumentType");
-            modelBuilder.Entity<Account>().ToTable("ModificationType");
+
+            modelBuilder.Entity<CompanyAction>().ToTable("CompanyAction");
+            modelBuilder.Entity<CompanyAction>()
+                    .HasOne(s => s.CreatorCompany)
+                    .WithMany(g => g.CreatorCompanyActions)
+                    .HasForeignKey(s => s.CreatorCompanyId);
+            modelBuilder.Entity<CompanyAction>()
+                   .HasOne(s => s.TargetedCompany)
+                   .WithMany(g => g.TargetedCompanyActions)
+                   .HasForeignKey(s => s.TargetedCompanyId);
+
+            modelBuilder.Entity<CompanyActionAttachment>().ToTable("CompanyActionAttachment");
+            modelBuilder.Entity<CompanyType>().ToTable("CompanyType");
+
+            modelBuilder.Entity<CompanyTypeModification>().ToTable("CompanyTypeModification");
+            modelBuilder.Entity<CompanyTypeModification>()
+                   .HasOne(s => s.PreviousCompanyType)
+                   .WithMany(g => g.PreviousCompanyTypeModifications)
+                   .HasForeignKey(s => s.PreviousCompanyTypeId);
+            modelBuilder.Entity<CompanyTypeModification>()
+                   .HasOne(s => s.UpdatedCompanyType)
+                   .WithMany(g => g.UpdatedCompanyTypeModifications)
+                   .HasForeignKey(s => s.UpdatedCompanyTypeId);
+
+            modelBuilder.Entity<DocumentReview>().ToTable("DocumentReview");
+            modelBuilder.Entity<DocumentType>().ToTable("DocumentType");
+            modelBuilder.Entity<ModificationType>().ToTable("ModificationType");
             modelBuilder.Entity<Role>().ToTable("Role");
-            modelBuilder.Entity<Account>().ToTable("VerificationDocument");
-            modelBuilder.Entity<Account>().ToTable("VerificationProcess");
+            modelBuilder.Entity<VerificationDocument>().ToTable("VerificationDocument");
+            modelBuilder.Entity<VerificationProcess>().ToTable("VerificationProcess");
         }
     }
 }
