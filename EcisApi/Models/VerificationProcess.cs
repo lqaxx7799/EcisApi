@@ -8,15 +8,15 @@ namespace EcisApi.Models
     public class VerificationProcess : BaseModel
     {
         public int Id { get; set; }
-        public DateTime ReviewedAt { get; set; }
-        public DateTime ValidFrom { get; set; }
-        public DateTime ValidTo { get; set; }
+        public DateTime? ReviewedAt { get; set; }
+        public DateTime? ValidFrom { get; set; }
+        public DateTime? ValidTo { get; set; }
         public bool IsOpenedByAgent { get; set; }
-        public bool SubmitMethod { get; set; }
+        public string SubmitMethod { get; set; }
 
-        public int CompanyTypeId { get; set; }
-        public int AssignedAgentId { get; set; }
-        public int CompanyId { get; set; }
+        public int? CompanyTypeId { get; set; }
+        public int? AssignedAgentId { get; set; }
+        public int? CompanyId { get; set; }
 
         public Company Company { get; set; }
         public Agent AssignedAgent { get; set; }

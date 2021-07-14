@@ -14,7 +14,7 @@ namespace EcisApi.Models
         public string LogoUrl { get; set; }
 
         public int AccountId { get; set; }
-        public int CompanyTypeId { get; set; }
+        public int? CompanyTypeId { get; set; }
         //public int RangerDistrictId { get; set; }
 
         public Account Account { get; set; }
@@ -22,5 +22,6 @@ namespace EcisApi.Models
         public ICollection<CompanyAction> TargetedCompanyActions { get; set; }
         public ICollection<CompanyAction> CreatorCompanyActions { get; set; }
         public ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
+        public ICollection<VerificationProcess> VerificationProcesses { get; set; } 
     }
 }

@@ -43,7 +43,7 @@ namespace EcisApi
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IAccountRepository, AccountRepository>();
-            //services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,7 +11,7 @@ namespace EcisApi.Models
         public string Content { get; set; }
         public bool IsAccepted { get; set; }
 
-        public int VerificationDocumentId { get; set; }
+        public int? VerificationDocumentId { get; set; }
 
         public VerificationDocument VerificationDocument { get; set; }
     }

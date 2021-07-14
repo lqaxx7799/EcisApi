@@ -62,7 +62,13 @@ namespace EcisApi.Data
             modelBuilder.Entity<ModificationType>().ToTable("ModificationType");
             modelBuilder.Entity<Role>().ToTable("Role");
             modelBuilder.Entity<VerificationDocument>().ToTable("VerificationDocument");
+
             modelBuilder.Entity<VerificationProcess>().ToTable("VerificationProcess");
+            modelBuilder.Entity<VerificationProcess>()
+                    .HasOne(s => s.Company)
+                    .WithMany(g => g.VerificationProcesses)
+                    .HasForeignKey(s => s.CompanyId)
+                    .IsRequired(false);
         }
     }
 }

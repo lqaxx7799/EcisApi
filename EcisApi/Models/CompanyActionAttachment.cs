@@ -11,7 +11,7 @@ namespace EcisApi.Models
         public string ResourceType { get; set; }
         public string ResourceUrl { get; set; }
 
-        public int CompanyActionId { get; set; }
+        public int? CompanyActionId { get; set; }
 
         public CompanyAction CompanyAction { get; set; }
     }

@@ -14,8 +14,8 @@ namespace EcisApi.Models
         public string ResourceUrl { get; set; }
         public string UploaderType { get; set; }
         
-        public int VerificationProcessId { get; set; }
-        public int DocumentTypeId { get; set; }
+        public int? VerificationProcessId { get; set; }
+        public int? DocumentTypeId { get; set; }
 
         public VerificationProcess VerificationProcess { get; set; }
         public DocumentType DocumentType { get; set; }

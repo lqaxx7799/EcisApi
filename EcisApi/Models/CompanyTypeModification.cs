@@ -9,12 +9,12 @@ namespace EcisApi.Models
     {
         public int Id { get; set; }
         
-        public int CompanyId { get; set; }
-        public int PreviousCompanyTypeId { get; set; }
-        public int UpdatedCompanyTypeId { get; set; }
-        public int ModificationTypeId { get; set; }
-        public int VerificationProcessId { get; set; }
-        public int CompanyActionId { get; set; }
+        public int? CompanyId { get; set; }
+        public int? PreviousCompanyTypeId { get; set; }
+        public int? UpdatedCompanyTypeId { get; set; }
+        public int? ModificationTypeId { get; set; }
+        public int? VerificationProcessId { get; set; }
+        public int? CompanyActionId { get; set; }
 
         public Company Company { get; set; }
         public CompanyType PreviousCompanyType { get; set; }

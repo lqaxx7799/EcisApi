@@ -14,11 +14,11 @@ namespace EcisApi.Models
         public DateTime HandledAt { get; set; }
         public bool IsHandled { get; set; }
 
-        public int VerificationProcessId { get; set; }
-        public int CompanyActionTypeId { get; set; }
-        public int TargetedCompanyId { get; set; }
-        public int CreatorCompanyId { get; set; }
-        public int AssignedAgentId { get; set; }
+        public int? VerificationProcessId { get; set; }
+        public int? CompanyActionTypeId { get; set; }
+        public int? TargetedCompanyId { get; set; }
+        public int? CreatorCompanyId { get; set; }
+        public int? AssignedAgentId { get; set; }
 
         public VerificationProcess VerificationProcess { get; set; }
         public CompanyActionType CompanyActionType { get; set; }
