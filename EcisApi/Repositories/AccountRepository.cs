@@ -9,7 +9,7 @@ namespace EcisApi.Repositories
 {
     public interface IAccountRepository: IRepository<Account>
     {
-
+        Account GetByEmail(string email);
     }
 
 
@@ -20,5 +20,9 @@ namespace EcisApi.Repositories
 
         }
 
+        public Account GetByEmail(string email)
+        {
+            return db.Set<Account>().Where(x => x.Email == email).FirstOrDefault();
+        }
     }
 }

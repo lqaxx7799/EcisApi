@@ -9,7 +9,7 @@ namespace EcisApi.Repositories
 {
     public interface ICompanyRepository: IRepository<Company>
     {
- 
+        Company GetByCompanyCode(string companyCode);
     }
 
 
@@ -18,6 +18,11 @@ namespace EcisApi.Repositories
         public CompanyRepository(DataContext dataContext) : base(dataContext)
         {
 
+        }
+
+        public Company GetByCompanyCode(string companyCode)
+        {
+            return db.Set<Company>().Where(x => x.CompanyCode == companyCode).FirstOrDefault();
         }
 
     }

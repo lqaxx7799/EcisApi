@@ -11,7 +11,7 @@ namespace EcisApi.Services
     public interface ICompanyService
     {
         Company GetById(int id);
-        Task RegisterCompany(CompanyRegistrationDTO data);
+        Task<dynamic> RegisterCompany(CompanyRegistrationDTO data);
     }
 
     public class CompanyService : ICompanyService
@@ -36,13 +36,25 @@ namespace EcisApi.Services
             return companyRepository.GetById(id);
         }
 
-        public async Task RegisterCompany(CompanyRegistrationDTO data)
+        public async Task<dynamic> RegisterCompany(CompanyRegistrationDTO data)
         {
             // validate
+            var existedAccount = accountRepository.GetByEmail(data.Email);
+            if (existedAccount != null)
+            {
+                throw new ArgumentException("Email đã tồn tại trong hệ thống");
+            }
+
+            var existedCompany = companyRepository.GetByCompanyCode(data.CompanyCode);
+            if (existedCompany != null)
+            {
+                throw new ArgumentException("Mã doanh nghiệp đã tồn tại trong hệ thống");
+            }
+
             var role = roleRepository.GetRoleByName("COMPANY");
             if (role == null)
             {
-                throw new Exception("Role company does not exist");
+                throw new Exception("Lỗi: không tồn tại role trong hệ thống");
             }
 
             var account = new Account
@@ -65,6 +77,14 @@ namespace EcisApi.Services
                 LogoUrl = data.LogoUrl
             };
             await companyRepository.AddAsync(company);
+
+            // TODO: send mail
+
+            return new
+            {
+                Company = company,
+                Account = account,
+            };
         }
     }
 }

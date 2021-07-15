@@ -22,11 +22,10 @@ namespace EcisApi.Controllers
             this.companyService = companyService;
         }
 
-        [HttpPost]
-        public ActionResult<string> RegisterCompany([FromBody] CompanyRegistrationDTO payload)
+        [HttpPost("RegisterCompany")]
+        public async Task<ActionResult<dynamic>> RegisterCompany([FromBody] CompanyRegistrationDTO payload)
         {
-            companyService.RegisterCompany(payload);
-            return "OK";
+            return await companyService.RegisterCompany(payload);
         }
     }
 }
