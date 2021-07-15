@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace EcisApi.Repositories
 {
-    public interface IAccountRepository: IRepository<Account>
+    public interface ICompanyRepository: IRepository<Company>
     {
-
+ 
     }
 
 
-    public class AccountRepository : Repository<Account>, IAccountRepository
+    public class CompanyRepository : Repository<Company>, ICompanyRepository
     {
-        public AccountRepository(DataContext dataContext) : base(dataContext)
+        public CompanyRepository(DataContext dataContext) : base(dataContext)
         {
 
         }

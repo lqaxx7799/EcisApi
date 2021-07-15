@@ -9,21 +9,21 @@ namespace EcisApi.Services
 {
     public interface IAccountService
     {
-
+        Account GetById(int id);
     }
 
     public class AccountService : IAccountService
     {
-        protected readonly AccountRepository accountRepository;
+        protected readonly IAccountRepository accountRepository;
 
-        public AccountService(AccountRepository accountRepository)
+        public AccountService(IAccountRepository accountRepository)
         {
             this.accountRepository = accountRepository;
         }
 
-        public Account FindById(int id)
+        public Account GetById(int id)
         {
-            return accountRepository.FindById(id);
+            return accountRepository.GetById(id);
         }
     }
 }

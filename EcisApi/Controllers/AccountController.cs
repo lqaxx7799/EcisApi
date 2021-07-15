@@ -13,9 +13,9 @@ namespace EcisApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly AccountService accountService;
+        private readonly IAccountService accountService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(IAccountService accountService)
         {
             this.accountService = accountService;
         }
@@ -23,7 +23,7 @@ namespace EcisApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Account> GetById([FromRoute]int id)
         {
-            return accountService.FindById(id);
+            return accountService.GetById(id);
         }
     }
 }

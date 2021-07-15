@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EcisApi.Repositories;
 using EcisApi.Services;
+using EcisApi.Controllers;
 
 namespace EcisApi
 {
@@ -35,15 +36,16 @@ namespace EcisApi
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IAccountRepository, AccountRepository>();
+
+            services.AddTransient<IAccountService, AccountService>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcisApi", Version = "v1" });
             });
-
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<IAccountRepository, AccountRepository>();
-            services.AddTransient<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
 ﻿using EcisApi.Data;
+using EcisApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,14 @@ namespace EcisApi.Repositories
 {
     public interface IRepository<TEntity>
     {
-
+        IQueryable<TEntity> GetAll();
+        TEntity GetById(object id);
+        Task<TEntity> AddAsync(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
+        Task DeleteAsync(object id);
     }
 
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseModel, new()
     {
         protected readonly DataContext db;
 
@@ -32,6 +37,19 @@ namespace EcisApi.Repositories
             }
         }
 
+
+        public TEntity GetById(object id)
+        {
+            try
+            {
+                return db.Set<TEntity>().Find(id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Couldn't retrive entities: {e.Message}");
+            }
+        }
+
         public async Task<TEntity> AddAsync(TEntity entity)
         {
             if (entity == null)
@@ -41,6 +59,8 @@ namespace EcisApi.Repositories
 
             try
             {
+                entity.CreatedAt = DateTime.Now;
+                entity.UpdatedAt = DateTime.Now;
                 await db.AddAsync(entity);
                 await db.SaveChangesAsync();
                 return entity;
@@ -60,6 +80,7 @@ namespace EcisApi.Repositories
 
             try
             {
+                entity.UpdatedAt = DateTime.Now;
                 db.Update(entity);
                 await db.SaveChangesAsync();
 
@@ -68,6 +89,24 @@ namespace EcisApi.Repositories
             catch (Exception e)
             {
                 throw new Exception($"{nameof(entity)} could not be updated: {e.Message}");
+            }
+        }
+
+        public async Task DeleteAsync(object id)
+        {
+            var entity = db.Set<TEntity>().Find(id);
+            if (entity == null)
+            {
+                throw new Exception($"{nameof(entity)} not found");
+            }
+            try
+            {
+                entity.IsDeleted = true;
+                await UpdateAsync(entity);
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Cannot delete {nameof(entity)}");
             }
         }
     }
