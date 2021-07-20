@@ -19,6 +19,7 @@ using EcisApi.Controllers;
 using FluentValidation.AspNetCore;
 using EcisApi.DTO;
 using FluentValidation;
+using EcisApi.Helpers;
 
 namespace EcisApi
 {
@@ -58,7 +59,12 @@ namespace EcisApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcisApi", Version = "v1" });
             });
 
+            // configure strongly typed settings object
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.AddTransient<IValidator<AuthenticateRequestDTO>, AuthenticateRequestDTOValidator>();
             services.AddTransient<IValidator<CompanyRegistrationDTO>, CompanyRegistrationDTOValidator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

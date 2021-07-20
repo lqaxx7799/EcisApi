@@ -10,6 +10,7 @@ namespace EcisApi.Models
     {
         public int Id { get; set; }
         public string Email { get; set; }
+        [JsonIgnore]
         public string Password { get; set; }
         public bool IsVerified { get; set; }
 

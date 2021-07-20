@@ -1,4 +1,5 @@
 ﻿using EcisApi.DTO;
+using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Repositories;
 using System;
@@ -57,10 +58,11 @@ namespace EcisApi.Services
                 throw new Exception("Lỗi: không tồn tại role trong hệ thống");
             }
 
+            var rawPassword = Guid.NewGuid().ToString();
             var account = new Account
             {
                 Email = data.Email,
-                Password = Guid.NewGuid().ToString(),
+                Password = CommonUtils.GenerateSHA1(rawPassword),
                 IsVerified = false,
                 RoleId = role.Id,
             };

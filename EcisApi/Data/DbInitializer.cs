@@ -1,5 +1,5 @@
-﻿using EcisApi.Models;
-using EcisApi.Utilities;
+﻿using EcisApi.Helpers;
+using EcisApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

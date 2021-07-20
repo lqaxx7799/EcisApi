@@ -16,7 +16,7 @@ namespace EcisApi.DTO
         public string LogoUrl { get; set; }
     }
 
-    public class CompanyRegistrationDTOValidator  : AbstractValidator<CompanyRegistrationDTO>
+    public class CompanyRegistrationDTOValidator : AbstractValidator<CompanyRegistrationDTO>
     {
         public CompanyRegistrationDTOValidator()
         {
