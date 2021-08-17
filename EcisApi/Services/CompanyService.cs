@@ -13,22 +13,26 @@ namespace EcisApi.Services
     {
         Company GetById(int id);
         Task<dynamic> RegisterCompany(CompanyRegistrationDTO data);
+        Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data);
     }
 
     public class CompanyService : ICompanyService
     {
         protected readonly IAccountRepository accountRepository;
         protected readonly ICompanyRepository companyRepository;
+        protected readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
         protected readonly IRoleRepository roleRepository;
 
         public CompanyService(
             IAccountRepository accountRepository,
             ICompanyRepository companyRepository,
+            ICompanyTypeModificationRepository companyTypeModificationRepository,
             IRoleRepository roleRepository
             )
         {
             this.accountRepository = accountRepository;
             this.companyRepository = companyRepository;
+            this.companyTypeModificationRepository = companyTypeModificationRepository;
             this.roleRepository = roleRepository;
         }
 
@@ -87,6 +91,36 @@ namespace EcisApi.Services
                 Company = company,
                 Account = account,
             };
+        }
+
+        public async Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data)
+        {
+            Company company = companyRepository.GetById(data.CompanyId);
+            if (company == null)
+            {
+                return null;
+            }
+
+            CompanyTypeModification currentModification = new CompanyTypeModification
+            {
+                CompanyId = data.CompanyId,
+                PreviousCompanyTypeId = company.CompanyTypeId,
+                UpdatedCompanyTypeId = data.CompanyTypeId
+            };
+            if (data.ModificationType == "VERIFICATION")
+            {
+                currentModification.VerificationProcessId = data.ModificationTargetId;
+            } 
+            else if (data.ModificationType == "REPORT")
+            {
+                currentModification.CompanyReportId = data.ModificationTargetId;
+            }
+            await companyTypeModificationRepository.AddAsync(currentModification);
+
+            company.CompanyTypeId = data.CompanyTypeId;
+            await companyRepository.UpdateAsync(company);
+
+            return currentModification;
         }
     }
 }

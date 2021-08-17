@@ -43,10 +43,13 @@ namespace EcisApi
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<ICompanyTypeModificationRepository, CompanyTypeModificationRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IVerificationProcessRepository, VerificationProcessRepository>();
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<IVerificationService, VerificationService>();
 
             services.AddControllers()
                 .AddFluentValidation(s =>

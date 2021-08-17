@@ -22,7 +22,7 @@ namespace EcisApi.Models
         public Agent AssignedAgent { get; set; }
         public CompanyType CompanyType { get; set; }
         public ICollection<VerificationDocument> VerificationDocuments { get; set; }
-        public ICollection<CompanyAction> CompanyActions { get; set; }
+        public ICollection<CompanyReport> CompanyReports { get; set; }
         public ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
 
     }

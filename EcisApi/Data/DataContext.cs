@@ -16,13 +16,14 @@ namespace EcisApi.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Agent> Agents { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<CompanyAction> CompanyActions { get; set; }
-        public DbSet<CompanyActionAttachment> CompanyActionAttachments { get; set; }
-        public DbSet<CompanyActionType> CompanyActionTypes { get; set; }
+        public DbSet<CompanyReport> CompanyReports { get; set; }
+        public DbSet<CompanyReportDocument> CompanyReportDocuments { get; set; }
+        public DbSet<CompanyReportType> CompanyReportTypes { get; set; }
         public DbSet<CompanyType> CompanyTypes { get; set; }
         public DbSet<CompanyTypeModification> CompanyTypeModifications { get; set; }
         public DbSet<DocumentReview> DocumentReviews { get; set; }
-        public DbSet<DocumentType> DocumentTypes { get; set; }
+        public DbSet<Criteria> Criterias { get; set; }
+        public DbSet<CriteriaType> CriteriaTypes { get; set; }
         public DbSet<ModificationType> ModificationTypes { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<VerificationDocument> VerificationDocuments { get; set; }
@@ -34,17 +35,17 @@ namespace EcisApi.Data
             modelBuilder.Entity<Agent>().ToTable("Agent");
             modelBuilder.Entity<Company>().ToTable("Company");
 
-            modelBuilder.Entity<CompanyAction>().ToTable("CompanyAction");
-            modelBuilder.Entity<CompanyAction>()
+            modelBuilder.Entity<CompanyReport>().ToTable("CompanyReport");
+            modelBuilder.Entity<CompanyReport>()
                     .HasOne(s => s.CreatorCompany)
-                    .WithMany(g => g.CreatorCompanyActions)
+                    .WithMany(g => g.CreatorCompanyReports)
                     .HasForeignKey(s => s.CreatorCompanyId);
-            modelBuilder.Entity<CompanyAction>()
+            modelBuilder.Entity<CompanyReport>()
                    .HasOne(s => s.TargetedCompany)
-                   .WithMany(g => g.TargetedCompanyActions)
+                   .WithMany(g => g.TargetedCompanyReports)
                    .HasForeignKey(s => s.TargetedCompanyId);
 
-            modelBuilder.Entity<CompanyActionAttachment>().ToTable("CompanyActionAttachment");
+            modelBuilder.Entity<CompanyReportDocument>().ToTable("CompanyReportDocument");
             modelBuilder.Entity<CompanyType>().ToTable("CompanyType");
 
             modelBuilder.Entity<CompanyTypeModification>().ToTable("CompanyTypeModification");
@@ -58,7 +59,8 @@ namespace EcisApi.Data
                    .HasForeignKey(s => s.UpdatedCompanyTypeId);
 
             modelBuilder.Entity<DocumentReview>().ToTable("DocumentReview");
-            modelBuilder.Entity<DocumentType>().ToTable("DocumentType");
+            modelBuilder.Entity<Criteria>().ToTable("Criteria");
+            modelBuilder.Entity<CriteriaType>().ToTable("CriteriaType");
             modelBuilder.Entity<ModificationType>().ToTable("ModificationType");
             modelBuilder.Entity<Role>().ToTable("Role");
             modelBuilder.Entity<VerificationDocument>().ToTable("VerificationDocument");

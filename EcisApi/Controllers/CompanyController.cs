@@ -27,5 +27,10 @@ namespace EcisApi.Controllers
         {
             return await companyService.RegisterCompany(payload);
         }
+
+        public async Task<ActionResult<CompanyTypeModification>> ModifyType([FromBody] ModifyCompanyTypeDTO payload)
+        {
+            return await companyService.ModifyType(payload);
+        }
     }
 }

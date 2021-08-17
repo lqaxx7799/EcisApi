@@ -21,8 +21,8 @@ namespace EcisApi.Models
         [JsonIgnore]
         public Account Account { get; set; }
         public CompanyType CompanyType { get; set; }
-        public ICollection<CompanyAction> TargetedCompanyActions { get; set; }
-        public ICollection<CompanyAction> CreatorCompanyActions { get; set; }
+        public ICollection<CompanyReport> TargetedCompanyReports { get; set; }
+        public ICollection<CompanyReport> CreatorCompanyReports { get; set; }
         public ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
         public ICollection<VerificationProcess> VerificationProcesses { get; set; } 
     }

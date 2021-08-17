@@ -20,6 +20,6 @@ namespace EcisApi.Models
         public Account Account { get; set; }
 
         public ICollection<VerificationProcess> VerificationProcesses { get; set; }
-        public ICollection<CompanyAction> CompanyActions { get; set; }
+        public ICollection<CompanyReport> CompanyActions { get; set; }
     }
 }

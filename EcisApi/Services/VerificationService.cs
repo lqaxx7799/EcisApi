@@ -9,6 +9,7 @@ namespace EcisApi.Services
 {
     public interface IVerificationService
     {
+        ICollection<VerificationProcess> GetByCompany(int companyId);
         Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess);
         Task<VerificationProcess> UpdateAsync(VerificationProcess verificationProcess);
     }
@@ -22,6 +23,11 @@ namespace EcisApi.Services
             )
         {
             this.verificationProcessRepository = verificationProcessRepository;
+        }
+
+        public ICollection<VerificationProcess> GetByCompany(int companyId)
+        {
+            return verificationProcessRepository.GetByCompany(companyId);
         }
 
         public async Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess)

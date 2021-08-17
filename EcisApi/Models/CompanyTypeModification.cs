@@ -14,13 +14,13 @@ namespace EcisApi.Models
         public int? UpdatedCompanyTypeId { get; set; }
         public int? ModificationTypeId { get; set; }
         public int? VerificationProcessId { get; set; }
-        public int? CompanyActionId { get; set; }
+        public int? CompanyReportId { get; set; }
 
         public Company Company { get; set; }
         public CompanyType PreviousCompanyType { get; set; }
         public CompanyType UpdatedCompanyType { get; set; }
         public ModificationType ModificationType { get; set; }
         public VerificationProcess VerificationProcess { get; set; }
-        public CompanyAction CompanyAction { get; set; }
+        public CompanyReport CompanyReport { get; set; }
     }
 }

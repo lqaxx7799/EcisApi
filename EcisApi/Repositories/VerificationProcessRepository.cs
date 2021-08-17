@@ -9,7 +9,7 @@ namespace EcisApi.Repositories
 {
     public interface IVerificationProcessRepository : IRepository<VerificationProcess>
     {
-
+        ICollection<VerificationProcess> GetByCompany(int companyId);
     }
 
     public class VerificationProcessRepository : Repository<VerificationProcess>, IVerificationProcessRepository
@@ -17,6 +17,11 @@ namespace EcisApi.Repositories
         public VerificationProcessRepository(DataContext dataContext) : base(dataContext)
         {
 
+        }
+
+        public ICollection<VerificationProcess> GetByCompany(int companyId)
+        {
+            return db.Set<VerificationProcess>().Where(x => x.CompanyId == companyId).ToList();
         }
     }
 }
