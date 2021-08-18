@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace EcisApi.Services
 {
-    public interface IVerificationService
+    public interface IVerificationProcessService
     {
         ICollection<VerificationProcess> GetByCompany(int companyId);
         Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess);
         Task<VerificationProcess> UpdateAsync(VerificationProcess verificationProcess);
     }
 
-    public class VerificationService : IVerificationService
+    public class VerificationProcessService : IVerificationProcessService
     {
         protected readonly IVerificationProcessRepository verificationProcessRepository;
 
-        public VerificationService(
+        public VerificationProcessService(
             IVerificationProcessRepository verificationProcessRepository
             )
         {

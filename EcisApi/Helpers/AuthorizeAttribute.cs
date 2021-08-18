@@ -12,12 +12,24 @@ namespace EcisApi.Helpers
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
+        public string[] Roles { get; set; }
+
+        public AuthorizeAttribute(params string[] roles)
+        {
+            Roles = roles;
+        }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var account = (Account)context.HttpContext.Items["Account"];
             if (account == null)
             {
                 // not logged in
+                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+            }
+            if (Roles.Length != 0 && !Roles.Contains(account.Role.RoleName))
+            {
+                // account have no role
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
             }
         }

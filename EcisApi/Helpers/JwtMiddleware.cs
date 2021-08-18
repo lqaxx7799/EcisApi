@@ -52,7 +52,7 @@ namespace EcisApi.Helpers
                 var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "Id").Value);
 
                 // attach user to context on successful jwt validation
-                context.Items["User"] = accountService.GetById(accountId);
+                context.Items["Account"] = accountService.GetById(accountId);
             }
             catch
             {

@@ -49,7 +49,7 @@ namespace EcisApi
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ICompanyService, CompanyService>();
-            services.AddTransient<IVerificationService, VerificationService>();
+            services.AddTransient<IVerificationProcessService, VerificationProcessService>();
 
             services.AddControllers()
                 .AddFluentValidation(s =>
