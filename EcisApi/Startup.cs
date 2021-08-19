@@ -45,17 +45,33 @@ namespace EcisApi
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<ICompanyTypeModificationRepository, CompanyTypeModificationRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IVerificationDocumentRepository, VerificationDocumentRepository>();
             services.AddTransient<IVerificationProcessRepository, VerificationProcessRepository>();
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<IVerificationDocumentService, VerificationDocumentService>();
             services.AddTransient<IVerificationProcessService, VerificationProcessService>();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
             services.AddControllers()
                 .AddFluentValidation(s =>
                 {
                     s.RegisterValidatorsFromAssemblyContaining<Startup>();
-                });
+                })
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
             services.AddSwaggerGen(c =>
             {
@@ -83,6 +99,8 @@ namespace EcisApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 

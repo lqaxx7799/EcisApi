@@ -26,7 +26,17 @@ namespace EcisApi.Controllers
         [HttpPost("RegisterCompany")]
         public async Task<ActionResult<dynamic>> RegisterCompany([FromBody] CompanyRegistrationDTO payload)
         {
-            return await companyService.RegisterCompany(payload);
+            try
+            {
+                return await companyService.RegisterCompany(payload);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new
+                {
+                    e.Message,
+                });
+            }
         }
 
         public async Task<ActionResult<CompanyTypeModification>> ModifyType([FromBody] ModifyCompanyTypeDTO payload)
