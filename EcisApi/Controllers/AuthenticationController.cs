@@ -1,4 +1,5 @@
 ﻿using EcisApi.DTO;
+using EcisApi.Models;
 using EcisApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -30,6 +31,17 @@ namespace EcisApi.Controllers
                 return BadRequest(new { message = "Email or password is incorrect" });
 
             return Ok(response);
+        }
+
+        [HttpGet("Validate")]
+        public ActionResult<Account> Validate()
+        {
+            var account = (Account)HttpContext.Items["Account"];
+            if (account == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(account);
         }
     }
 }
