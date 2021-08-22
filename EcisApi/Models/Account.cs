@@ -16,8 +16,7 @@ namespace EcisApi.Models
 
         public int RoleId { get; set; }
 
-        [JsonIgnore]
-        public Role Role { get; set; }
+        public virtual Role Role { get; set; }
         [JsonIgnore]
         public Company Company { get; set; }
         [JsonIgnore]

@@ -23,6 +23,12 @@ namespace EcisApi.Controllers
             this.companyService = companyService;
         }
 
+        [HttpGet("ByAccount/{accountId}")]
+        public ActionResult<Company> GetByCompanyId([FromRoute] int accountId)
+        {
+            return companyService.GetByAccountId(accountId);
+        }
+
         [HttpPost("RegisterCompany")]
         public async Task<ActionResult<dynamic>> RegisterCompany([FromBody] CompanyRegistrationDTO payload)
         {

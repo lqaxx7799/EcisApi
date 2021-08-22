@@ -20,7 +20,7 @@ namespace EcisApi.Controllers
             this.verificationProcessService = verificationProcessService;
         }
 
-        [HttpGet("{companyId}")]
+        [HttpGet("GetByCompany/{companyId}")]
         [Authorize("Company")]
         public ActionResult<ICollection<VerificationProcess>> GetByCompany([FromRoute] int companyId)
         {

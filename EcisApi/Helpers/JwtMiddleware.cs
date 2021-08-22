@@ -22,17 +22,17 @@ namespace EcisApi.Helpers
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IAccountService accountService)
+        public async Task Invoke(HttpContext context, IAccountService accountService, IRoleService roleService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
-                AttachUserToContext(context, accountService, token);
+                AttachUserToContext(context, accountService, roleService, token);
 
             await _next(context);
         }
 
-        private void AttachUserToContext(HttpContext context, IAccountService accountService, string token)
+        private void AttachUserToContext(HttpContext context, IAccountService accountService, IRoleService roleService, string token)
         {
             try
             {
@@ -52,7 +52,12 @@ namespace EcisApi.Helpers
                 var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "Id").Value);
 
                 // attach user to context on successful jwt validation
-                context.Items["Account"] = accountService.GetById(accountId);
+                var account = accountService.GetById(accountId);
+                context.Items["Account"] = account;
+                if (account != null)
+                {
+                    context.Items["Role"] = roleService.GetById(account.RoleId);
+                }
             }
             catch
             {

@@ -27,10 +27,14 @@ namespace EcisApi.Helpers
                 // not logged in
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
             }
-            if (Roles.Length != 0 && !Roles.Contains(account.Role.RoleName))
+            if (Roles.Length != 0)
             {
-                // account have no role
-                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                var role = (Role)context.HttpContext.Items["Role"];
+                if (!Roles.Contains(role?.RoleName))
+                {
+                    // account have no role
+                    context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ namespace EcisApi.Services
     public interface ICompanyService
     {
         Company GetById(int id);
+        Company GetByAccountId(int accountId);
         Task<dynamic> RegisterCompany(CompanyRegistrationDTO data);
         Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data);
     }
@@ -39,6 +40,11 @@ namespace EcisApi.Services
         public Company GetById(int id)
         {
             return companyRepository.GetById(id);
+        }
+
+        public Company GetByAccountId(int accountId)
+        {
+            return companyRepository.GetByAccountId(accountId);
         }
 
         public async Task<dynamic> RegisterCompany(CompanyRegistrationDTO data)
