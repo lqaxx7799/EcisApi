@@ -45,12 +45,14 @@ namespace EcisApi
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<ICompanyTypeModificationRepository, CompanyTypeModificationRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IVerificationCriteriaRepository, VerificationCriteriaRepository>();
             services.AddTransient<IVerificationDocumentRepository, VerificationDocumentRepository>();
             services.AddTransient<IVerificationProcessRepository, VerificationProcessRepository>();
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IVerificationCriteriaService, VerificationCriteriaService>();
             services.AddTransient<IVerificationDocumentService, VerificationDocumentService>();
             services.AddTransient<IVerificationProcessService, VerificationProcessService>();
 

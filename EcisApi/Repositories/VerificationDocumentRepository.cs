@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace EcisApi.Repositories
 {
-    public interface IVerificationProcessRepository : IRepository<VerificationProcess>
+    public interface IVerificationDocumentRepository : IRepository<VerificationDocument>
     {
-        ICollection<VerificationProcess> GetByCompany(int companyId);
+        ICollection<VerificationDocument> GetByProcessId(int processId);
     }
 
-    public class VerificationProcessRepository : Repository<VerificationProcess>, IVerificationProcessRepository
+    public class VerificationDocumentRepository : Repository<VerificationDocument>, IVerificationDocumentRepository
     {
-        public VerificationProcessRepository(DataContext dataContext) : base(dataContext)
+        public VerificationDocumentRepository(DataContext dataContext) : base(dataContext)
         {
 
         }
 
-        public ICollection<VerificationProcess> GetByCompany(int companyId)
+        public ICollection<VerificationDocument> GetByProcessId(int processId)
         {
-            return db.Set<VerificationProcess>().Where(x => x.CompanyId == companyId).ToList();
+            return db.Set<VerificationDocument>().Where(x => x.VerificationCriteria.VerificationProcessId == processId).ToList();
         }
     }
 }

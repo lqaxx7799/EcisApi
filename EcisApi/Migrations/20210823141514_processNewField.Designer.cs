@@ -4,14 +4,16 @@ using EcisApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcisApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210823141514_processNewField")]
+    partial class processNewField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -486,40 +488,6 @@ namespace EcisApi.Migrations
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("EcisApi.Models.VerificationCriteria", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApprovedStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CriteriaId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("VerificationProcessId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CriteriaId");
-
-                    b.HasIndex("VerificationProcessId");
-
-                    b.ToTable("VerificationCriteria");
-                });
-
             modelBuilder.Entity("EcisApi.Models.VerificationDocument", b =>
                 {
                     b.Property<int>("Id")
@@ -532,6 +500,9 @@ namespace EcisApi.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("CriteriaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("DocumentName")
                         .HasColumnType("nvarchar(max)");
@@ -551,12 +522,14 @@ namespace EcisApi.Migrations
                     b.Property<string>("UploaderType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("VerificationCriteriaId")
+                    b.Property<int?>("VerificationProcessId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VerificationCriteriaId");
+                    b.HasIndex("CriteriaId");
+
+                    b.HasIndex("VerificationProcessId");
 
                     b.ToTable("VerificationDocument");
                 });
@@ -759,28 +732,19 @@ namespace EcisApi.Migrations
                     b.Navigation("VerificationDocument");
                 });
 
-            modelBuilder.Entity("EcisApi.Models.VerificationCriteria", b =>
+            modelBuilder.Entity("EcisApi.Models.VerificationDocument", b =>
                 {
                     b.HasOne("EcisApi.Models.Criteria", "Criteria")
-                        .WithMany("VerificationCriterias")
+                        .WithMany("VerificationDocuments")
                         .HasForeignKey("CriteriaId");
 
                     b.HasOne("EcisApi.Models.VerificationProcess", "VerificationProcess")
-                        .WithMany("VerificationCriterias")
+                        .WithMany("VerificationDocuments")
                         .HasForeignKey("VerificationProcessId");
 
                     b.Navigation("Criteria");
 
                     b.Navigation("VerificationProcess");
-                });
-
-            modelBuilder.Entity("EcisApi.Models.VerificationDocument", b =>
-                {
-                    b.HasOne("EcisApi.Models.VerificationCriteria", "VerificationCriteria")
-                        .WithMany("VerificationDocuments")
-                        .HasForeignKey("VerificationCriteriaId");
-
-                    b.Navigation("VerificationCriteria");
                 });
 
             modelBuilder.Entity("EcisApi.Models.VerificationProcess", b =>
@@ -854,7 +818,7 @@ namespace EcisApi.Migrations
 
             modelBuilder.Entity("EcisApi.Models.Criteria", b =>
                 {
-                    b.Navigation("VerificationCriterias");
+                    b.Navigation("VerificationDocuments");
                 });
 
             modelBuilder.Entity("EcisApi.Models.CriteriaType", b =>
@@ -872,11 +836,6 @@ namespace EcisApi.Migrations
                     b.Navigation("Accounts");
                 });
 
-            modelBuilder.Entity("EcisApi.Models.VerificationCriteria", b =>
-                {
-                    b.Navigation("VerificationDocuments");
-                });
-
             modelBuilder.Entity("EcisApi.Models.VerificationDocument", b =>
                 {
                     b.Navigation("DocumentReviews");
@@ -888,7 +847,7 @@ namespace EcisApi.Migrations
 
                     b.Navigation("CompanyTypeModifications");
 
-                    b.Navigation("VerificationCriterias");
+                    b.Navigation("VerificationDocuments");
                 });
 #pragma warning restore 612, 618
         }

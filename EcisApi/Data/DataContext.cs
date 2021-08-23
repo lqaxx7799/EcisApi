@@ -26,6 +26,7 @@ namespace EcisApi.Data
         public DbSet<CriteriaType> CriteriaTypes { get; set; }
         public DbSet<ModificationType> ModificationTypes { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<VerificationCriteria> VerificationCriterias { get; set; }
         public DbSet<VerificationDocument> VerificationDocuments { get; set; }
         public DbSet<VerificationProcess> VerificationProcesses { get; set; }
 
@@ -67,6 +68,7 @@ namespace EcisApi.Data
             modelBuilder.Entity<CriteriaType>().ToTable("CriteriaType");
             modelBuilder.Entity<ModificationType>().ToTable("ModificationType");
             modelBuilder.Entity<Role>().ToTable("Role");
+            modelBuilder.Entity<VerificationCriteria>().ToTable("VerificationCriteria");
             modelBuilder.Entity<VerificationDocument>().ToTable("VerificationDocument");
 
             modelBuilder.Entity<VerificationProcess>().ToTable("VerificationProcess");

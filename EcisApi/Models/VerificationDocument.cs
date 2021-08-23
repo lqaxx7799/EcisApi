@@ -14,11 +14,9 @@ namespace EcisApi.Models
         public string ResourceUrl { get; set; }
         public string UploaderType { get; set; }
         
-        public int? VerificationProcessId { get; set; }
-        public int? CriteriaId { get; set; }
+        public int? VerificationCriteriaId { get; set; }
 
-        public VerificationProcess VerificationProcess { get; set; }
-        public Criteria Criteria { get; set; }
+        public VerificationCriteria VerificationCriteria { get; set; }
 
         public ICollection<DocumentReview> DocumentReviews { get; set; }
     }

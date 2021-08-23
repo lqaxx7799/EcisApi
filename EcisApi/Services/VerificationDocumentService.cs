@@ -9,6 +9,7 @@ namespace EcisApi.Services
 {
     public interface IVerificationDocumentService
     {
+        ICollection<VerificationDocument> GetByProcessId(int processId);
         Task<VerificationDocument> AddAsync(VerificationDocument verificationDocument);
         Task<ICollection<VerificationDocument>> AddBatchAsync(ICollection<VerificationDocument> verificationDocuments);
         Task<VerificationDocument> UpdateAsync(VerificationDocument verificationDocument);
@@ -23,6 +24,11 @@ namespace EcisApi.Services
             )
         {
             this.verificationDocumentRepository = verificationDocumentRepository;
+        }
+
+        public ICollection<VerificationDocument> GetByProcessId(int processId)
+        {
+            return verificationDocumentRepository.GetByProcessId(processId);
         }
 
         public async Task<VerificationDocument> AddAsync(VerificationDocument verificationDocument)
