@@ -43,6 +43,8 @@ namespace EcisApi
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<ICriteriaRepository, CriteriaRepository>();
+            services.AddTransient<ICriteriaTypeRepository, CriteriaTypeRepository>();
             services.AddTransient<ICompanyTypeModificationRepository, CompanyTypeModificationRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IVerificationCriteriaRepository, VerificationCriteriaRepository>();
@@ -51,10 +53,14 @@ namespace EcisApi
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<ICriteriaService, CriteriaService>();
+            services.AddTransient<ICriteriaTypeService, CriteriaTypeService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IVerificationCriteriaService, VerificationCriteriaService>();
             services.AddTransient<IVerificationDocumentService, VerificationDocumentService>();
             services.AddTransient<IVerificationProcessService, VerificationProcessService>();
+
+            services.AddTransient<ICloudStorageHelper, CloudStorageHelper>();
 
             services.AddCors(options =>
             {
