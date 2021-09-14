@@ -20,6 +20,25 @@ namespace EcisApi.Controllers
             this.cloudStorageHelper = cloudStorageHelper;
         }
 
+        [HttpGet("{fileName}")]
+        public ActionResult GetFile([FromRoute] string fileName)
+        {
+            try
+            {
+                var stream = cloudStorageHelper.GetFile(fileName);
+                string mimeType = MimeMapping.MimeUtility.GetMimeMapping(fileName);
+
+                return new FileStreamResult(stream, mimeType)
+                {
+                    FileDownloadName = fileName
+                };
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost]
         public ActionResult<string> UploadFile([FromForm] UploadFileDTO data)
         {

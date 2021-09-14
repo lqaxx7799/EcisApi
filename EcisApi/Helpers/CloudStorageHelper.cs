@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace EcisApi.Helpers
 {
     public interface ICloudStorageHelper
     {
+        Stream GetFile(string fileName);
         string UploadFile(IFormFile file);
     }
 
@@ -22,9 +24,17 @@ namespace EcisApi.Helpers
             _appSettings = appSettings.Value;
         }
 
+        public Stream GetFile(string fileName)
+        {
+            var stream = new MemoryStream();
+            var storage = StorageClient.Create();
+            storage.DownloadObject(_appSettings.CloudBucketName, fileName, stream);
+            stream.Position = 0;
+            return stream;
+        }
+
         public string UploadFile(IFormFile file)
         {
-            string env = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
             var storage = StorageClient.Create();
             var fileName = $"{Guid.NewGuid()}-{file.FileName}";
             var result = storage.UploadObject(_appSettings.CloudBucketName, fileName, null, file.OpenReadStream());
