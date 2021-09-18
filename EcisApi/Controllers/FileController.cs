@@ -40,7 +40,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<string> UploadFile([FromForm] UploadFileDTO data)
+        public ActionResult<UploadFileResponseDTO> UploadFile([FromForm] UploadFileDTO data)
         {
             if (data == null || data.File == null || data.File.Length == 0)
             {
@@ -48,7 +48,14 @@ namespace EcisApi.Controllers
             }
 
             var fileName = cloudStorageHelper.UploadFile(data.File);
-            return Ok(fileName);
+            var response = new UploadFileResponseDTO
+            {
+                Name = fileName,
+                Size = data.File.Length,
+                Type = fileName.Split(".").LastOrDefault(),
+                Url = $"/File/{fileName}"
+            };
+            return Ok(response);
         }
     }
 }
