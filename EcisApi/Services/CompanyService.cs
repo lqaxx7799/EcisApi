@@ -2,6 +2,8 @@
 using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace EcisApi.Services
         Company GetById(int id);
         Company GetByAccountId(int accountId);
         Task<dynamic> RegisterCompany(CompanyRegistrationDTO data);
+        Task<Account> VerifyCompany(int accountId);
         Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data);
     }
 
@@ -24,17 +27,23 @@ namespace EcisApi.Services
         protected readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
         protected readonly IRoleRepository roleRepository;
 
+        protected readonly IEmailHelper emailHelper;
+
         public CompanyService(
             IAccountRepository accountRepository,
             ICompanyRepository companyRepository,
             ICompanyTypeModificationRepository companyTypeModificationRepository,
-            IRoleRepository roleRepository
+            IRoleRepository roleRepository,
+
+            IEmailHelper emailHelper
             )
         {
             this.accountRepository = accountRepository;
             this.companyRepository = companyRepository;
             this.companyTypeModificationRepository = companyTypeModificationRepository;
             this.roleRepository = roleRepository;
+
+            this.emailHelper = emailHelper;
         }
 
         public Company GetById(int id)
@@ -78,25 +87,58 @@ namespace EcisApi.Services
             };
             await accountRepository.AddAsync(account);
 
-            // upload file
-
             var company = new Company
             {
                 CompanyCode = data.CompanyCode,
                 CompanyNameEN = data.CompanyNameEN,
                 CompanyNameVI = data.CompanyNameVI,
-                AccountId = account.Id,
-                LogoUrl = data.LogoUrl
+                AccountId = account.Id
             };
             await companyRepository.AddAsync(company);
 
-            // TODO: send mail
+            await emailHelper.SendEmailAsync(
+                new string[] { data.Email },
+                "Thông báo đăng ký doanh nghiệp thành công",
+                EmailTemplate.CompanyRegistrationSuccess,
+                new Dictionary<string, string>());
 
             return new
             {
                 Company = company,
                 Account = account,
             };
+        }
+
+        public async Task<Account> VerifyCompany(int accountId)
+        {
+            var account = accountRepository.GetById(accountId);
+            if (account == null)
+            {
+                throw new BadHttpRequestException("Tài khoản không tồn tại");
+            }
+
+            var rawPassword = Guid.NewGuid().ToString();
+            account.Password = CommonUtils.GenerateSHA1(rawPassword);
+            account.IsVerified = true;
+
+            await accountRepository.UpdateAsync(account);
+
+            var company = companyRepository.GetByAccountId(accountId);
+
+            var mailParams = new Dictionary<string, string>
+            {
+                { "companyName", company.CompanyNameVI },
+                { "email", account.Email },
+                { "password", rawPassword }
+            };
+
+            await emailHelper.SendEmailAsync(
+                new string[] { account.Email },
+                "Thông tin tài khoản đăng nhập",
+                EmailTemplate.CompanyRegistrationVerified,
+                mailParams);
+
+            return account;
         }
 
         public async Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data)

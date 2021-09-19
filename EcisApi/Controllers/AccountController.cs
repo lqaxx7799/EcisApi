@@ -1,4 +1,6 @@
-﻿using EcisApi.Models;
+﻿using EcisApi.DTO;
+using EcisApi.Helpers;
+using EcisApi.Models;
 using EcisApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +26,25 @@ namespace EcisApi.Controllers
         public ActionResult<Account> GetById([FromRoute]int id)
         {
             return accountService.GetById(id);
+        }
+
+        [HttpPost("ChangePassword")]
+        [Authorize]
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDTO payload)
+        {
+            var account = (Account)HttpContext.Items["Account"];
+            try
+            {
+                await accountService.ChangePassword(account, payload);
+                return Ok();
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new
+                { 
+                    e.Message
+                });
+            }
         }
     }
 }

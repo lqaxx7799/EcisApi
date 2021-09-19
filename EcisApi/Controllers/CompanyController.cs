@@ -2,6 +2,7 @@
 using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,23 @@ namespace EcisApi.Controllers
                 return await companyService.RegisterCompany(payload);
             }
             catch (Exception e)
+            {
+                return BadRequest(new
+                {
+                    e.Message,
+                });
+            }
+        }
+
+        [HttpPost("VerifyCompany")]
+        [Authorize]
+        public async Task<ActionResult<Account>> VerifyCompany([FromBody] VerifyCompanyDTO payload)
+        {
+            try
+            {
+                return await companyService.VerifyCompany(payload.AccountId);
+            }
+            catch (BadHttpRequestException e)
             {
                 return BadRequest(new
                 {

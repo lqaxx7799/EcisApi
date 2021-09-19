@@ -61,6 +61,7 @@ namespace EcisApi
             services.AddTransient<IVerificationProcessService, VerificationProcessService>();
 
             services.AddTransient<ICloudStorageHelper, CloudStorageHelper>();
+            services.AddTransient<IEmailHelper, EmailHelper>();
 
             services.AddCors(options =>
             {
@@ -91,7 +92,9 @@ namespace EcisApi
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddTransient<IValidator<AuthenticateRequestDTO>, AuthenticateRequestDTOValidator>();
+            services.AddTransient<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
             services.AddTransient<IValidator<CompanyRegistrationDTO>, CompanyRegistrationDTOValidator>();
+            services.AddTransient<IValidator<VerifyCompanyDTO>, VerifyCompanyDTOValidator>();
 
         }
 

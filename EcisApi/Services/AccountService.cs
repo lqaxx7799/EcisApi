@@ -2,6 +2,7 @@
 using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace EcisApi.Services
     {
         Account GetById(int id);
         AuthenticateResponseDTO Authenticate(AuthenticateRequestDTO model);
+        Task ChangePassword(Account account, ChangePasswordDTO payload);
     }
 
     public class AccountService : IAccountService
@@ -52,6 +54,16 @@ namespace EcisApi.Services
                 Token = token
             };
                 
+        }
+
+        public async Task ChangePassword(Account account, ChangePasswordDTO payload)
+        {
+            if (account.Password != CommonUtils.GenerateSHA1(payload.OldPassword))
+            {
+                throw new BadHttpRequestException("Mật khẩu cũ sai");
+            }
+            account.Password = CommonUtils.GenerateSHA1(payload.NewPassword);
+            await accountRepository.UpdateAsync(account);
         }
     }
 }
