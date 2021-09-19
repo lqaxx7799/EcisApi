@@ -13,6 +13,7 @@ namespace EcisApi.Services
         Task<VerificationDocument> AddAsync(VerificationDocument verificationDocument);
         Task<ICollection<VerificationDocument>> AddBatchAsync(ICollection<VerificationDocument> verificationDocuments);
         Task<VerificationDocument> UpdateAsync(VerificationDocument verificationDocument);
+        Task Delete(int id);
     }
 
     public class VerificationDocumentService : IVerificationDocumentService
@@ -50,6 +51,11 @@ namespace EcisApi.Services
         public async Task<VerificationDocument> UpdateAsync(VerificationDocument verificationDocument)
         {
             return await verificationDocumentRepository.UpdateAsync(verificationDocument);
+        }
+
+        public async Task Delete(int id)
+        {
+            await verificationDocumentRepository.DeleteAsync(id);
         }
     }
 }

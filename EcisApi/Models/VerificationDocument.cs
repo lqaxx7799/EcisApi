@@ -12,6 +12,7 @@ namespace EcisApi.Models
         public string DocumentName { get; set; }
         public string ResourceType { get; set; }
         public string ResourceUrl { get; set; }
+        public long ResourceSize { get; set; }
         public string UploaderType { get; set; }
         
         public int? VerificationCriteriaId { get; set; }

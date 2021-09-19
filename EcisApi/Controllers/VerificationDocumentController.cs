@@ -48,5 +48,13 @@ namespace EcisApi.Controllers
         {
             return await verificationDocumentService.UpdateAsync(payload);
         }
+
+        [HttpDelete("Delete/{id}")]
+        [Authorize]
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            await verificationDocumentService.Delete(id);
+            return Ok();
+        }
     }
 }
