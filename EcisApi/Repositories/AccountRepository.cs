@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EcisApi.Repositories
 {
-    public interface IAccountRepository: IRepository<Account>
+    public interface IAccountRepository : IRepository<Account>
     {
         Account GetByEmail(string email);
         Account GetOne(Func<Account, bool> filter);

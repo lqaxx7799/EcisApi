@@ -13,6 +13,6 @@ namespace EcisApi.Models
 
         public int? CompanyReportId { get; set; }
 
-        public CompanyReport CompanyReport { get; set; }
+        public virtual CompanyReport CompanyReport { get; set; }
     }
 }

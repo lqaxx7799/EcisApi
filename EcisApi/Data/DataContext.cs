@@ -33,10 +33,10 @@ namespace EcisApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().ToTable("Account");
-            modelBuilder.Entity<Account>()
-                    .HasOne(s => s.Role)
-                    .WithMany(g => g.Accounts)
-                    .HasForeignKey(s => s.RoleId);
+            //modelBuilder.Entity<Account>()
+            //        .HasOne(s => s.Role)
+            //        .WithMany(g => g.Accounts)
+            //        .HasForeignKey(s => s.RoleId);
             modelBuilder.Entity<Agent>().ToTable("Agent");
             modelBuilder.Entity<Company>().ToTable("Company");
 

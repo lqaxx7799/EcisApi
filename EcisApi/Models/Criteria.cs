@@ -13,8 +13,8 @@ namespace EcisApi.Models
 
         public int? CriteriaTypeId { get; set; }
 
-        public CriteriaType CriteriaType { get; set; }
+        public virtual CriteriaType CriteriaType { get; set; }
 
-        public ICollection<VerificationCriteria> VerificationCriterias { get; set; }
+        public virtual ICollection<VerificationCriteria> VerificationCriterias { get; set; }
     }
 }

@@ -19,11 +19,11 @@ namespace EcisApi.Models
         //public int RangerDistrictId { get; set; }
 
         [JsonIgnore]
-        public Account Account { get; set; }
-        public CompanyType CompanyType { get; set; }
-        public ICollection<CompanyReport> TargetedCompanyReports { get; set; }
-        public ICollection<CompanyReport> CreatorCompanyReports { get; set; }
-        public ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
-        public ICollection<VerificationProcess> VerificationProcesses { get; set; } 
+        public virtual Account Account { get; set; }
+        public virtual CompanyType CompanyType { get; set; }
+        public virtual ICollection<CompanyReport> TargetedCompanyReports { get; set; }
+        public virtual ICollection<CompanyReport> CreatorCompanyReports { get; set; }
+        public virtual ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
+        public virtual ICollection<VerificationProcess> VerificationProcesses { get; set; } 
     }
 }

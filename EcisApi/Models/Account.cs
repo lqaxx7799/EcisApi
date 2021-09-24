@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,10 +17,11 @@ namespace EcisApi.Models
 
         public int RoleId { get; set; }
 
+        [ForeignKey("RoleId")]
         public virtual Role Role { get; set; }
         [JsonIgnore]
-        public Company Company { get; set; }
+        public virtual Company Company { get; set; }
         [JsonIgnore]
-        public Agent Agent { get; set; }
+        public virtual Agent Agent { get; set; }
     }
 }

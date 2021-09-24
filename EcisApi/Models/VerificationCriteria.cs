@@ -13,9 +13,9 @@ namespace EcisApi.Models
         public int? VerificationProcessId { get; set; }
         public int? CriteriaId { get; set; }
 
-        public VerificationProcess VerificationProcess { get; set; }
-        public Criteria Criteria { get; set; }
+        public virtual VerificationProcess VerificationProcess { get; set; }
+        public virtual Criteria Criteria { get; set; }
 
-        public ICollection<VerificationDocument> VerificationDocuments { get; set; }
+        public virtual ICollection<VerificationDocument> VerificationDocuments { get; set; }
     }
 }

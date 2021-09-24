@@ -1,6 +1,7 @@
 ﻿using EcisApi.DTO;
 using EcisApi.Models;
 using EcisApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,20 @@ namespace EcisApi.Controllers
                 return BadRequest(new { message = "Email or password is incorrect" });
 
             return Ok(response);
+        }
+
+        [HttpPost("AuthenticateManagement")]
+        public IActionResult AuthenticateManagement([FromBody] AuthenticateRequestDTO model)
+        {
+            try
+            {
+                var response = accountService.AuthenticateManagement(model);
+                return Ok(response);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpGet("Validate")]

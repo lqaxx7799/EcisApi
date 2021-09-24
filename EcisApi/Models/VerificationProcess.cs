@@ -21,12 +21,12 @@ namespace EcisApi.Models
         public int? AssignedAgentId { get; set; }
         public int? CompanyId { get; set; }
 
-        public Company Company { get; set; }
-        public Agent AssignedAgent { get; set; }
-        public CompanyType CompanyType { get; set; }
-        public ICollection<VerificationCriteria> VerificationCriterias { get; set; }
-        public ICollection<CompanyReport> CompanyReports { get; set; }
-        public ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual Agent AssignedAgent { get; set; }
+        public virtual CompanyType CompanyType { get; set; }
+        public virtual ICollection<VerificationCriteria> VerificationCriterias { get; set; }
+        public virtual ICollection<CompanyReport> CompanyReports { get; set; }
+        public virtual ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
 
     }
 }

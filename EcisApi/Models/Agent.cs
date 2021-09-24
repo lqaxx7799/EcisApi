@@ -17,9 +17,9 @@ namespace EcisApi.Models
 
         public int AccountId { get; set; }
         
-        public Account Account { get; set; }
+        public virtual Account Account { get; set; }
 
-        public ICollection<VerificationProcess> VerificationProcesses { get; set; }
-        public ICollection<CompanyReport> CompanyActions { get; set; }
+        public virtual ICollection<VerificationProcess> VerificationProcesses { get; set; }
+        public virtual ICollection<CompanyReport> CompanyActions { get; set; }
     }
 }

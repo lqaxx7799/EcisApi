@@ -20,13 +20,13 @@ namespace EcisApi.Models
         public int? CreatorCompanyId { get; set; }
         public int? AssignedAgentId { get; set; }
 
-        public VerificationProcess VerificationProcess { get; set; }
-        public CompanyReportType CompanyReportType { get; set; }
-        public Company TargetedCompany { get; set; }
-        public Company CreatorCompany { get; set; }
-        public Agent AssignedAgent { get; set; }
+        public virtual VerificationProcess VerificationProcess { get; set; }
+        public virtual CompanyReportType CompanyReportType { get; set; }
+        public virtual Company TargetedCompany { get; set; }
+        public virtual Company CreatorCompany { get; set; }
+        public virtual Agent AssignedAgent { get; set; }
 
-        public ICollection<CompanyReportDocument> CompanyReportDocuments { get; set; }
-        public ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
+        public virtual ICollection<CompanyReportDocument> CompanyReportDocuments { get; set; }
+        public virtual ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
     }
 }

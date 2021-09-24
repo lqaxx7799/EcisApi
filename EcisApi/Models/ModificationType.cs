@@ -11,6 +11,6 @@ namespace EcisApi.Models
         public string Type { get; set; }
         public string Description { get; set; }
 
-        public ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
+        public virtual ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
     }
 }

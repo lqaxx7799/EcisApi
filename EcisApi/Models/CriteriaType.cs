@@ -11,6 +11,6 @@ namespace EcisApi.Models
         public string CriteriaTypeName { get; set; }
         public string Description { get; set; }
 
-        public ICollection<Criteria> Criterias { get; set; }
+        public virtual ICollection<Criteria> Criterias { get; set; }
     }
 }

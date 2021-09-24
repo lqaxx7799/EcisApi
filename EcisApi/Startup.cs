@@ -36,12 +36,13 @@ namespace EcisApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IAgentRepository, AgentRepository>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<ICriteriaRepository, CriteriaRepository>();
             services.AddTransient<ICriteriaTypeRepository, CriteriaTypeRepository>();
@@ -52,6 +53,7 @@ namespace EcisApi
             services.AddTransient<IVerificationProcessRepository, VerificationProcessRepository>();
 
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IAgentService, AgentService>();
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<ICriteriaService, CriteriaService>();
             services.AddTransient<ICriteriaTypeService, CriteriaTypeService>();
@@ -68,7 +70,7 @@ namespace EcisApi
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });

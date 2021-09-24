@@ -13,6 +13,6 @@ namespace EcisApi.Models
 
         public int? VerificationDocumentId { get; set; }
 
-        public VerificationDocument VerificationDocument { get; set; }
+        public virtual VerificationDocument VerificationDocument { get; set; }
     }
 }

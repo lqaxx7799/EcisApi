@@ -11,9 +11,9 @@ namespace EcisApi.Models
         public string TypeName { get; set; }
         public string Description { get; set; }
 
-        public ICollection<Company> Companies { get; set; }
-        public ICollection<VerificationProcess> VerificationProcesses { get; set; }
-        public ICollection<CompanyTypeModification> PreviousCompanyTypeModifications { get; set; }
-        public ICollection<CompanyTypeModification> UpdatedCompanyTypeModifications { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<VerificationProcess> VerificationProcesses { get; set; }
+        public virtual ICollection<CompanyTypeModification> PreviousCompanyTypeModifications { get; set; }
+        public virtual ICollection<CompanyTypeModification> UpdatedCompanyTypeModifications { get; set; }
     }
 }

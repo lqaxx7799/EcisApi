@@ -17,8 +17,8 @@ namespace EcisApi.Models
         
         public int? VerificationCriteriaId { get; set; }
 
-        public VerificationCriteria VerificationCriteria { get; set; }
+        public virtual VerificationCriteria VerificationCriteria { get; set; }
 
-        public ICollection<DocumentReview> DocumentReviews { get; set; }
+        public virtual ICollection<DocumentReview> DocumentReviews { get; set; }
     }
 }
