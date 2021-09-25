@@ -1,6 +1,7 @@
 ﻿using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,27 @@ namespace EcisApi.Controllers
         public VerificationProcessController(IVerificationProcessService verificationProcessService)
         {
             this.verificationProcessService = verificationProcessService;
+        }
+
+        [HttpGet("GetAll")]
+        [Authorize("Agent", "Admin")]
+        public ActionResult<ICollection<VerificationProcess>> GetAll()
+        {
+            return Ok(verificationProcessService.GetAll());
+        }
+
+        [HttpGet("GetPending")]
+        [Authorize("Agent", "Admin")]
+        public ActionResult<ICollection<VerificationProcess>> GetAllPending()
+        {
+            return Ok(verificationProcessService.GetAllPending());
+        }
+
+        [HttpGet("GetSupport")]
+        [Authorize("Agent", "Admin")]
+        public ActionResult<ICollection<VerificationProcess>> GetAllSupport()
+        {
+            return Ok(verificationProcessService.GetAllSupport());
         }
 
         [HttpGet("GetByCompany/{companyId}")]
@@ -38,6 +60,26 @@ namespace EcisApi.Controllers
         public async Task<ActionResult<VerificationProcess>> Add([FromBody] VerificationProcess payload)
         {
             return await verificationProcessService.AddAsync(payload);
+        }
+
+        [HttpPost("Generate/{companyId}")]
+        public async Task<ActionResult<VerificationProcess>> Generate([FromRoute] int companyId)
+        {
+            return await verificationProcessService.GenerateAsync(companyId);
+        }
+
+        [HttpPatch("Support/{id}")]
+        [Authorize("Company")]
+        public async Task<ActionResult<VerificationProcess>> RequestSupport([FromRoute] int id)
+        {
+            try
+            {
+                return await verificationProcessService.RequestSupportAsync(id);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
         }
 
         [HttpPut("Update")]

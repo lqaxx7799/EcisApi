@@ -10,6 +10,7 @@ namespace EcisApi.Repositories
     public interface IVerificationProcessRepository : IRepository<VerificationProcess>
     {
         ICollection<VerificationProcess> GetByCompany(int companyId);
+        ICollection<VerificationProcess> Find(Func<VerificationProcess, bool> filter);
     }
 
     public class VerificationProcessRepository : Repository<VerificationProcess>, IVerificationProcessRepository
@@ -22,6 +23,11 @@ namespace EcisApi.Repositories
         public ICollection<VerificationProcess> GetByCompany(int companyId)
         {
             return db.Set<VerificationProcess>().Where(x => x.CompanyId == companyId).ToList();
+        }
+
+        public ICollection<VerificationProcess> Find(Func<VerificationProcess, bool> filter)
+        {
+            return db.Set<VerificationProcess>().Where(filter).ToList();
         }
     }
 }
