@@ -16,6 +16,7 @@ namespace EcisApi.Models
         public DateTime? ValidTo { get; set; }
         public bool IsOpenedByAgent { get; set; }
         public bool IsSubmitted { get; set; }
+        public bool IsReviewed { get; set; }
         public string SubmitMethod { get; set; }
 
         public int? CompanyTypeId { get; set; }

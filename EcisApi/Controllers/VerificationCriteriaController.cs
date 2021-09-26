@@ -1,6 +1,7 @@
 ﻿using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,21 @@ namespace EcisApi.Controllers
         public ActionResult<ICollection<VerificationCriteria>> GetByProcessId([FromRoute] int processId)
         {
             return Ok(verificationCriteriaService.GetByProcessId(processId));
+        }
+
+        [HttpPut("Update")]
+        [Authorize]
+        public async Task<ActionResult<VerificationCriteria>> Update([FromBody] VerificationCriteria payload)
+        {
+            try
+            {
+                var updated = await verificationCriteriaService.UpdateAsync(payload);
+                return Ok(updated);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
         }
     }
 }

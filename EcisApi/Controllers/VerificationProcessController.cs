@@ -82,6 +82,34 @@ namespace EcisApi.Controllers
             }
         }
 
+        [HttpPut("SubmitDocument/{id}")]
+        [Authorize("Customer")]
+        public async Task<ActionResult<VerificationProcess>> SubmitDocument([FromRoute] int id)
+        {
+            try
+            {
+                return await verificationProcessService.SubmitDocumentAsync(id);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        [HttpPut("SubmitReview/{id}")]
+        [Authorize("Admin", "Agent")]
+        public async Task<ActionResult<VerificationProcess>> SubmitReview([FromRoute] int id)
+        {
+            try
+            {
+                return await verificationProcessService.SubmitReviewAsync(id);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
         [HttpPut("Update")]
         public async Task<ActionResult<VerificationProcess>> Update([FromBody] VerificationProcess payload)
         {

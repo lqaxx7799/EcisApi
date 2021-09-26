@@ -1,5 +1,6 @@
 ﻿using EcisApi.Models;
 using EcisApi.Repositories;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace EcisApi.Services
     public interface IVerificationCriteriaService
     {
         ICollection<VerificationCriteria> GetByProcessId(int processId);
+        Task<VerificationCriteria> AddAsync(VerificationCriteria payload);
+        Task<VerificationCriteria> UpdateAsync(VerificationCriteria payload);
     }
 
     public class VerificationCriteriaService : IVerificationCriteriaService
@@ -26,6 +29,22 @@ namespace EcisApi.Services
         public ICollection<VerificationCriteria> GetByProcessId(int processId)
         {
             return verificationCriteriaRepository.GetByProcessId(processId);
+        }
+
+        public async Task<VerificationCriteria> AddAsync(VerificationCriteria payload)
+        {
+            return await verificationCriteriaRepository.AddAsync(payload);
+        }
+
+        public async Task<VerificationCriteria> UpdateAsync(VerificationCriteria payload)
+        {
+            var verificationCriteria = verificationCriteriaRepository.GetById(payload.Id);
+            if (verificationCriteria == null)
+            {
+                throw new BadHttpRequestException("VerificationCriteriaNotExist");
+            }
+            verificationCriteria.ApprovedStatus = payload.ApprovedStatus;
+            return await verificationCriteriaRepository.UpdateAsync(verificationCriteria);
         }
     }
 }
