@@ -44,9 +44,11 @@ namespace EcisApi
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IAgentRepository, AgentRepository>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<ICompanyTypeRepository, CompanyTypeRepository>();
+            services.AddTransient<ICompanyTypeModificationRepository, CompanyTypeModificationRepository>();
             services.AddTransient<ICriteriaRepository, CriteriaRepository>();
             services.AddTransient<ICriteriaTypeRepository, CriteriaTypeRepository>();
-            services.AddTransient<ICompanyTypeModificationRepository, CompanyTypeModificationRepository>();
+            services.AddTransient<IDocumentReviewRepository, DocumentReviewRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IVerificationCriteriaRepository, VerificationCriteriaRepository>();
             services.AddTransient<IVerificationDocumentRepository, VerificationDocumentRepository>();
@@ -55,8 +57,10 @@ namespace EcisApi
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IAgentService, AgentService>();
             services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<ICompanyTypeService, CompanyTypeService>();
             services.AddTransient<ICriteriaService, CriteriaService>();
             services.AddTransient<ICriteriaTypeService, CriteriaTypeService>();
+            services.AddTransient<IDocumentReviewService, DocumentReviewService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IVerificationCriteriaService, VerificationCriteriaService>();
             services.AddTransient<IVerificationDocumentService, VerificationDocumentService>();
