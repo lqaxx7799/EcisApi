@@ -14,6 +14,7 @@ namespace EcisApi.Services
         ICollection<VerificationProcess> GetAll();
         ICollection<VerificationProcess> GetAllPending();
         ICollection<VerificationProcess> GetAllSupport();
+        ICollection<VerificationProcess> GetAllReviewed();
         ICollection<VerificationProcess> GetByCompany(int companyId);
         VerificationProcess GetById(int id);
         Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess);
@@ -51,7 +52,7 @@ namespace EcisApi.Services
 
         public ICollection<VerificationProcess> GetAllPending()
         {
-            return verificationProcessRepository.Find(x => x.IsSubmitted && !x.IsDeleted);
+            return verificationProcessRepository.Find(x => x.IsSubmitted && !x.IsReviewed && !x.IsDeleted);
         }
 
         public ICollection<VerificationProcess> GetAllSupport()
@@ -60,6 +61,11 @@ namespace EcisApi.Services
                 x.SubmitMethod == AppConstants.VerificationProcessSubmitMethod.ByAgent &&
                 !x.IsSubmitted &&
                 !x.IsDeleted);
+        }
+
+        public ICollection<VerificationProcess> GetAllReviewed()
+        {
+            return verificationProcessRepository.Find(x => x.IsReviewed && !x.IsDeleted);
         }
 
         public ICollection<VerificationProcess> GetByCompany(int companyId)

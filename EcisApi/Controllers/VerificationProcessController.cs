@@ -42,6 +42,13 @@ namespace EcisApi.Controllers
             return Ok(verificationProcessService.GetAllSupport());
         }
 
+        [HttpGet("GetReviewed")]
+        [Authorize("Agent", "Admin")]
+        public ActionResult<ICollection<VerificationProcess>> GetAllReviewed()
+        {
+            return Ok(verificationProcessService.GetAllReviewed());
+        }
+
         [HttpGet("GetByCompany/{companyId}")]
         [Authorize("Company")]
         public ActionResult<ICollection<VerificationProcess>> GetByCompany([FromRoute] int companyId)
