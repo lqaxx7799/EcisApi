@@ -9,6 +9,7 @@ namespace EcisApi.Services
 {
     public interface IDocumentReviewService
     {
+        ICollection<DocumentReview> GetByProcessId(int processId);
         ICollection<DocumentReview> GetByDocumentId(int documentId);
         DocumentReview GetById(int id);
         Task<DocumentReview> AddAsync(DocumentReview documentReview);
@@ -25,6 +26,11 @@ namespace EcisApi.Services
             )
         {
             this.documentReviewRepository = documentReviewRepository;
+        }
+
+        public ICollection<DocumentReview> GetByProcessId(int processId)
+        {
+            return documentReviewRepository.GetByProcessId(processId);
         }
 
         public ICollection<DocumentReview> GetByDocumentId(int documentId)

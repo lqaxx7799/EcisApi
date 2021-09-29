@@ -22,6 +22,13 @@ namespace EcisApi.Controllers
             this.documentReviewService = documentReviewService;
         }
 
+        [HttpGet("GetByProcessId/{processId}")]
+        [Authorize]
+        public ActionResult<ICollection<DocumentReview>> GetByProcessId([FromRoute] int processId)
+        {
+            return Ok(documentReviewService.GetByProcessId(processId));
+        }
+
         [HttpGet("GetByDocumentId/{documentId}")]
         [Authorize]
         public ActionResult<ICollection<DocumentReview>> GetByDocumentId([FromRoute] int documentId)
