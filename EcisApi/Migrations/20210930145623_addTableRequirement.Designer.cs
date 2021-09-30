@@ -4,14 +4,16 @@ using EcisApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcisApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210930145623_addTableRequirement")]
+    partial class addTableRequirement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -502,8 +504,8 @@ namespace EcisApi.Migrations
                     b.Property<string>("AnnounceAgentDocumentName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("AnnounceAgentDocumentSize")
-                        .HasColumnType("bigint");
+                    b.Property<string>("AnnounceAgentDocumentSize")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AnnounceAgentDocumentType")
                         .HasColumnType("nvarchar(max)");
@@ -517,8 +519,8 @@ namespace EcisApi.Migrations
                     b.Property<string>("AnnounceCompanyDocumentName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("AnnounceCompanyDocumentSize")
-                        .HasColumnType("bigint");
+                    b.Property<string>("AnnounceCompanyDocumentSize")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AnnounceCompanyDocumentType")
                         .HasColumnType("nvarchar(max)");
@@ -544,8 +546,8 @@ namespace EcisApi.Migrations
                     b.Property<string>("ConfirmDocumentName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("ConfirmDocumentSize")
-                        .HasColumnType("bigint");
+                    b.Property<string>("ConfirmDocumentSize")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConfirmDocumentType")
                         .HasColumnType("nvarchar(max)");

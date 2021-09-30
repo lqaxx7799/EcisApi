@@ -33,6 +33,8 @@ namespace EcisApi.Models
         public virtual ICollection<CompanyReport> CompanyReports { get; set; }
         [JsonIgnore]
         public virtual ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
 
     }
 }

@@ -26,6 +26,7 @@ namespace EcisApi.Data
         public DbSet<CriteriaType> CriteriaTypes { get; set; }
         public DbSet<ModificationType> ModificationTypes { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
         public DbSet<VerificationCriteria> VerificationCriterias { get; set; }
         public DbSet<VerificationDocument> VerificationDocuments { get; set; }
         public DbSet<VerificationProcess> VerificationProcesses { get; set; }
@@ -68,6 +69,17 @@ namespace EcisApi.Data
             modelBuilder.Entity<CriteriaType>().ToTable("CriteriaType");
             modelBuilder.Entity<ModificationType>().ToTable("ModificationType");
             modelBuilder.Entity<Role>().ToTable("Role");
+
+            modelBuilder.Entity<VerificationConfirmRequirement>().ToTable("VerificationConfirmRequirement");
+            modelBuilder.Entity<VerificationConfirmRequirement>()
+                    .HasOne(s => s.AssignedAgent)
+                    .WithMany(g => g.VerificationConfirmRequirements)
+                    .HasForeignKey(s => s.AssignedAgentId);
+            modelBuilder.Entity<VerificationConfirmRequirement>()
+                   .HasOne(s => s.ConfirmCompanyType)
+                   .WithMany(g => g.VerificationConfirmRequirements)
+                   .HasForeignKey(s => s.ConfirmCompanyTypeId);
+
             modelBuilder.Entity<VerificationCriteria>().ToTable("VerificationCriteria");
             modelBuilder.Entity<VerificationDocument>().ToTable("VerificationDocument");
 

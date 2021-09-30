@@ -92,5 +92,7 @@ namespace EcisApi.Helpers
     {
         public static readonly string CompanyRegistrationSuccess = "CompanyRegistrationSuccess";
         public static readonly string CompanyRegistrationVerified = "CompanyRegistrationVerified";
+        public static readonly string VerificationConfirmRequirementAnnounceAgent = "VerificationConfirmRequirementAnnounceAgent";
+        public static readonly string VerificationConfirmRequirementAnnounceCompany = "VerificationConfirmRequirementAnnounceCompany";
     }
 }
