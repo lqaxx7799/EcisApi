@@ -24,10 +24,32 @@ namespace EcisApi.Controllers
             this.companyService = companyService;
         }
 
+        [HttpGet("GetAll")]
+        [Authorize]
+        public ActionResult<ICollection<Company>> GetAll()
+        {
+            return Ok(companyService.GetAll());
+        }
+
+        [HttpGet("GetAllActivated")]
+        [Authorize]
+        public ActionResult<ICollection<Company>> GetAllActivated()
+        {
+            return Ok(companyService.GetAllActivated());
+        }
+
         [HttpGet("ByAccount/{accountId}")]
         public ActionResult<Company> GetByCompanyId([FromRoute] int accountId)
         {
             return companyService.GetByAccountId(accountId);
+        }
+
+        [HttpGet("GetReport")]
+        [Authorize]
+        public ActionResult<ICollection<CompanyTypeModification>> GetModificationReport([FromQuery] int? month, [FromQuery] int? year)
+        {
+            var result = companyService.GetModificationReport(month.GetValueOrDefault(DateTime.Now.Month), year.GetValueOrDefault(DateTime.Now.Year));
+            return Ok(result);
         }
 
         [HttpGet("{id}")]

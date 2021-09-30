@@ -12,12 +12,15 @@ namespace EcisApi.Models
         public DateTime? SubmitDeadline { get; set; }
         public DateTime? SubmittedAt { get; set; }
         public DateTime? ReviewedAt { get; set; }
+        public DateTime? FinishedAt { get; set; }
         public DateTime? ValidFrom { get; set; }
         public DateTime? ValidTo { get; set; }
         public bool IsOpenedByAgent { get; set; }
         public bool IsSubmitted { get; set; }
         public bool IsReviewed { get; set; }
+        public bool IsFinished { get; set; }
         public string SubmitMethod { get; set; }
+        public string Status { get; set; }
 
         public int? CompanyTypeId { get; set; }
         public int? AssignedAgentId { get; set; }

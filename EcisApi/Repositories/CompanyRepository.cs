@@ -9,6 +9,7 @@ namespace EcisApi.Repositories
 {
     public interface ICompanyRepository: IRepository<Company>
     {
+        ICollection<Company> GetAllActivated();
         Company GetByAccountId(int accountId);
         Company GetByCompanyCode(string companyCode);
     }
@@ -19,6 +20,11 @@ namespace EcisApi.Repositories
         public CompanyRepository(DataContext dataContext) : base(dataContext)
         {
 
+        }
+
+        public ICollection<Company> GetAllActivated()
+        {
+            return db.Set<Company>().Where(x => x.Account.IsVerified).ToList();
         }
 
         public Company GetByAccountId(int accountId)

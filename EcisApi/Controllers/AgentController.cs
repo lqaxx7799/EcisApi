@@ -1,4 +1,5 @@
-﻿using EcisApi.Models;
+﻿using EcisApi.Helpers;
+using EcisApi.Models;
 using EcisApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,6 +20,13 @@ namespace EcisApi.Controllers
             )
         {
             this.agentService = agentService;
+        }
+
+        [HttpGet("GetAll")]
+        [Authorize]
+        public ActionResult<ICollection<Agent>> GetAll()
+        {
+            return Ok(agentService.GetAll());
         }
 
         [HttpGet("ByAccount/{accountId}")]

@@ -9,6 +9,7 @@ namespace EcisApi.Services
 {
     public interface IAgentService
     {
+        ICollection<Agent> GetAll();
         Agent GetById(int id);
         Agent GetByAccountId(int accountId);
     }
@@ -22,6 +23,11 @@ namespace EcisApi.Services
             )
         {
             this.agentRepository = agentRepository;
+        }
+
+        public ICollection<Agent> GetAll()
+        {
+            return agentRepository.GetAll().ToList();
         }
 
         public Agent GetById(int id)

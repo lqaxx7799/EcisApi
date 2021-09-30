@@ -23,26 +23,35 @@ namespace EcisApi.Services
         Task<VerificationProcess> SubmitDocumentAsync(int id);
         Task<VerificationProcess> SubmitReviewAsync(int id);
         Task<VerificationProcess> RequestSupportAsync(int id);
+        Task<VerificationProcess> FinishAsync(int id);
     }
 
     public class VerificationProcessService : IVerificationProcessService
     {
         protected readonly ICompanyRepository companyRepository;
+        protected readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
         protected readonly ICriteriaRepository criteriaRepository;
         protected readonly IVerificationCriteriaRepository verificationCriteriaRepository;
         protected readonly IVerificationProcessRepository verificationProcessRepository;
 
+        protected readonly IEmailHelper emailHelper;
+
         public VerificationProcessService(
             ICompanyRepository companyRepository,
+            ICompanyTypeModificationRepository companyTypeModificationRepository,
             ICriteriaRepository criteriaRepository,
             IVerificationCriteriaRepository verificationCriteriaRepository,
-            IVerificationProcessRepository verificationProcessRepository
+            IVerificationProcessRepository verificationProcessRepository,
+            IEmailHelper emailHelper
             )
         {
             this.companyRepository = companyRepository;
+            this.companyTypeModificationRepository = companyTypeModificationRepository;
             this.criteriaRepository = criteriaRepository;
             this.verificationCriteriaRepository = verificationCriteriaRepository;
             this.verificationProcessRepository = verificationProcessRepository;
+
+            this.emailHelper = emailHelper;
         }
 
         public ICollection<VerificationProcess> GetAll()
@@ -157,11 +166,48 @@ namespace EcisApi.Services
 
             if (process == null)
             {
-                throw new BadHttpRequestException("Không tồn tại");
+                throw new BadHttpRequestException("VerificationProcessNotExist");
             }
 
             process.SubmitMethod = AppConstants.VerificationProcessSubmitMethod.ByAgent;
             return await verificationProcessRepository.UpdateAsync(process);
+        }
+
+        public async Task<VerificationProcess> FinishAsync(int id)
+        {
+            var process = verificationProcessRepository.GetById(id);
+
+            if (process == null)
+            {
+                throw new BadHttpRequestException("VerificationProcessNotExist");
+            }
+
+            process.IsFinished = true;
+            process.FinishedAt = DateTime.Now;
+            await verificationProcessRepository.UpdateAsync(process);
+
+            Company company = companyRepository.GetById(process.CompanyId);
+
+            CompanyTypeModification currentModification = new()
+            {
+                CompanyId = process.CompanyId,
+                PreviousCompanyTypeId = company.CompanyTypeId,
+                UpdatedCompanyTypeId = process.CompanyTypeId,
+                Modification = AppConstants.CompanyModificationType.VERIFICATION,
+                VerificationProcessId = process.Id,
+            };
+            await companyTypeModificationRepository.AddAsync(currentModification);
+
+            company.CompanyTypeId = process.CompanyTypeId;
+            await companyRepository.UpdateAsync(company);
+
+            await emailHelper.SendEmailAsync(
+               new string[] { process.Company.Account.Email },
+               "Kết quả đánh giá doanh nghiệp",
+               EmailTemplate.VerificationFinished,
+               new Dictionary<string, string>());
+
+            return process;
         }
     }
 }

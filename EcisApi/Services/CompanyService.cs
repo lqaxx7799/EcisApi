@@ -13,8 +13,11 @@ namespace EcisApi.Services
 {
     public interface ICompanyService
     {
+        ICollection<Company> GetAll();
+        ICollection<Company> GetAllActivated();
         Company GetById(int id);
         Company GetByAccountId(int accountId);
+        ICollection<CompanyTypeModification> GetModificationReport(int month, int year);
         Task<dynamic> RegisterCompany(CompanyRegistrationDTO data);
         Task<Account> VerifyCompany(int accountId);
         Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data);
@@ -46,6 +49,16 @@ namespace EcisApi.Services
             this.emailHelper = emailHelper;
         }
 
+        public ICollection<Company> GetAll()
+        {
+            return companyRepository.GetAll().ToList();
+        }
+
+        public ICollection<Company> GetAllActivated()
+        {
+            return companyRepository.GetAllActivated();
+        }
+
         public Company GetById(int id)
         {
             return companyRepository.GetById(id);
@@ -54,6 +67,11 @@ namespace EcisApi.Services
         public Company GetByAccountId(int accountId)
         {
             return companyRepository.GetByAccountId(accountId);
+        }
+
+        public ICollection<CompanyTypeModification> GetModificationReport(int month, int year)
+        {
+            return companyTypeModificationRepository.GetModificationReport(month, year);
         }
 
         public async Task<dynamic> RegisterCompany(CompanyRegistrationDTO data)
@@ -149,7 +167,7 @@ namespace EcisApi.Services
                 return null;
             }
 
-            CompanyTypeModification currentModification = new CompanyTypeModification
+            CompanyTypeModification currentModification = new()
             {
                 CompanyId = data.CompanyId,
                 PreviousCompanyTypeId = company.CompanyTypeId,
