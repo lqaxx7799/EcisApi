@@ -77,7 +77,7 @@ namespace EcisApi.Helpers
             {
                 Host = smtpServer,
                 Port = smtpPortNumber,
-                //EnableSsl = emailIsSSL
+                EnableSsl = true
             };
 
             //Set Sender UserEmailID, Password  

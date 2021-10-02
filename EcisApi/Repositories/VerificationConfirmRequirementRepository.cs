@@ -9,6 +9,7 @@ namespace EcisApi.Repositories
 {
     public interface IVerificationConfirmRequirementRepository : IRepository<VerificationConfirmRequirement>
     {
+        ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId);
         VerificationConfirmRequirement GetOneByProcessId(int processId);
     }
 
@@ -17,6 +18,11 @@ namespace EcisApi.Repositories
         public VerificationConfirmRequirementRepository(DataContext context) : base(context)
         {
 
+        }
+
+        public ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId)
+        {
+            return db.Set<VerificationConfirmRequirement>().Where(x => x.AssignedAgentId == agentId).ToList();
         }
 
         public VerificationConfirmRequirement GetOneByProcessId(int processId)

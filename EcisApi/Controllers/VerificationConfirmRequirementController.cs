@@ -24,11 +24,25 @@ namespace EcisApi.Controllers
             this.verificationConfirmRequirementService = verificationConfirmRequirementService;
         }
 
+        [HttpGet("Assigned/{agentId}")]
+        [Authorize]
+        public ActionResult<ICollection<VerificationConfirmRequirement>> GetAssigned([FromRoute] int agentId)
+        {
+            return Ok(verificationConfirmRequirementService.GetByAgentId(agentId));
+        }
+
         [HttpGet("ByProcessId/{processId}")]
         [Authorize]
         public ActionResult<VerificationConfirmRequirement> GetOneByProcessId([FromRoute] int processId)
         {
             return Ok(verificationConfirmRequirementService.GetOneByProcessId(processId));
+        }
+
+        [HttpGet("ById/{id}")]
+        [Authorize]
+        public ActionResult<VerificationConfirmRequirement> GetById([FromRoute] int id)
+        {
+            return Ok(verificationConfirmRequirementService.GetById(id));
         }
 
         [HttpPost("Create")]

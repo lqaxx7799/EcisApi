@@ -12,7 +12,9 @@ namespace EcisApi.Services
 {
     public interface IVerificationConfirmRequirementService
     {
+        ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId);
         VerificationConfirmRequirement GetOneByProcessId(int processId);
+        VerificationConfirmRequirement GetById(int id);
         Task<VerificationConfirmRequirement> AddAsync(VerificationConfirmRequirement payload);
         Task<VerificationConfirmRequirement> AnnounceCompanyAsync(VerificationConfirmUpdateDTO payload);
         Task<VerificationConfirmRequirement> FinishConfirmAsync(VerificationConfirmUpdateDTO payload);
@@ -20,22 +22,35 @@ namespace EcisApi.Services
 
     public class VerificationConfirmRequirementService : IVerificationConfirmRequirementService
     {
+        protected readonly IAgentRepository agentRepository;
         protected readonly IVerificationConfirmRequirementRepository verificationConfirmRequirementRepository;
 
         protected readonly IEmailHelper emailHelper;
 
         public VerificationConfirmRequirementService(
+            IAgentRepository agentRepository,
             IVerificationConfirmRequirementRepository verificationConfirmRequirementRepository,
             IEmailHelper emailHelper
             )
         {
+            this.agentRepository = agentRepository;
             this.verificationConfirmRequirementRepository = verificationConfirmRequirementRepository;
             this.emailHelper = emailHelper;
+        }
+
+        public ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId)
+        {
+            return verificationConfirmRequirementRepository.GetByAgentId(agentId);
         }
 
         public VerificationConfirmRequirement GetOneByProcessId(int processId)
         {
             return verificationConfirmRequirementRepository.GetOneByProcessId(processId);
+        }
+
+        public VerificationConfirmRequirement GetById(int id)
+        {
+            return verificationConfirmRequirementRepository.GetById(id);
         }
 
         public async Task<VerificationConfirmRequirement> AddAsync(VerificationConfirmRequirement payload)
@@ -47,11 +62,20 @@ namespace EcisApi.Services
             payload.AnnouncedAgentAt = DateTime.Now;
             var result = await verificationConfirmRequirementRepository.AddAsync(payload);
 
-            await emailHelper.SendEmailAsync(
-                new string[] { result.AssignedAgent.Account.Email },
-                "Yêu cầu xác minh doanh nghiệp",
-                EmailTemplate.VerificationConfirmRequirementAnnounceAgent,
-                new Dictionary<string, string>());
+            var agent = agentRepository.GetById(payload.AssignedAgentId);
+
+            try
+            {
+                await emailHelper.SendEmailAsync(
+                    new string[] { agent.Account.Email },
+                    "Yêu cầu xác minh doanh nghiệp",
+                    EmailTemplate.VerificationConfirmRequirementAnnounceAgent,
+                    new Dictionary<string, string>());
+            }
+            catch (Exception e)
+            {
+
+            }
 
             return result;
         }
@@ -75,11 +99,18 @@ namespace EcisApi.Services
 
             await verificationConfirmRequirementRepository.UpdateAsync(confirmRequirement);
 
-            await emailHelper.SendEmailAsync(
-                new string[] { confirmRequirement.VerificationProcess.Company.Account.Email },
-                "Yêu cầu xác minh doanh nghiệp",
-                EmailTemplate.VerificationConfirmRequirementAnnounceCompany,
-                new Dictionary<string, string>());
+            try
+            {
+                await emailHelper.SendEmailAsync(
+                    new string[] { confirmRequirement.VerificationProcess.Company.Account.Email },
+                    "Yêu cầu xác minh doanh nghiệp",
+                    EmailTemplate.VerificationConfirmRequirementAnnounceCompany,
+                    new Dictionary<string, string>());
+            }
+            catch (Exception e)
+            {
+
+            }
 
             return confirmRequirement;
         }
@@ -103,12 +134,6 @@ namespace EcisApi.Services
             confirmRequirement.ConfirmCompanyTypeId = payload.CompanyTypeId;
 
             await verificationConfirmRequirementRepository.UpdateAsync(confirmRequirement);
-
-            //await emailHelper.SendEmailAsync(
-            //    new string[] { confirmRequirement.VerificationProcess.Company.Account.Email },
-            //    "Yêu cầu xác minh doanh nghiệp",
-            //    EmailTemplate.VerificationConfirmRequirementAnnounceCompany,
-            //    new Dictionary<string, string>());
 
             return confirmRequirement;
         }
