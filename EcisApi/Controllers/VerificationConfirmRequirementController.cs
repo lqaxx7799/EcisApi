@@ -31,6 +31,13 @@ namespace EcisApi.Controllers
             return Ok(verificationConfirmRequirementService.GetByAgentId(agentId));
         }
 
+        [HttpGet("PendingByCompanyId/{companyId}")]
+        [Authorize]
+        public ActionResult<ICollection<VerificationConfirmRequirement>> GetPendingByCompanyId([FromRoute] int companyId)
+        {
+            return Ok(verificationConfirmRequirementService.GetPendingByCompanyId(companyId));
+        }
+
         [HttpGet("ByProcessId/{processId}")]
         [Authorize]
         public ActionResult<VerificationConfirmRequirement> GetOneByProcessId([FromRoute] int processId)

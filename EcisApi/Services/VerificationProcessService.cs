@@ -129,7 +129,27 @@ namespace EcisApi.Services
 
         public async Task<VerificationProcess> UpdateAsync(VerificationProcess verificationProcess)
         {
-            return await verificationProcessRepository.UpdateAsync(verificationProcess);
+            var process = verificationProcessRepository.GetById(verificationProcess.Id);
+
+            if (process == null)
+            {
+                throw new BadHttpRequestException("VerificationProcessNotExist");
+            }
+
+            process.AssignedAgentId = verificationProcess.AssignedAgentId;
+            process.CompanyTypeId = verificationProcess.CompanyTypeId;
+            process.IsFinished = verificationProcess.IsFinished;
+            process.IsOpenedByAgent = verificationProcess.IsOpenedByAgent;
+            process.IsReviewed = verificationProcess.IsReviewed;
+            process.IsSubmitted = verificationProcess.IsSubmitted;
+            process.ReviewedAt = verificationProcess.ReviewedAt;
+            process.Status = verificationProcess.Status;
+            process.SubmitDeadline = verificationProcess.SubmitDeadline;
+            process.SubmittedAt = verificationProcess.SubmittedAt;
+            process.ValidFrom = verificationProcess.ValidFrom;
+            process.ValidTo = verificationProcess.ValidTo;
+
+            return await verificationProcessRepository.UpdateAsync(process);
         }
 
         public async Task<VerificationProcess> SubmitDocumentAsync(int id)
@@ -201,11 +221,18 @@ namespace EcisApi.Services
             company.CompanyTypeId = process.CompanyTypeId;
             await companyRepository.UpdateAsync(company);
 
-            await emailHelper.SendEmailAsync(
-               new string[] { process.Company.Account.Email },
-               "Kết quả đánh giá doanh nghiệp",
-               EmailTemplate.VerificationFinished,
-               new Dictionary<string, string>());
+            try
+            {
+                await emailHelper.SendEmailAsync(
+                   new string[] { process.Company.Account.Email },
+                   "Kết quả đánh giá doanh nghiệp",
+                   EmailTemplate.VerificationFinished,
+                   new Dictionary<string, string>());
+            }
+            catch (Exception e)
+            {
+
+            }
 
             return process;
         }

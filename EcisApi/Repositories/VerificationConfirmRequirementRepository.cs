@@ -10,6 +10,7 @@ namespace EcisApi.Repositories
     public interface IVerificationConfirmRequirementRepository : IRepository<VerificationConfirmRequirement>
     {
         ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId);
+        ICollection<VerificationConfirmRequirement> GetPendingByCompanyId(int companyId);
         VerificationConfirmRequirement GetOneByProcessId(int processId);
     }
 
@@ -23,6 +24,15 @@ namespace EcisApi.Repositories
         public ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId)
         {
             return db.Set<VerificationConfirmRequirement>().Where(x => x.AssignedAgentId == agentId).ToList();
+        }
+
+        public ICollection<VerificationConfirmRequirement> GetPendingByCompanyId(int companyId)
+        {
+            return db.Set<VerificationConfirmRequirement>().Where(x => 
+                x.VerificationProcess.CompanyId == companyId && 
+                x.AnnouncedCompanyAt != null &&
+                x.ConfirmDocumentUrl == null
+                ).ToList();
         }
 
         public VerificationConfirmRequirement GetOneByProcessId(int processId)

@@ -75,7 +75,7 @@ namespace EcisApi.Controllers
             return await verificationProcessService.GenerateAsync(companyId);
         }
 
-        [HttpPatch("Support/{id}")]
+        [HttpPut("Support/{id}")]
         [Authorize("Company")]
         public async Task<ActionResult<VerificationProcess>> RequestSupport([FromRoute] int id)
         {
@@ -110,6 +110,20 @@ namespace EcisApi.Controllers
             try
             {
                 return await verificationProcessService.SubmitReviewAsync(id);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        [HttpPut("Finish/{id}")]
+        [Authorize("Agent", "Admin")]
+        public async Task<ActionResult<VerificationProcess>> Finish([FromRoute] int id)
+        {
+            try
+            {
+                return await verificationProcessService.FinishAsync(id);
             }
             catch (BadHttpRequestException e)
             {

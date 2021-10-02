@@ -13,6 +13,7 @@ namespace EcisApi.Services
     public interface IVerificationConfirmRequirementService
     {
         ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId);
+        ICollection<VerificationConfirmRequirement> GetPendingByCompanyId(int companyId);
         VerificationConfirmRequirement GetOneByProcessId(int processId);
         VerificationConfirmRequirement GetById(int id);
         Task<VerificationConfirmRequirement> AddAsync(VerificationConfirmRequirement payload);
@@ -41,6 +42,11 @@ namespace EcisApi.Services
         public ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId)
         {
             return verificationConfirmRequirementRepository.GetByAgentId(agentId);
+        }
+
+        public ICollection<VerificationConfirmRequirement> GetPendingByCompanyId(int companyId)
+        {
+            return verificationConfirmRequirementRepository.GetPendingByCompanyId(companyId);
         }
 
         public VerificationConfirmRequirement GetOneByProcessId(int processId)
