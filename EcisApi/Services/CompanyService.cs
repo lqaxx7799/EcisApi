@@ -18,9 +18,11 @@ namespace EcisApi.Services
         Company GetById(int id);
         Company GetByAccountId(int accountId);
         ICollection<CompanyTypeModification> GetModificationReport(int month, int year);
+        ICollection<CompanyTypeModification> GetModificationReportPrivate(int month, int year);
         Task<dynamic> RegisterCompany(CompanyRegistrationDTO data);
         Task<Account> VerifyCompany(int accountId);
         Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data);
+        Task<CompanyTypeModification> UpdateModificationAsync(CompanyTypeModification payload);
     }
 
     public class CompanyService : ICompanyService
@@ -72,6 +74,11 @@ namespace EcisApi.Services
         public ICollection<CompanyTypeModification> GetModificationReport(int month, int year)
         {
             return companyTypeModificationRepository.GetModificationReport(month, year);
+        }
+
+        public ICollection<CompanyTypeModification> GetModificationReportPrivate(int month, int year)
+        {
+            return companyTypeModificationRepository.GetModificationReportPrivate(month, year);
         }
 
         public async Task<dynamic> RegisterCompany(CompanyRegistrationDTO data)
@@ -188,5 +195,19 @@ namespace EcisApi.Services
 
             return currentModification;
         }
+
+        public async Task<CompanyTypeModification> UpdateModificationAsync(CompanyTypeModification payload)
+        {
+            var modification = companyTypeModificationRepository.GetById(payload.Id);
+            if (modification == null)
+            {
+                throw new BadHttpRequestException("CompanyTypeModificationNotExist");
+            }
+            modification.IsAnnounced = payload.IsAnnounced;
+            modification.PreviousCompanyTypeId = payload.PreviousCompanyTypeId;
+            modification.UpdatedCompanyTypeId = payload.UpdatedCompanyTypeId;
+            return await companyTypeModificationRepository.UpdateAsync(modification);
+        }
+
     }
 }

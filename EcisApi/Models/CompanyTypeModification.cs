@@ -10,6 +10,7 @@ namespace EcisApi.Models
         public int Id { get; set; }
 
         public string Modification { get; set; }
+        public bool IsAnnounced { get; set; }
         
         public int? CompanyId { get; set; }
         public int? PreviousCompanyTypeId { get; set; }

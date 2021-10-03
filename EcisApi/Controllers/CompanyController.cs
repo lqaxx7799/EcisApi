@@ -44,6 +44,14 @@ namespace EcisApi.Controllers
             return companyService.GetByAccountId(accountId);
         }
 
+        [HttpGet("GetReportPrivate")]
+        [Authorize("Admin", "Agent")]
+        public ActionResult<ICollection<CompanyTypeModification>> GetModificationReportPrivate([FromQuery] int? month, [FromQuery] int? year)
+        {
+            var result = companyService.GetModificationReportPrivate(month.GetValueOrDefault(DateTime.Now.Month), year.GetValueOrDefault(DateTime.Now.Year));
+            return Ok(result);
+        }
+
         [HttpGet("GetReport")]
         [Authorize]
         public ActionResult<ICollection<CompanyTypeModification>> GetModificationReport([FromQuery] int? month, [FromQuery] int? year)
@@ -92,9 +100,26 @@ namespace EcisApi.Controllers
             }
         }
 
-        public async Task<ActionResult<CompanyTypeModification>> ModifyType([FromBody] ModifyCompanyTypeDTO payload)
+        [HttpPost("UpdateModification")]
+        [Authorize]
+        public async Task<ActionResult<CompanyTypeModification>> UpdateModification([FromBody] CompanyTypeModification payload)
         {
-            return await companyService.ModifyType(payload);
+            try
+            {
+                return await companyService.UpdateModificationAsync(payload);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new
+                {
+                    e.Message,
+                });
+            }
         }
+
+        //public async Task<ActionResult<CompanyTypeModification>> ModifyType([FromBody] ModifyCompanyTypeDTO payload)
+        //{
+        //    return await companyService.ModifyType(payload);
+        //}
     }
 }
