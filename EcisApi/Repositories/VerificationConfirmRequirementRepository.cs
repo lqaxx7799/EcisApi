@@ -31,7 +31,7 @@ namespace EcisApi.Repositories
             return db.Set<VerificationConfirmRequirement>().Where(x => 
                 x.VerificationProcess.CompanyId == companyId && 
                 x.AnnouncedCompanyAt != null &&
-                x.ConfirmDocumentUrl == null
+                x.ConfirmedAt == null
                 ).ToList();
         }
 

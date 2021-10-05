@@ -53,7 +53,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("GetReport")]
-        [Authorize]
+        //[Authorize]
         public ActionResult<ICollection<CompanyTypeModification>> GetModificationReport([FromQuery] int? month, [FromQuery] int? year)
         {
             var result = companyService.GetModificationReport(month.GetValueOrDefault(DateTime.Now.Month), year.GetValueOrDefault(DateTime.Now.Year));
@@ -100,7 +100,7 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpPost("UpdateModification")]
+        [HttpPut("UpdateModification")]
         [Authorize]
         public async Task<ActionResult<CompanyTypeModification>> UpdateModification([FromBody] CompanyTypeModification payload)
         {
