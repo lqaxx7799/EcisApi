@@ -9,6 +9,7 @@ namespace EcisApi.Repositories
 {
     public interface ICompanyTypeRepository: IRepository<CompanyType>
     {
+        CompanyType GetByName(string name);
     }
 
     public class CompanyTypeRepository : Repository<CompanyType>, ICompanyTypeRepository
@@ -17,5 +18,10 @@ namespace EcisApi.Repositories
         {
 
         }
+
+        public CompanyType GetByName(string name)
+        {
+            return db.Set<CompanyType>().Where(x => x.TypeName == name).FirstOrDefault();
+        } 
     }
 }

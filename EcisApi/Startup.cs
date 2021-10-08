@@ -54,6 +54,8 @@ namespace EcisApi
             services.AddTransient<IVerificationCriteriaRepository, VerificationCriteriaRepository>();
             services.AddTransient<IVerificationDocumentRepository, VerificationDocumentRepository>();
             services.AddTransient<IVerificationProcessRepository, VerificationProcessRepository>();
+            services.AddTransient<IViolationReportRepository, ViolationReportRepository>();
+            services.AddTransient<IViolationReportDocumentRepository, ViolationReportDocumentRepository>();
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IAgentService, AgentService>();
@@ -67,6 +69,8 @@ namespace EcisApi
             services.AddTransient<IVerificationCriteriaService, VerificationCriteriaService>();
             services.AddTransient<IVerificationDocumentService, VerificationDocumentService>();
             services.AddTransient<IVerificationProcessService, VerificationProcessService>();
+            services.AddTransient<IViolationReportService, ViolationReportService>();
+            services.AddTransient<IViolationReportDocumentService, ViolationReportDocumentService>();
 
             services.AddTransient<ICloudStorageHelper, CloudStorageHelper>();
             services.AddTransient<IEmailHelper, EmailHelper>();

@@ -26,13 +26,20 @@ namespace EcisApi.Helpers
             public static readonly string PEDNING = "PENDING";
             public static readonly string VERIFIED = "VERIFIED";
             public static readonly string REJECTED = "REJECTED";
-        }
 
+        }
         public static class CompanyModificationType
         {
             public static readonly string VERIFICATION = "VERIFICATION";
             public static readonly string REPORT = "REPORT";
+            public static readonly string VIOLATION = "VIOLATION";
+        }
 
+        public static class ViolationReportStatus
+        {
+            public static readonly string PEDNING = "PENDING";
+            public static readonly string APPROVED = "APPROVED";
+            public static readonly string REJECTED = "REJECTED";
         }
     }
 }

@@ -24,6 +24,8 @@ namespace EcisApi.Models
         public virtual ICollection<CompanyReport> TargetedCompanyReports { get; set; }
         public virtual ICollection<CompanyReport> CreatorCompanyReports { get; set; }
         public virtual ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
-        public virtual ICollection<VerificationProcess> VerificationProcesses { get; set; } 
+        public virtual ICollection<VerificationProcess> VerificationProcesses { get; set; }
+        public virtual ICollection<ViolationReport> ViolationReports { get; set; }
+
     }
 }

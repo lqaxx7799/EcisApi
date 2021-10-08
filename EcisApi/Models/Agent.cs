@@ -22,5 +22,7 @@ namespace EcisApi.Models
         public virtual ICollection<VerificationProcess> VerificationProcesses { get; set; }
         public virtual ICollection<CompanyReport> CompanyActions { get; set; }
         public virtual ICollection<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
+        public virtual ICollection<ViolationReport> ViolationReports { get; set; }
+
     }
 }
