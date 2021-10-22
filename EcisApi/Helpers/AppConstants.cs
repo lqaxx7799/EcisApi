@@ -41,5 +41,12 @@ namespace EcisApi.Helpers
             public static readonly string APPROVED = "APPROVED";
             public static readonly string REJECTED = "REJECTED";
         }
+
+        public static class CompanyReportStatus
+        {
+            public static readonly string PEDNING = "PENDING";
+            public static readonly string APPROVED = "APPROVED";
+            public static readonly string REJECTED = "REJECTED";
+        }
     }
 }

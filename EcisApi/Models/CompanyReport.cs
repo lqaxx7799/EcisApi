@@ -13,6 +13,7 @@ namespace EcisApi.Models
         public DateTime AcceptedAt { get; set; }
         public DateTime HandledAt { get; set; }
         public bool IsHandled { get; set; }
+        public string Status { get; set; }
 
         public int? VerificationProcessId { get; set; }
         public int? CompanyReportTypeId { get; set; }

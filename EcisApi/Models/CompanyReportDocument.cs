@@ -8,8 +8,10 @@ namespace EcisApi.Models
     public class CompanyReportDocument : BaseModel
     {
         public int Id { get; set; }
-        public string ResourceType { get; set; }
-        public string ResourceUrl { get; set; }
+        public string DocumentType { get; set; }
+        public string DocumentUrl { get; set; }
+        public string DocumentName { get; set; }
+        public long DocumentSize { get; set; }
 
         public int? CompanyReportId { get; set; }
 
