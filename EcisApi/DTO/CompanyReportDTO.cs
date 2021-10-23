@@ -10,7 +10,7 @@ namespace EcisApi.DTO
     {
         public string ActionTitle { get; set; }
         public string Description { get; set; }
-        public int CompanyReportTypeId { get; set; }
+        public int? CompanyReportTypeId { get; set; }
         public int CreatorCompanyId { get; set; }
         public int TargetedCompanyId { get; set; }
         public int? VerificationProcessId { get; set; }
