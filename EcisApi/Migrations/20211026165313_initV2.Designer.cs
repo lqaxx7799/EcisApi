@@ -4,14 +4,16 @@ using EcisApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EcisApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211026165313_initV2")]
+    partial class initV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -983,7 +985,7 @@ namespace EcisApi.Migrations
             modelBuilder.Entity("EcisApi.Models.CriteriaDetail", b =>
                 {
                     b.HasOne("EcisApi.Models.Criteria", "Criteria")
-                        .WithMany("CriteriaDetails")
+                        .WithMany()
                         .HasForeignKey("CriteriaId");
 
                     b.Navigation("Criteria");
@@ -1142,11 +1144,6 @@ namespace EcisApi.Migrations
                     b.Navigation("VerificationConfirmRequirements");
 
                     b.Navigation("VerificationProcesses");
-                });
-
-            modelBuilder.Entity("EcisApi.Models.Criteria", b =>
-                {
-                    b.Navigation("CriteriaDetails");
                 });
 
             modelBuilder.Entity("EcisApi.Models.CriteriaDetail", b =>

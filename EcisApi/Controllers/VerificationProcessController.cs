@@ -63,6 +63,13 @@ namespace EcisApi.Controllers
             return Ok(verificationProcessService.GetById(id));
         }
 
+        [HttpGet("GetCurrent/{companyId}")]
+        [Authorize("Company")]
+        public ActionResult<VerificationProcess> GetCompanyCurrent([FromRoute] int companyId)
+        {
+            return Ok(verificationProcessService.GetCompanyCurrent(companyId));
+        }
+
         [HttpPost("Add")]
         public async Task<ActionResult<VerificationProcess>> Add([FromBody] VerificationProcess payload)
         {
@@ -90,7 +97,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpPut("SubmitDocument/{id}")]
-        [Authorize("Customer")]
+        [Authorize("Company")]
         public async Task<ActionResult<VerificationProcess>> SubmitDocument([FromRoute] int id)
         {
             try

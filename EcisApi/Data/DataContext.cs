@@ -23,8 +23,8 @@ namespace EcisApi.Data
         public DbSet<CompanyTypeModification> CompanyTypeModifications { get; set; }
         public DbSet<DocumentReview> DocumentReviews { get; set; }
         public DbSet<Criteria> Criterias { get; set; }
+        public DbSet<CriteriaDetail> CriteriaDetails { get; set; }
         public DbSet<CriteriaType> CriteriaTypes { get; set; }
-        public DbSet<ModificationType> ModificationTypes { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
         public DbSet<VerificationCriteria> VerificationCriterias { get; set; }
@@ -34,10 +34,6 @@ namespace EcisApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().ToTable("Account");
-            //modelBuilder.Entity<Account>()
-            //        .HasOne(s => s.Role)
-            //        .WithMany(g => g.Accounts)
-            //        .HasForeignKey(s => s.RoleId);
             modelBuilder.Entity<Agent>().ToTable("Agent");
             modelBuilder.Entity<Company>().ToTable("Company");
 
@@ -66,8 +62,8 @@ namespace EcisApi.Data
 
             modelBuilder.Entity<DocumentReview>().ToTable("DocumentReview");
             modelBuilder.Entity<Criteria>().ToTable("Criteria");
+            modelBuilder.Entity<CriteriaDetail>().ToTable("CriteriaDetail");
             modelBuilder.Entity<CriteriaType>().ToTable("CriteriaType");
-            modelBuilder.Entity<ModificationType>().ToTable("ModificationType");
             modelBuilder.Entity<Role>().ToTable("Role");
 
             modelBuilder.Entity<VerificationConfirmRequirement>().ToTable("VerificationConfirmRequirement");

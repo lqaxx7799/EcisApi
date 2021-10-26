@@ -9,12 +9,14 @@ namespace EcisApi.Models
     {
         public int Id { get; set; }
         public string ApprovedStatus { get; set; }
+        public bool CompanyRate { get; set; }
+        public string CompanyOpinion { get; set; }
 
         public int? VerificationProcessId { get; set; }
-        public int? CriteriaId { get; set; }
+        public int? CriteriaDetailId { get; set; }
 
         public virtual VerificationProcess VerificationProcess { get; set; }
-        public virtual Criteria Criteria { get; set; }
+        public virtual CriteriaDetail CriteriaDetail { get; set; }
 
         public virtual ICollection<VerificationDocument> VerificationDocuments { get; set; }
     }

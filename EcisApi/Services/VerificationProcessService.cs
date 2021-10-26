@@ -17,6 +17,7 @@ namespace EcisApi.Services
         ICollection<VerificationProcess> GetAllReviewed();
         ICollection<VerificationProcess> GetByCompany(int companyId);
         VerificationProcess GetById(int id);
+        VerificationProcess GetCompanyCurrent(int companyId);
         Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess);
         Task<VerificationProcess> GenerateAsync(int companyId);
         Task<VerificationProcess> UpdateAsync(VerificationProcess verificationProcess);
@@ -30,7 +31,7 @@ namespace EcisApi.Services
     {
         protected readonly ICompanyRepository companyRepository;
         protected readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
-        protected readonly ICriteriaRepository criteriaRepository;
+        protected readonly ICriteriaDetailRepository criteriaDetailRepository;
         protected readonly IVerificationCriteriaRepository verificationCriteriaRepository;
         protected readonly IVerificationProcessRepository verificationProcessRepository;
 
@@ -39,7 +40,7 @@ namespace EcisApi.Services
         public VerificationProcessService(
             ICompanyRepository companyRepository,
             ICompanyTypeModificationRepository companyTypeModificationRepository,
-            ICriteriaRepository criteriaRepository,
+            ICriteriaDetailRepository criteriaDetailRepository,
             IVerificationCriteriaRepository verificationCriteriaRepository,
             IVerificationProcessRepository verificationProcessRepository,
             IEmailHelper emailHelper
@@ -47,7 +48,7 @@ namespace EcisApi.Services
         {
             this.companyRepository = companyRepository;
             this.companyTypeModificationRepository = companyTypeModificationRepository;
-            this.criteriaRepository = criteriaRepository;
+            this.criteriaDetailRepository = criteriaDetailRepository;
             this.verificationCriteriaRepository = verificationCriteriaRepository;
             this.verificationProcessRepository = verificationProcessRepository;
 
@@ -87,6 +88,11 @@ namespace EcisApi.Services
             return verificationProcessRepository.GetById(id);
         }
 
+        public VerificationProcess GetCompanyCurrent(int companyId)
+        {
+            return verificationProcessRepository.Find(x => x.CompanyId == companyId && !x.IsDeleted && !x.IsSubmitted).FirstOrDefault();
+        }
+
         public async Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess)
         {
             return await verificationProcessRepository.AddAsync(verificationProcess);
@@ -111,14 +117,14 @@ namespace EcisApi.Services
             };
             await verificationProcessRepository.AddAsync(process);
 
-            var criterias = criteriaRepository.GetAll();
+            var criteriaDetails = criteriaDetailRepository.GetAll();
 
-            foreach (var criteria in criterias.ToList())
+            foreach (var criteriaDetail in criteriaDetails.ToList())
             {
                 var verificationCriteria = new VerificationCriteria
                 {
                     ApprovedStatus = AppConstants.VerificationCriteriaStatus.PEDNING,
-                    CriteriaId = criteria.Id,
+                    CriteriaDetailId = criteriaDetail.Id,
                     VerificationProcessId = process.Id
                 };
                 await verificationCriteriaRepository.AddAsync(verificationCriteria);

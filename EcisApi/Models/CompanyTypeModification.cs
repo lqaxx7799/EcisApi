@@ -11,6 +11,7 @@ namespace EcisApi.Models
 
         public string Modification { get; set; }
         public bool IsAnnounced { get; set; }
+        public DateTime? AnnouncedAt { get; set; }
         
         public int? CompanyId { get; set; }
         public int? PreviousCompanyTypeId { get; set; }
@@ -18,7 +19,6 @@ namespace EcisApi.Models
         public int? VerificationProcessId { get; set; }
         public int? ViolationReportId { get; set; }
         public int? CompanyReportId { get; set; }
-        public int? ModificationTypeId { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual CompanyType PreviousCompanyType { get; set; }
@@ -26,6 +26,5 @@ namespace EcisApi.Models
         public virtual ViolationReport ViolationReport { get; set; }
         public virtual VerificationProcess VerificationProcess { get; set; }
         public virtual CompanyReport CompanyReport { get; set; }
-        public virtual ModificationType ModificationType { get; set; }
     }
 }
