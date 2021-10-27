@@ -21,7 +21,7 @@ namespace EcisApi.Services
         Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess);
         Task<VerificationProcess> GenerateAsync(int companyId);
         Task<VerificationProcess> UpdateAsync(VerificationProcess verificationProcess);
-        Task<VerificationProcess> SubmitDocumentAsync(int id);
+        Task<VerificationProcess> SubmitProcessAsync(int id);
         Task<VerificationProcess> SubmitReviewAsync(int id);
         Task<VerificationProcess> RequestSupportAsync(int id);
         Task<VerificationProcess> FinishAsync(int id);
@@ -158,7 +158,7 @@ namespace EcisApi.Services
             return await verificationProcessRepository.UpdateAsync(process);
         }
 
-        public async Task<VerificationProcess> SubmitDocumentAsync(int id)
+        public async Task<VerificationProcess> SubmitProcessAsync(int id)
         {
             var process = verificationProcessRepository.GetById(id);
 

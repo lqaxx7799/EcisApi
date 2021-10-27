@@ -96,13 +96,13 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpPut("SubmitDocument/{id}")]
+        [HttpPut("SubmitProcess/{id}")]
         [Authorize("Company")]
-        public async Task<ActionResult<VerificationProcess>> SubmitDocument([FromRoute] int id)
+        public async Task<ActionResult<VerificationProcess>> SubmitProcess([FromRoute] int id)
         {
             try
             {
-                return await verificationProcessService.SubmitDocumentAsync(id);
+                return await verificationProcessService.SubmitProcessAsync(id);
             }
             catch (BadHttpRequestException e)
             {

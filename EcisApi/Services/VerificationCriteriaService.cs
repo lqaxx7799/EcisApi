@@ -44,6 +44,8 @@ namespace EcisApi.Services
                 throw new BadHttpRequestException("VerificationCriteriaNotExist");
             }
             verificationCriteria.ApprovedStatus = payload.ApprovedStatus;
+            verificationCriteria.CompanyRate = payload.CompanyRate;
+            verificationCriteria.CompanyOpinion = payload.CompanyOpinion;
             return await verificationCriteriaRepository.UpdateAsync(verificationCriteria);
         }
     }
