@@ -46,6 +46,8 @@ namespace EcisApi.Services
             verificationCriteria.ApprovedStatus = payload.ApprovedStatus;
             verificationCriteria.CompanyRate = payload.CompanyRate;
             verificationCriteria.CompanyOpinion = payload.CompanyOpinion;
+            verificationCriteria.ReviewComment = payload.ReviewComment;
+            verificationCriteria.ReviewResult = payload.ReviewResult;
             return await verificationCriteriaRepository.UpdateAsync(verificationCriteria);
         }
     }

@@ -12,6 +12,9 @@ namespace EcisApi.Models
         public bool CompanyRate { get; set; }
         public string CompanyOpinion { get; set; }
 
+        public string ReviewResult { get; set; }
+        public string ReviewComment { get; set; }
+
         public int? VerificationProcessId { get; set; }
         public int? CriteriaDetailId { get; set; }
 
