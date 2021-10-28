@@ -90,7 +90,7 @@ namespace EcisApi.Services
 
         public VerificationProcess GetCompanyCurrent(int companyId)
         {
-            return verificationProcessRepository.Find(x => x.CompanyId == companyId && !x.IsDeleted && !x.IsSubmitted).FirstOrDefault();
+            return verificationProcessRepository.Find(x => x.CompanyId == companyId && !x.IsDeleted && !x.IsFinished).FirstOrDefault();
         }
 
         public async Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess)
