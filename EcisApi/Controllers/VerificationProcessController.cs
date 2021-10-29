@@ -63,11 +63,18 @@ namespace EcisApi.Controllers
             return Ok(verificationProcessService.GetById(id));
         }
 
-        [HttpGet("GetCurrent/{companyId}")]
+        [HttpGet("GetCurrentPending/{companyId}")]
         [Authorize("Company")]
-        public ActionResult<VerificationProcess> GetCompanyCurrent([FromRoute] int companyId)
+        public ActionResult<VerificationProcess> GetCompanyCurrentPending([FromRoute] int companyId)
         {
-            return Ok(verificationProcessService.GetCompanyCurrent(companyId));
+            return Ok(verificationProcessService.GetCompanyCurrentPending(companyId));
+        }
+
+        [HttpGet("GetLast/{companyId}")]
+        [Authorize("Company")]
+        public ActionResult<VerificationProcess> GetCompanyLast([FromRoute] int companyId)
+        {
+            return Ok(verificationProcessService.GetCompanyLast(companyId));
         }
 
         [HttpPost("Add")]

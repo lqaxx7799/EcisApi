@@ -17,7 +17,8 @@ namespace EcisApi.Services
         ICollection<VerificationProcess> GetAllReviewed();
         ICollection<VerificationProcess> GetByCompany(int companyId);
         VerificationProcess GetById(int id);
-        VerificationProcess GetCompanyCurrent(int companyId);
+        VerificationProcess GetCompanyCurrentPending(int companyId);
+        VerificationProcess GetCompanyLast(int companyId);
         Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess);
         Task<VerificationProcess> GenerateAsync(int companyId);
         Task<VerificationProcess> UpdateAsync(VerificationProcess verificationProcess);
@@ -67,10 +68,7 @@ namespace EcisApi.Services
 
         public ICollection<VerificationProcess> GetAllSupport()
         {
-            return verificationProcessRepository.Find(x =>
-                x.SubmitMethod == AppConstants.VerificationProcessSubmitMethod.ByAgent &&
-                !x.IsSubmitted &&
-                !x.IsDeleted);
+            return verificationProcessRepository.Find(x => !x.IsSubmitted && !x.IsDeleted);
         }
 
         public ICollection<VerificationProcess> GetAllReviewed()
@@ -88,9 +86,20 @@ namespace EcisApi.Services
             return verificationProcessRepository.GetById(id);
         }
 
-        public VerificationProcess GetCompanyCurrent(int companyId)
+        public VerificationProcess GetCompanyCurrentPending(int companyId)
         {
-            return verificationProcessRepository.Find(x => x.CompanyId == companyId && !x.IsDeleted && !x.IsFinished).FirstOrDefault();
+            return verificationProcessRepository
+                .Find(x => x.CompanyId == companyId && !x.IsDeleted && !x.IsFinished)
+                .OrderByDescending(x => x.CreatedAt)
+                .FirstOrDefault();
+        }
+
+        public VerificationProcess GetCompanyLast(int companyId)
+        {
+            return verificationProcessRepository
+                .Find(x => x.CompanyId == companyId && !x.IsDeleted)
+                .OrderByDescending(x => x.CreatedAt)
+                .FirstOrDefault();
         }
 
         public async Task<VerificationProcess> AddAsync(VerificationProcess verificationProcess)
