@@ -33,6 +33,7 @@ namespace EcisApi.Services
         protected readonly IRoleRepository roleRepository;
 
         protected readonly IEmailHelper emailHelper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CompanyService(
             IAccountRepository accountRepository,
@@ -40,7 +41,8 @@ namespace EcisApi.Services
             ICompanyTypeModificationRepository companyTypeModificationRepository,
             IRoleRepository roleRepository,
 
-            IEmailHelper emailHelper
+            IEmailHelper emailHelper,
+            IHttpContextAccessor httpContextAccessor
             )
         {
             this.accountRepository = accountRepository;
@@ -49,10 +51,13 @@ namespace EcisApi.Services
             this.roleRepository = roleRepository;
 
             this.emailHelper = emailHelper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public ICollection<Company> GetAll()
         {
+            var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
+
             return companyRepository.GetAll().ToList();
         }
 

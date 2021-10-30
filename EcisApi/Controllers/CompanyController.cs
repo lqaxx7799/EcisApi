@@ -25,7 +25,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("GetAll")]
-        [Authorize]
+        [Authorize("Agent", "Admin")]
         public ActionResult<ICollection<Company>> GetAll()
         {
             return Ok(companyService.GetAll());

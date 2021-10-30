@@ -50,7 +50,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("GetByCompany/{companyId}")]
-        [Authorize("Company")]
+        [Authorize("Company", "Agent", "Admin")]
         public ActionResult<ICollection<VerificationProcess>> GetByCompany([FromRoute] int companyId)
         {
             return Ok(verificationProcessService.GetByCompany(companyId));

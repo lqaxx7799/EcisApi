@@ -16,11 +16,12 @@ namespace EcisApi.Models
 
         public int AccountId { get; set; }
         public int? CompanyTypeId { get; set; }
-        //public int RangerDistrictId { get; set; }
+        public int? ProvinceId { get; set; }
 
         [JsonIgnore]
         public virtual Account Account { get; set; }
         public virtual CompanyType CompanyType { get; set; }
+        public virtual Province Province { get; set; }
         public virtual ICollection<CompanyReport> TargetedCompanyReports { get; set; }
         public virtual ICollection<CompanyReport> CreatorCompanyReports { get; set; }
         public virtual ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
