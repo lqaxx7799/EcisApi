@@ -38,9 +38,11 @@ namespace EcisApi.Models
         public int? VerificationProcessId { get; set; }
         public int? AssignedAgentId { get; set; }
         public int? ConfirmCompanyTypeId { get; set; }
+        public int? VerificationCriteriaId { get; set; }
 
         public virtual VerificationProcess VerificationProcess { get; set; }
         public virtual Agent AssignedAgent { get; set; }
         public virtual CompanyType ConfirmCompanyType { get; set; }
+        public virtual VerificationCriteria VerificationCriteria { get; set; }
     }
 }

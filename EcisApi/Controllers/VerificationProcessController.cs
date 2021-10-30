@@ -64,7 +64,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("GetCurrentPending/{companyId}")]
-        [Authorize("Company")]
+        [Authorize("Company", "Agent", "Admin")]
         public ActionResult<VerificationProcess> GetCompanyCurrentPending([FromRoute] int companyId)
         {
             return Ok(verificationProcessService.GetCompanyCurrentPending(companyId));

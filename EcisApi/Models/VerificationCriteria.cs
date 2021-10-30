@@ -22,5 +22,6 @@ namespace EcisApi.Models
         public virtual CriteriaDetail CriteriaDetail { get; set; }
 
         public virtual ICollection<VerificationDocument> VerificationDocuments { get; set; }
+        public virtual ICollection<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
     }
 }

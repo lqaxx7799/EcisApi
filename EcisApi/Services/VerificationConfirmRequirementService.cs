@@ -12,7 +12,8 @@ namespace EcisApi.Services
 {
     public interface IVerificationConfirmRequirementService
     {
-        ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId);
+        ICollection<VerificationConfirmRequirement> GetPendingByAgentId(int agentId);
+        ICollection<VerificationConfirmRequirement> GetFinishedByAgentId(int agentId);
         ICollection<VerificationConfirmRequirement> GetPendingByCompanyId(int companyId);
         VerificationConfirmRequirement GetOneByProcessId(int processId);
         VerificationConfirmRequirement GetById(int id);
@@ -39,9 +40,14 @@ namespace EcisApi.Services
             this.emailHelper = emailHelper;
         }
 
-        public ICollection<VerificationConfirmRequirement> GetByAgentId(int agentId)
+        public ICollection<VerificationConfirmRequirement> GetPendingByAgentId(int agentId)
         {
-            return verificationConfirmRequirementRepository.GetByAgentId(agentId);
+            return verificationConfirmRequirementRepository.GetPendingByAgentId(agentId);
+        }
+
+        public ICollection<VerificationConfirmRequirement> GetFinishedByAgentId(int agentId)
+        {
+            return verificationConfirmRequirementRepository.GetFinishedByAgentId(agentId);
         }
 
         public ICollection<VerificationConfirmRequirement> GetPendingByCompanyId(int companyId)

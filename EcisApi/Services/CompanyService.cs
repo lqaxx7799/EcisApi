@@ -28,6 +28,8 @@ namespace EcisApi.Services
     public class CompanyService : ICompanyService
     {
         protected readonly IAccountRepository accountRepository;
+        protected readonly IAgentRepository agentRepository;
+        protected readonly IAgentAssignmentRepository agentAssignmentRepository;
         protected readonly ICompanyRepository companyRepository;
         protected readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
         protected readonly IRoleRepository roleRepository;
@@ -37,6 +39,8 @@ namespace EcisApi.Services
 
         public CompanyService(
             IAccountRepository accountRepository,
+            IAgentRepository agentRepository,
+            IAgentAssignmentRepository agentAssignmentRepository,
             ICompanyRepository companyRepository,
             ICompanyTypeModificationRepository companyTypeModificationRepository,
             IRoleRepository roleRepository,
@@ -46,6 +50,8 @@ namespace EcisApi.Services
             )
         {
             this.accountRepository = accountRepository;
+            this.agentRepository = agentRepository;
+            this.agentAssignmentRepository = agentAssignmentRepository;
             this.companyRepository = companyRepository;
             this.companyTypeModificationRepository = companyTypeModificationRepository;
             this.roleRepository = roleRepository;
@@ -57,8 +63,19 @@ namespace EcisApi.Services
         public ICollection<Company> GetAll()
         {
             var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
-
-            return companyRepository.GetAll().ToList();
+            if (role == null)
+            {
+                return Array.Empty<Company>();
+            }
+            if (role.RoleName == "Admin")
+            {
+                return companyRepository.GetAll().ToList();
+            }
+            var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
+            var agent = agentRepository.GetByAccountId(account.Id);
+            var assigneds = agentAssignmentRepository.GetByAgentId(agent.Id);
+            var provinceIds = assigneds.Select(x => x.ProvinceId).ToList();
+            return companyRepository.GetByProvinces(provinceIds);
         }
 
         public ICollection<Company> GetAllActivated()
@@ -101,7 +118,7 @@ namespace EcisApi.Services
                 throw new ArgumentException("Mã doanh nghiệp đã tồn tại trong hệ thống");
             }
 
-            var role = roleRepository.GetRoleByName("COMPANY");
+            var role = roleRepository.GetRoleByName("Company");
             if (role == null)
             {
                 throw new Exception("Lỗi: không tồn tại role trong hệ thống");

@@ -30,6 +30,8 @@ namespace EcisApi.Services
 
     public class VerificationProcessService : IVerificationProcessService
     {
+        protected readonly IAgentRepository agentRepository;
+        protected readonly IAgentAssignmentRepository agentAssignmentRepository;
         protected readonly ICompanyRepository companyRepository;
         protected readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
         protected readonly ICriteriaDetailRepository criteriaDetailRepository;
@@ -37,16 +39,22 @@ namespace EcisApi.Services
         protected readonly IVerificationProcessRepository verificationProcessRepository;
 
         protected readonly IEmailHelper emailHelper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public VerificationProcessService(
+            IAgentRepository agentRepository,
+            IAgentAssignmentRepository agentAssignmentRepository,
             ICompanyRepository companyRepository,
             ICompanyTypeModificationRepository companyTypeModificationRepository,
             ICriteriaDetailRepository criteriaDetailRepository,
             IVerificationCriteriaRepository verificationCriteriaRepository,
             IVerificationProcessRepository verificationProcessRepository,
-            IEmailHelper emailHelper
+            IEmailHelper emailHelper,
+            IHttpContextAccessor _httpContextAccessor
             )
         {
+            this.agentRepository = agentRepository;
+            this.agentAssignmentRepository = agentAssignmentRepository;
             this.companyRepository = companyRepository;
             this.companyTypeModificationRepository = companyTypeModificationRepository;
             this.criteriaDetailRepository = criteriaDetailRepository;
@@ -54,26 +62,88 @@ namespace EcisApi.Services
             this.verificationProcessRepository = verificationProcessRepository;
 
             this.emailHelper = emailHelper;
+            this._httpContextAccessor = _httpContextAccessor;
         }
 
         public ICollection<VerificationProcess> GetAll()
         {
-            return verificationProcessRepository.GetAll().ToList();
+            var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
+            if (role == null)
+            {
+                return Array.Empty<VerificationProcess>();
+            }
+            if (role.RoleName == "Admin")
+            {
+                return verificationProcessRepository.GetAll().ToList();
+            }
+            var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
+            var agent = agentRepository.GetByAccountId(account.Id);
+            var assigneds = agentAssignmentRepository.GetByAgentId(agent.Id);
+            var provinceIds = assigneds.Select(x => x.ProvinceId).ToList();
+            return verificationProcessRepository.Find(x => provinceIds.Contains(x.Company.ProvinceId.Value));
         }
 
         public ICollection<VerificationProcess> GetAllPending()
         {
-            return verificationProcessRepository.Find(x => x.IsSubmitted && !x.IsReviewed && !x.IsDeleted);
+            var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
+            if (role == null)
+            {
+                return Array.Empty<VerificationProcess>();
+            }
+            if (role.RoleName == "Admin")
+            {
+                return verificationProcessRepository.GetAll().ToList();
+            }
+            var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
+            var agent = agentRepository.GetByAccountId(account.Id);
+            var assigneds = agentAssignmentRepository.GetByAgentId(agent.Id);
+            var provinceIds = assigneds.Select(x => x.ProvinceId).ToList();
+            return verificationProcessRepository
+                .Find(x => x.IsSubmitted && !x.IsReviewed && !x.IsDeleted)
+                .Where(x => provinceIds.Contains(x.Company.ProvinceId.Value))
+                .ToList();
         }
 
         public ICollection<VerificationProcess> GetAllSupport()
         {
-            return verificationProcessRepository.Find(x => !x.IsSubmitted && !x.IsDeleted);
+            var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
+            if (role == null)
+            {
+                return Array.Empty<VerificationProcess>();
+            }
+            if (role.RoleName == "Admin")
+            {
+                return verificationProcessRepository.GetAll().ToList();
+            }
+            var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
+            var agent = agentRepository.GetByAccountId(account.Id);
+            var assigneds = agentAssignmentRepository.GetByAgentId(agent.Id);
+            var provinceIds = assigneds.Select(x => x.ProvinceId).ToList();
+            return verificationProcessRepository
+                .Find(x => !x.IsSubmitted && !x.IsDeleted)
+                .Where(x => provinceIds.Contains(x.Company.ProvinceId.Value))
+                .ToList();
         }
 
         public ICollection<VerificationProcess> GetAllReviewed()
         {
-            return verificationProcessRepository.Find(x => x.IsReviewed && !x.IsDeleted);
+            var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
+            if (role == null)
+            {
+                return Array.Empty<VerificationProcess>();
+            }
+            if (role.RoleName == "Admin")
+            {
+                return verificationProcessRepository.GetAll().ToList();
+            }
+            var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
+            var agent = agentRepository.GetByAccountId(account.Id);
+            var assigneds = agentAssignmentRepository.GetByAgentId(agent.Id);
+            var provinceIds = assigneds.Select(x => x.ProvinceId).ToList();
+            return verificationProcessRepository
+                .Find(x => x.IsReviewed && !x.IsDeleted)
+                .Where(x => provinceIds.Contains(x.Company.ProvinceId.Value))
+                .ToList();
         }
 
         public ICollection<VerificationProcess> GetByCompany(int companyId)

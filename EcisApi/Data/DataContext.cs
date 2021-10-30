@@ -15,6 +15,7 @@ namespace EcisApi.Data
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Agent> Agents { get; set; }
+        public DbSet<AgentAssignment> AgentAssignments { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyReport> CompanyReports { get; set; }
         public DbSet<CompanyReportDocument> CompanyReportDocuments { get; set; }
@@ -25,6 +26,7 @@ namespace EcisApi.Data
         public DbSet<Criteria> Criterias { get; set; }
         public DbSet<CriteriaDetail> CriteriaDetails { get; set; }
         public DbSet<CriteriaType> CriteriaTypes { get; set; }
+        public DbSet<Province> Provinces { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
         public DbSet<VerificationCriteria> VerificationCriterias { get; set; }
@@ -35,6 +37,7 @@ namespace EcisApi.Data
         {
             modelBuilder.Entity<Account>().ToTable("Account");
             modelBuilder.Entity<Agent>().ToTable("Agent");
+            modelBuilder.Entity<AgentAssignment>().ToTable("AgentAssignment");
             modelBuilder.Entity<Company>().ToTable("Company");
 
             modelBuilder.Entity<CompanyReport>().ToTable("CompanyReport");
@@ -64,6 +67,7 @@ namespace EcisApi.Data
             modelBuilder.Entity<Criteria>().ToTable("Criteria");
             modelBuilder.Entity<CriteriaDetail>().ToTable("CriteriaDetail");
             modelBuilder.Entity<CriteriaType>().ToTable("CriteriaType");
+            modelBuilder.Entity<Province>().ToTable("Province");
             modelBuilder.Entity<Role>().ToTable("Role");
 
             modelBuilder.Entity<VerificationConfirmRequirement>().ToTable("VerificationConfirmRequirement");

@@ -10,6 +10,7 @@ namespace EcisApi.Repositories
     public interface ICompanyRepository: IRepository<Company>
     {
         ICollection<Company> GetAllActivated();
+        ICollection<Company> GetByProvinces(List<int> provinceIds);
         Company GetByAccountId(int accountId);
         Company GetByCompanyCode(string companyCode);
     }
@@ -25,6 +26,11 @@ namespace EcisApi.Repositories
         public ICollection<Company> GetAllActivated()
         {
             return db.Set<Company>().Where(x => x.Account.IsVerified).ToList();
+        }
+
+        public ICollection<Company> GetByProvinces(List<int> provinceIds)
+        {
+            return db.Set<Company>().Where(x => provinceIds.Contains(x.ProvinceId.Value)).ToList();
         }
 
         public Company GetByAccountId(int accountId)

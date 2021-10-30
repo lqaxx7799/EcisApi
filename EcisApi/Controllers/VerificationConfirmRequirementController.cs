@@ -24,11 +24,18 @@ namespace EcisApi.Controllers
             this.verificationConfirmRequirementService = verificationConfirmRequirementService;
         }
 
-        [HttpGet("Assigned/{agentId}")]
+        [HttpGet("AssignedPending/{agentId}")]
         [Authorize]
-        public ActionResult<ICollection<VerificationConfirmRequirement>> GetAssigned([FromRoute] int agentId)
+        public ActionResult<ICollection<VerificationConfirmRequirement>> GetAssignedPending([FromRoute] int agentId)
         {
-            return Ok(verificationConfirmRequirementService.GetByAgentId(agentId));
+            return Ok(verificationConfirmRequirementService.GetPendingByAgentId(agentId));
+        }
+
+        [HttpGet("AssignedFinished/{agentId}")]
+        [Authorize]
+        public ActionResult<ICollection<VerificationConfirmRequirement>> GetAssignedFinished([FromRoute] int agentId)
+        {
+            return Ok(verificationConfirmRequirementService.GetFinishedByAgentId(agentId));
         }
 
         [HttpGet("PendingByCompanyId/{companyId}")]
