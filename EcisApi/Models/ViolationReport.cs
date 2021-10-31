@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace EcisApi.Models
         public virtual Company Company { get; set; }
         public virtual Agent ReportAgent { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<ViolationReportDocument> ViolationReportDocuments { get; set; }
     }
 }

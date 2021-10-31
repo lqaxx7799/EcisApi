@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +22,9 @@ namespace EcisApi.Models
         public virtual VerificationProcess VerificationProcess { get; set; }
         public virtual CriteriaDetail CriteriaDetail { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<VerificationDocument> VerificationDocuments { get; set; }
+        [JsonIgnore]
         public virtual ICollection<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
     }
 }

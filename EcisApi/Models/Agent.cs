@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,10 +20,15 @@ namespace EcisApi.Models
         
         public virtual Account Account { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<VerificationProcess> VerificationProcesses { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CompanyReport> CompanyActions { get; set; }
+        [JsonIgnore]
         public virtual ICollection<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ViolationReport> ViolationReports { get; set; }
+        [JsonIgnore]
         public virtual ICollection<AgentAssignment> AgentAssignments { get; set; }
 
     }

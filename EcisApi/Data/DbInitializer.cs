@@ -442,6 +442,29 @@ namespace EcisApi.Data
             //});
 
             context.SaveChanges();
+
+            //CompanyType seeding
+            CompanyType companyType1 = new()
+            {
+                TypeName = "Loại 1",
+                Description = "Doanh nghiệp loại 1",
+                IsDeleted = false,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+            context.CompanyTypes.Add(companyType1);
+
+            CompanyType companyType2 = new()
+            {
+                TypeName = "Loại 2",
+                Description = "Doanh nghiệp loại 2",
+                IsDeleted = false,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+            context.CompanyTypes.Add(companyType2);
+
+            context.SaveChanges();
         }
     }
 }

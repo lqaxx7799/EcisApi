@@ -22,10 +22,15 @@ namespace EcisApi.Models
         public virtual Account Account { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         public virtual Province Province { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CompanyReport> TargetedCompanyReports { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CompanyReport> CreatorCompanyReports { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CompanyTypeModification> CompanyTypeModifications { get; set; }
+        [JsonIgnore]
         public virtual ICollection<VerificationProcess> VerificationProcesses { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ViolationReport> ViolationReports { get; set; }
 
     }

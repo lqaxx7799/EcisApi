@@ -28,16 +28,19 @@ namespace EcisApi.Services
         protected readonly IVerificationConfirmRequirementRepository verificationConfirmRequirementRepository;
 
         protected readonly IEmailHelper emailHelper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public VerificationConfirmRequirementService(
             IAgentRepository agentRepository,
             IVerificationConfirmRequirementRepository verificationConfirmRequirementRepository,
-            IEmailHelper emailHelper
+            IEmailHelper emailHelper,
+            IHttpContextAccessor _httpContextAccessor
             )
         {
             this.agentRepository = agentRepository;
             this.verificationConfirmRequirementRepository = verificationConfirmRequirementRepository;
             this.emailHelper = emailHelper;
+            this._httpContextAccessor = _httpContextAccessor;
         }
 
         public ICollection<VerificationConfirmRequirement> GetPendingByAgentId(int agentId)
@@ -47,6 +50,15 @@ namespace EcisApi.Services
 
         public ICollection<VerificationConfirmRequirement> GetFinishedByAgentId(int agentId)
         {
+            var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
+            if (role == null)
+            {
+                return Array.Empty<VerificationConfirmRequirement>();
+            }
+            if (role.RoleName == "Admin")
+            {
+                return verificationConfirmRequirementRepository.GetAll().ToList();
+            }
             return verificationConfirmRequirementRepository.GetFinishedByAgentId(agentId);
         }
 
