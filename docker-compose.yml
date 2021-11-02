@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  ecis.api:
+    image: ecis-api
+    container_name: ecis-api
+    build:
+      context: .
+      dockerfile: EcisApi/Dockerfile
+    depends_on:
+      - mssql
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
+
+  mssql:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: mssql
+    environment:
+      SA_PASSWORD: "EcisDBSecret2021"
+      ACCEPT_EULA: "Y"
