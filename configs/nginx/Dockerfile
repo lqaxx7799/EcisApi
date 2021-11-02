@@ -1,2 +1,2 @@
 FROM nginx
-COPY ./nginx.conf /etc/nginx/conf.d/ecis
+COPY ./nginx.conf /etc/nginx/conf.d/ecis.conf
