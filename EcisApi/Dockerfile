@@ -19,4 +19,6 @@ RUN dotnet publish "EcisApi.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "EcisApi.dll"]
+EXPOSE 5000/tcp
+ENV ASPNETCORE_URLS http://*:5000
+ENTRYPOINT ["dotnet", "EcisApi.dll", "--server.urls", "http://*:5000"]
