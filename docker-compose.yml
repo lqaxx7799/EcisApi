@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  ecis.api:
+  ecis-api:
     image: ecis-api
     container_name: ecis-api
     build:
@@ -22,3 +22,15 @@ services:
     environment:
       SA_PASSWORD: "EcisDBSecret2021"
       ACCEPT_EULA: "Y"
+
+  proxy:
+    container_name: proxy
+    build:
+      context:  ./configs/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    links:
+      - ecis-api
+    depends_on:
+      - ecis-api
