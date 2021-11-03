@@ -23,7 +23,7 @@ services:
       SA_PASSWORD: "EcisDBSecret2021"
       ACCEPT_EULA: "Y"
     volumes:
-      - "./drive:/var/opt/mssql"
+      - "/var/opt/mssql:/var/opt/mssql"
 
   proxy:
     container_name: proxy
