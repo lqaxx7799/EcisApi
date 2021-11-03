@@ -10,7 +10,7 @@ services:
     depends_on:
       - mssql
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
     expose:
       - "5000"
     ports:
