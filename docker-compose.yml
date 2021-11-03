@@ -34,7 +34,7 @@ services:
       context:  ./configs/nginx
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "443:443"
     links:
       - ecis-api
     depends_on:
