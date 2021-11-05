@@ -141,7 +141,7 @@ namespace EcisApi.Services
             var assigneds = agentAssignmentRepository.GetByAgentId(agent.Id);
             var provinceIds = assigneds.Select(x => x.ProvinceId).ToList();
             return verificationProcessRepository
-                .Find(x => x.IsReviewed && !x.IsDeleted)
+                .Find(x => x.IsReviewed && !x.IsFinished && !x.IsDeleted)
                 .Where(x => provinceIds.Contains(x.Company.ProvinceId.Value))
                 .ToList();
         }

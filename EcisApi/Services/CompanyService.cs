@@ -19,6 +19,8 @@ namespace EcisApi.Services
         Company GetByAccountId(int accountId);
         ICollection<CompanyTypeModification> GetModificationReport(int month, int year);
         ICollection<CompanyTypeModification> GetModificationReportPrivate(int month, int year);
+        ICollection<CompanyTypeModification> GetCompanyModificationReport(int companyId);
+        CompanyTypeModification GetModificationById(int id);
         Task<dynamic> RegisterCompany(CompanyRegistrationDTO data);
         Task<Account> VerifyCompany(int accountId);
         Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data);
@@ -101,6 +103,16 @@ namespace EcisApi.Services
         public ICollection<CompanyTypeModification> GetModificationReportPrivate(int month, int year)
         {
             return companyTypeModificationRepository.GetModificationReportPrivate(month, year);
+        }
+
+        public ICollection<CompanyTypeModification> GetCompanyModificationReport(int companyId)
+        {
+            return companyTypeModificationRepository.GetCompanyModificationReport(companyId);
+        }
+
+        public CompanyTypeModification GetModificationById(int id)
+        {
+            return companyTypeModificationRepository.GetById(id);
         }
 
         public async Task<dynamic> RegisterCompany(CompanyRegistrationDTO data)

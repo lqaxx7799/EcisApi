@@ -60,6 +60,20 @@ namespace EcisApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetCompanyReport/{id}")]
+        [Authorize]
+        public ActionResult<ICollection<CompanyTypeModification>> GetCompanyModificationReport([FromRoute] int id)
+        {
+            return Ok(companyService.GetCompanyModificationReport(id));
+        }
+
+        [HttpGet("Modification/ById/{id}")]
+        [Authorize]
+        public ActionResult<CompanyTypeModification> GetModificationById([FromRoute] int id)
+        {
+            return Ok(companyService.GetModificationById(id));
+        }
+
         [HttpGet("{id}")]
         [Authorize]
         public ActionResult<Company> GetById([FromRoute] int id)

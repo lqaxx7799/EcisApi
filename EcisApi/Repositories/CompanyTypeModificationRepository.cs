@@ -11,6 +11,7 @@ namespace EcisApi.Repositories
     {
         ICollection<CompanyTypeModification> GetModificationReport(int month, int year);
         ICollection<CompanyTypeModification> GetModificationReportPrivate(int month, int year);
+        ICollection<CompanyTypeModification> GetCompanyModificationReport(int companyId);
         CompanyTypeModification GetLatestByCompanyId(int companyId);
     }
 
@@ -38,6 +39,13 @@ namespace EcisApi.Repositories
                 x.CreatedAt.Year == year &&
                 !x.IsDeleted
                 ).ToList();
+        }
+
+        public ICollection<CompanyTypeModification> GetCompanyModificationReport(int companyId)
+        {
+            return db.Set<CompanyTypeModification>()
+                .Where(x => x.CompanyId == companyId && !x.IsDeleted)
+                .ToList();
         }
 
         public CompanyTypeModification GetLatestByCompanyId(int companyId)
