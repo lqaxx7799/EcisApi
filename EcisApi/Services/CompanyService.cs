@@ -36,6 +36,8 @@ namespace EcisApi.Services
         protected readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
         protected readonly IRoleRepository roleRepository;
 
+        protected readonly IVerificationProcessService verificationProcessService;
+
         protected readonly IEmailHelper emailHelper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -47,6 +49,8 @@ namespace EcisApi.Services
             ICompanyTypeModificationRepository companyTypeModificationRepository,
             IRoleRepository roleRepository,
 
+            IVerificationProcessService verificationProcessService,
+
             IEmailHelper emailHelper,
             IHttpContextAccessor httpContextAccessor
             )
@@ -57,6 +61,8 @@ namespace EcisApi.Services
             this.companyRepository = companyRepository;
             this.companyTypeModificationRepository = companyTypeModificationRepository;
             this.roleRepository = roleRepository;
+
+            this.verificationProcessService = verificationProcessService;
 
             this.emailHelper = emailHelper;
             _httpContextAccessor = httpContextAccessor;
@@ -196,6 +202,8 @@ namespace EcisApi.Services
                 "Thông tin tài khoản đăng nhập",
                 EmailTemplate.CompanyRegistrationVerified,
                 mailParams);
+
+            await verificationProcessService.GenerateAsync(company.Id);
 
             return account;
         }
