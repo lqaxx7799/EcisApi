@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "clever-basis-311916",
+  "private_key_id": "8596115936d478413f1d99871f2f60c04837a27b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDZFPZFYw0nB4Px\nu2+7xNrt709PdZoggqOBiQhPZOB03nPXs+28uBnd6Xyf/KxyleDaGI8DKjP9h2rS\nCJfeivVcqtHzg5HYdblG8J0kPUY978G7cN1V6ux3JwCgxZpI65K1nk8aCPDtcVPZ\nGqp2813m52QqJpwCnoJPYmC4Htl6p1MSKp9Dk7XrQkVXw7OD2Ye+QWUgBa8s49Ya\nHqnCFFBdenYOkWEKQmE0pWDoVDTCkGzp5r8UltKYp+Ul/El+6JayNlNKVa1djIVV\nKI9vQvBiCDCTauL0JZ8IjKvVLjr8rLmVxCNG79o13RiQ6DWxmafIgqFKloPUZGtC\njjCmpp2hAgMBAAECggEABgUDmXvYO3XlE/Li87uvJ7gKLKmV3hsLSEo1zJhPNFRv\nFUsaL4CSKI37AId523VSInAaBqAg6BHNTbDS78cOC91ZhDF4vc4xZqEBVYX8tLbZ\nWh6Uh6dzmk/+v6aNG0Kriz1eI4peDnKFHQUFFzZzSxXtaFEQ5E5zjfqcFJz34kOU\nmZWCr5q/79zAj9LuGbNPBNDYzQE4p9rNfGC+XZRbylHNZ1/xYYSfAzZS+huPBI9t\nVeEIVzm1JWO9sR6uUoOMlF57JaQ+idg9MiWVEQpmnaQOgJs+U7gE9uPF94/5dw6F\nUwPTSlvyjFubmac58hs8K1Rf/9aQkxDvd7joI65P0QKBgQDw1tOwvDNoy7Eil2b6\n9fmqnJjJvqMzyqJmi9dwOrQIOvmwF9pIrljZ603BXfjE2ZIOVJ+OeODEsVky0TdR\nWxalV8R2wjtrXKsc2WXkBYNANkyKRiPqmPGRvhMjc8BKMECw42iEGV5cFuocoFRZ\nhWfY9NO4fMVFXCxDhUINpkZHEQKBgQDmv0gRQ0jgUFwQ2/2ua3Z7U1nT/Gf2RWR4\n+i08UXi5Fdab+li2lcFuBjcwMcXjhyJApBH0gDMypb2iwiu7OzshkV/fR2XsGNd4\npX0Ij9lkXFfZ8SaLeJrHsFdW+hXHuzY2hsGIET80Nef52gKqKXCWTbZPuLjlJCoH\nTNUfkHSNkQKBgQCxVX2KJQm1oEZNsi2hnHy5o5Tc+AIzoID0AQQhHxhw9vvjLa0M\n11OVIi2etBL43zssUiMqRNc7/VowkNyqiueh135R87LM2u8jzu+3dleucEzrg7nu\ng69cIRj2gcSU2/LGTKwomIViSX0YlvWE9TYCCkPbFAQtjjEJhpWcd1JIAQKBgBRR\npbv3a9Rs3x6Q8K7KQb2sYk2bfWAfTjCk/xS/q9zIgoRrsCIr38ObgoKY728QuEBu\n8jHQlDGSjLdnV8h998AF+CZGOEBpE5hJIlB9skv3IblMVfOUJDUPXzGGhiJ3Zte4\nWBRuSF2Fna7PtspbKdHid/pfLtDmtVi9OEs2Qj0xAoGBAMQ4+DW/GLghlEcXwOeh\nxwYpfV+g26EJNjX5hOGKhlsxJe3JaHmf9JCNlX30HKkG3suB0qzXDaLXgWydH30C\nTLX3EvyBslFNI/UEGmK6QOVWHbAAwbB6nyEWXc0/zd9XdzH2vWMmjXvcVeBkiIsr\n281t3+QslOk10yG5mzlsKmfU\n-----END PRIVATE KEY-----\n",
+  "client_email": "ecis-storage@clever-basis-311916.iam.gserviceaccount.com",
+  "client_id": "108576103078623972817",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ecis-storage%40clever-basis-311916.iam.gserviceaccount.com"
+}
