@@ -11,7 +11,7 @@ services:
       - mssql
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/clever-basis-311916-8596115936d4.json
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/clever-basis-311916-8596115936d4.json
     expose:
       - "5000"
     ports:
