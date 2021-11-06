@@ -63,6 +63,17 @@ namespace EcisApi.Data
             };
             context.Roles.Add(thirdPartyRole);
 
+            Role superUserRole = new()
+            {
+                RoleName = "SuperUser",
+                CreatedAt = DateTime.Now,
+                Description = "Super User Role",
+                IsDeleted = false,
+                UpdatedAt = DateTime.Now,
+                HasManagement = true
+            };
+            context.Roles.Add(superUserRole);
+
 
             // CriteriaType seeding
             CriteriaType criteriaType1 = new()
