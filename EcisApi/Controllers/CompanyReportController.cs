@@ -29,6 +29,14 @@ namespace EcisApi.Controllers
             return Ok(companyReportService.GetAll());
         }
 
+        [HttpGet("CurrentUnhandled/{id}")]
+        [Authorize]
+        public ActionResult<CompanyReport> GetCurrentUnhandled([FromRoute] int id)
+        {
+            return Ok(companyReportService.GetCurrentUnhandled(id));
+        }
+
+
         [HttpGet("ById/{id}")]
         [Authorize]
         public ActionResult<CompanyReport> GetById([FromRoute] int id)

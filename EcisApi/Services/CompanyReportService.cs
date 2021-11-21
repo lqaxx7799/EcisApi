@@ -14,6 +14,7 @@ namespace EcisApi.Services
     {
         ICollection<CompanyReport> GetAll();
         ICollection<CompanyReport> GetPending();
+        CompanyReport GetCurrentUnhandled(int companyId);
         CompanyReport GetById(int id);
         Task<CompanyReport> AddAsync(CompanyReportDTO payload);
         Task<CompanyReport> ApproveAsync(int id);
@@ -48,6 +49,11 @@ namespace EcisApi.Services
         public ICollection<CompanyReport> GetPending()
         {
             return companyReportRepository.GetPending();
+        }
+
+        public CompanyReport GetCurrentUnhandled(int companyId)
+        {
+            return companyReportRepository.GetCurrentUnhandled(companyId);
         }
 
         public CompanyReport GetById(int id)

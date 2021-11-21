@@ -11,6 +11,7 @@ namespace EcisApi.Repositories
     public interface ICompanyReportRepository : IRepository<CompanyReport>
     {
         ICollection<CompanyReport> GetPending();
+        CompanyReport GetCurrentUnhandled(int companyId);
     }
 
     public class CompanyReportRepository : Repository<CompanyReport>, ICompanyReportRepository
@@ -23,6 +24,16 @@ namespace EcisApi.Repositories
         public ICollection<CompanyReport> GetPending()
         {
             return db.Set<CompanyReport>().Where(x => x.Status == AppConstants.CompanyReportStatus.PEDNING && !x.IsDeleted).ToList();
+        }
+
+        public CompanyReport GetCurrentUnhandled(int companyId)
+        {
+            return db.Set<CompanyReport>()
+                .Where(x => 
+                    x.Status == AppConstants.CompanyReportStatus.PEDNING
+                    && !x.IsDeleted
+                    && x.TargetedCompanyId == companyId)
+                .FirstOrDefault();
         }
 
     }

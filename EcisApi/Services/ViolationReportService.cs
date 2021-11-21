@@ -93,7 +93,7 @@ namespace EcisApi.Services
             await violationReportRepository.UpdateAsync(report);
 
             Company company = companyRepository.GetById(report.CompanyId);
-            var companyType = companyTypeRepository.GetByName("Nhóm 2");
+            var companyType = companyTypeRepository.GetByName("Loại 2");
 
             CompanyTypeModification currentModification = new()
             {
