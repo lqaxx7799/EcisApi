@@ -21,7 +21,7 @@ namespace EcisApi.Services
         ICollection<CompanyTypeModification> GetModificationReportPrivate(int month, int year);
         ICollection<CompanyTypeModification> GetCompanyModificationReport(int companyId);
         CompanyTypeModification GetModificationById(int id);
-        Task<dynamic> RegisterCompany(CompanyRegistrationDTO data);
+        Task<Company> RegisterCompany(CompanyRegistrationDTO data);
         Task<Account> VerifyCompany(int accountId);
         Task<CompanyTypeModification> ModifyType(ModifyCompanyTypeDTO data);
         Task<CompanyTypeModification> UpdateModificationAsync(CompanyTypeModification payload);
@@ -121,19 +121,19 @@ namespace EcisApi.Services
             return companyTypeModificationRepository.GetById(id);
         }
 
-        public async Task<dynamic> RegisterCompany(CompanyRegistrationDTO data)
+        public async Task<Company> RegisterCompany(CompanyRegistrationDTO data)
         {
             // validate
             var existedAccount = accountRepository.GetByEmail(data.Email);
             if (existedAccount != null)
             {
-                throw new ArgumentException("Email đã tồn tại trong hệ thống");
+                throw new BadHttpRequestException("EmailAlreadyExisted");
             }
 
             var existedCompany = companyRepository.GetByCompanyCode(data.CompanyCode);
             if (existedCompany != null)
             {
-                throw new ArgumentException("Mã doanh nghiệp đã tồn tại trong hệ thống");
+                throw new BadHttpRequestException("CompanyCodeAlreadyExisted");
             }
 
             var role = roleRepository.GetRoleByName("Company");
@@ -147,7 +147,7 @@ namespace EcisApi.Services
             {
                 Email = data.Email,
                 Password = CommonUtils.GenerateSHA1(rawPassword),
-                IsVerified = false,
+                IsVerified = true,
                 RoleId = role.Id,
             };
             await accountRepository.AddAsync(account);
@@ -157,21 +157,27 @@ namespace EcisApi.Services
                 CompanyCode = data.CompanyCode,
                 CompanyNameEN = data.CompanyNameEN,
                 CompanyNameVI = data.CompanyNameVI,
-                AccountId = account.Id
+                AccountId = account.Id,
+                ProvinceId = data.ProvinceId
             };
             await companyRepository.AddAsync(company);
 
-            await emailHelper.SendEmailAsync(
-                new string[] { data.Email },
-                "Thông báo đăng ký doanh nghiệp thành công",
-                EmailTemplate.CompanyRegistrationSuccess,
-                new Dictionary<string, string>());
-
-            return new
+            var mailParams = new Dictionary<string, string>
             {
-                Company = company,
-                Account = account,
+                { "companyName", company.CompanyNameVI },
+                { "email", account.Email },
+                { "password", rawPassword }
             };
+
+            await emailHelper.SendEmailAsync(
+                new string[] { account.Email },
+                "Thông tin tài khoản đăng nhập",
+                EmailTemplate.CompanyRegistrationVerified,
+                mailParams);
+
+            await verificationProcessService.GenerateAsync(company.Id);
+
+            return company;
         }
 
         public async Task<Account> VerifyCompany(int accountId)

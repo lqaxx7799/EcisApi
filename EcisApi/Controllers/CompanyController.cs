@@ -82,7 +82,8 @@ namespace EcisApi.Controllers
         }
 
         [HttpPost("RegisterCompany")]
-        public async Task<ActionResult<dynamic>> RegisterCompany([FromBody] CompanyRegistrationDTO payload)
+        [Authorize("Admin")]
+        public async Task<ActionResult<Company>> RegisterCompany([FromBody] CompanyRegistrationDTO payload)
         {
             try
             {

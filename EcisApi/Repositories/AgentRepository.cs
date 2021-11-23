@@ -9,6 +9,7 @@ namespace EcisApi.Repositories
 {
     public interface IAgentRepository : IRepository<Agent>
     {
+        ICollection<Agent> GetAllAgents();
         Agent GetByAccountId(int accountId);
     }
 
@@ -17,6 +18,11 @@ namespace EcisApi.Repositories
         public AgentRepository(DataContext dataContext) : base(dataContext)
         {
 
+        }
+
+        public ICollection<Agent> GetAllAgents()
+        {
+            return db.Set<Agent>().Where(x => x.Account.Role.RoleName == "Agent" && !x.IsDeleted).ToList();
         }
 
         public Agent GetByAccountId(int accountId)

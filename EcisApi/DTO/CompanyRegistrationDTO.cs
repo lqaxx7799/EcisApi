@@ -13,6 +13,7 @@ namespace EcisApi.DTO
         public string CompanyNameVI { get; set; }
         public string CompanyNameEN { get; set; }
         public string CompanyCode { get; set; }
+        public int ProvinceId { get; set; }
         public string LogoUrl { get; set; }
     }
 
@@ -33,6 +34,10 @@ namespace EcisApi.DTO
             RuleFor(x => x.CompanyCode)
                 .NotEmpty()
                 .WithMessage("Không được để trống mã doanh nghiệp");
+
+            RuleFor(x => x.ProvinceId)
+                .NotEmpty()
+                .WithMessage("Không được để trống tỉnh hoạt động");
         }
     }
 }

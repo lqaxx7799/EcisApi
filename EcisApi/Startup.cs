@@ -72,6 +72,7 @@ namespace EcisApi
             services.AddTransient<ICriteriaDetailService, CriteriaDetailService>();
             services.AddTransient<ICriteriaTypeService, CriteriaTypeService>();
             services.AddTransient<IDocumentReviewService, DocumentReviewService>();
+            services.AddTransient<IProvinceService, ProvinceService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IVerificationConfirmRequirementService, VerificationConfirmRequirementService>();
             services.AddTransient<IVerificationCriteriaService, VerificationCriteriaService>();

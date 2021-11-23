@@ -29,6 +29,13 @@ namespace EcisApi.Controllers
             return Ok(agentService.GetAll());
         }
 
+        [HttpGet("GetAllAgents")]
+        [Authorize]
+        public ActionResult<ICollection<Agent>> GetAllAgents()
+        {
+            return Ok(agentService.GetAllAgents());
+        }
+
         [HttpGet("ByAccount/{accountId}")]
         public ActionResult<Agent> GetByCompanyId([FromRoute] int accountId)
         {
