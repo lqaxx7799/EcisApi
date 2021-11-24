@@ -67,20 +67,20 @@ namespace EcisApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("AnnounceCompany")]
-        [Authorize]
-        public async Task<ActionResult<VerificationConfirmRequirement>> AnnounceCompany([FromBody] VerificationConfirmUpdateDTO payload)
-        {
-            try
-            {
-                var result = await verificationConfirmRequirementService.AnnounceCompanyAsync(payload);
-                return Ok(result);
-            }
-            catch (BadHttpRequestException e)
-            {
-                return BadRequest(new { e.Message });
-            }
-        }
+        //[HttpPut("AnnounceCompany")]
+        //[Authorize]
+        //public async Task<ActionResult<VerificationConfirmRequirement>> AnnounceCompany([FromBody] VerificationConfirmUpdateDTO payload)
+        //{
+        //    try
+        //    {
+        //        var result = await verificationConfirmRequirementService.AnnounceCompanyAsync(payload);
+        //        return Ok(result);
+        //    }
+        //    catch (BadHttpRequestException e)
+        //    {
+        //        return BadRequest(new { e.Message });
+        //    }
+        //}
 
         [HttpPut("FinishConfirm")]
         [Authorize]

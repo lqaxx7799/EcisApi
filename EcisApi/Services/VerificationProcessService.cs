@@ -92,7 +92,7 @@ namespace EcisApi.Services
             }
             if (role.RoleName == "Admin")
             {
-                return verificationProcessRepository.GetAll().ToList();
+                return verificationProcessRepository.Find(x => x.IsSubmitted && !x.IsReviewed && !x.IsDeleted).ToList();
             }
             var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
             var agent = agentRepository.GetByAccountId(account.Id);
@@ -113,7 +113,7 @@ namespace EcisApi.Services
             }
             if (role.RoleName == "Admin")
             {
-                return verificationProcessRepository.GetAll().ToList();
+                return verificationProcessRepository.Find(x => !x.IsSubmitted && !x.IsDeleted).ToList();
             }
             var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
             var agent = agentRepository.GetByAccountId(account.Id);
@@ -134,7 +134,7 @@ namespace EcisApi.Services
             }
             if (role.RoleName == "Admin")
             {
-                return verificationProcessRepository.GetAll().ToList();
+                return verificationProcessRepository.Find(x => x.IsReviewed && !x.IsFinished && !x.IsDeleted).ToList();
             }
             var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
             var agent = agentRepository.GetByAccountId(account.Id);

@@ -15,25 +15,8 @@ namespace EcisApi.Models
         public DateTime? ConfirmedAt { get; set; }
 
         public string AnnounceAgentDocumentContent { get; set; }
-        public string AnnounceAgentDocumentUrl { get; set; }
-        public string AnnounceAgentDocumentType { get; set; }
-        public long AnnounceAgentDocumentSize { get; set; }
-        public string AnnounceAgentDocumentName { get; set; }
-        public bool IsUsingAnnounceAgentFile { get; set; }
-
-        public string AnnounceCompanyDocumentContent { get; set; }
-        public string AnnounceCompanyDocumentUrl { get; set; }
-        public string AnnounceCompanyDocumentType { get; set; }
-        public long AnnounceCompanyDocumentSize { get; set; }
-        public string AnnounceCompanyDocumentName { get; set; }
-        public bool IsUsingAnnounceCompanyFile { get; set; }
 
         public string ConfirmDocumentContent { get; set; }
-        public string ConfirmDocumentUrl { get; set; }
-        public string ConfirmDocumentType { get; set; }
-        public long ConfirmDocumentSize { get; set; }
-        public string ConfirmDocumentName { get; set; }
-        public bool IsUsingConfirmFile { get; set; }
 
         public int? VerificationProcessId { get; set; }
         public int? AssignedAgentId { get; set; }
@@ -44,5 +27,7 @@ namespace EcisApi.Models
         public virtual Agent AssignedAgent { get; set; }
         public virtual CompanyType ConfirmCompanyType { get; set; }
         public virtual VerificationCriteria VerificationCriteria { get; set; }
+
+        public virtual ICollection<VerificationConfirmDocument> VerificationConfirmDocuments { get; set; }
     }
 }
