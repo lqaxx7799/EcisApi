@@ -49,6 +49,13 @@ namespace EcisApi.Controllers
             return Ok(verificationProcessService.GetAllReviewed());
         }
 
+        [HttpGet("GetClassified")]
+        [Authorize("Agent", "Admin")]
+        public ActionResult<ICollection<VerificationProcess>> GetAllClassified()
+        {
+            return Ok(verificationProcessService.GetAllClassified());
+        }
+
         [HttpGet("GetByCompany/{companyId}")]
         [Authorize("Company", "Agent", "Admin")]
         public ActionResult<ICollection<VerificationProcess>> GetByCompany([FromRoute] int companyId)
@@ -119,11 +126,33 @@ namespace EcisApi.Controllers
 
         [HttpPut("SubmitReview/{id}")]
         [Authorize("Admin", "Agent")]
-        public async Task<ActionResult<VerificationProcess>> SubmitReview([FromRoute] int id)
+        public async Task<ActionResult<VerificationProcess>> SubmitReview([FromRoute] int id, [FromQuery] int? assignedAgentId)
         {
+            if (assignedAgentId == null)
+            {
+                return BadRequest(new { Message = "AssignedAgentIdMissing" });
+            }
             try
             {
-                return await verificationProcessService.SubmitReviewAsync(id);
+                return await verificationProcessService.SubmitReviewAsync(id, assignedAgentId.Value);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        [HttpPut("SubmitClassify/{id}")]
+        [Authorize("Admin", "Agent")]
+        public async Task<ActionResult<VerificationProcess>> SubmitClassify([FromRoute] int id, [FromQuery] int? companyTypeId)
+        {
+            if (companyTypeId == null)
+            {
+                return BadRequest(new { Message = "CompanyTypeIdMissing" });
+            }
+            try
+            {
+                return await verificationProcessService.SubmitClassifyAsync(id, companyTypeId.Value);
             }
             catch (BadHttpRequestException e)
             {
@@ -138,6 +167,20 @@ namespace EcisApi.Controllers
             try
             {
                 return await verificationProcessService.FinishAsync(id);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        [HttpPut("RejectClassified/{id}")]
+        [Authorize("Agent", "Admin")]
+        public async Task<ActionResult<VerificationProcess>> RejectClassified([FromRoute] int id)
+        {
+            try
+            {
+                return await verificationProcessService.RejectClassifiedAsync(id);
             }
             catch (BadHttpRequestException e)
             {

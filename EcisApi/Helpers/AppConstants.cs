@@ -18,12 +18,13 @@ namespace EcisApi.Helpers
             public static readonly string InProgress = "IN_PROGRESS";
             public static readonly string Submitted = "SUBMITTED";
             public static readonly string Reviewed = "REVIEWED";
+            public static readonly string Classified = "CLASSIFIED";
             public static readonly string Finished = "FINISHED";
         }
 
         public static class VerificationCriteriaStatus
         {
-            public static readonly string PEDNING = "PENDING";
+            public static readonly string PENDING = "PENDING";
             public static readonly string VERIFIED = "VERIFIED";
             public static readonly string REJECTED = "REJECTED";
 
