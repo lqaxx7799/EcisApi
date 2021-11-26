@@ -188,7 +188,13 @@ namespace EcisApi.Services
         public VerificationProcess GetCompanyCurrentPending(int companyId)
         {
             return verificationProcessRepository
-                .Find(x => x.CompanyId == companyId && !x.IsDeleted && !x.IsFinished)
+                .Find(x => 
+                    x.CompanyId == companyId &&
+                    !x.IsDeleted && (
+                        x.Status == AppConstants.VerificationProcessStatus.InProgress ||
+                        x.Status == AppConstants.VerificationProcessStatus.Submitted
+                    )
+                )
                 .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefault();
         }
@@ -275,7 +281,10 @@ namespace EcisApi.Services
             {
                 throw new BadHttpRequestException("VerificationProcessNotExist");
             }
-
+            if (process.Status != AppConstants.VerificationProcessStatus.InProgress)
+            {
+                throw new BadHttpRequestException("InvalidVerificationProcess");
+            }
             process.IsSubmitted = true;
             process.SubmittedAt = DateTime.Now;
             process.Status = AppConstants.VerificationProcessStatus.Submitted;
@@ -289,6 +298,10 @@ namespace EcisApi.Services
             if (process == null)
             {
                 throw new BadHttpRequestException("VerificationProcessNotExist");
+            }
+            if (process.Status != AppConstants.VerificationProcessStatus.Submitted)
+            {
+                throw new BadHttpRequestException("InvalidVerificationProcess");
             }
 
             process.IsReviewed = true;
@@ -306,6 +319,13 @@ namespace EcisApi.Services
             {
                 throw new BadHttpRequestException("VerificationProcessNotExist");
             }
+            if (
+                process.Status != AppConstants.VerificationProcessStatus.InProgress &&
+                process.Status != AppConstants.VerificationProcessStatus.Submitted
+                )
+            {
+                throw new BadHttpRequestException("InvalidVerificationProcess");
+            }
 
             process.SubmitMethod = AppConstants.VerificationProcessSubmitMethod.ByAgent;
             return await verificationProcessRepository.UpdateAsync(process);
@@ -318,6 +338,10 @@ namespace EcisApi.Services
             if (process == null)
             {
                 throw new BadHttpRequestException("VerificationProcessNotExist");
+            }
+            if (process.Status != AppConstants.VerificationProcessStatus.Reviewed)
+            {
+                throw new BadHttpRequestException("InvalidVerificationProcess");
             }
 
             process.IsReviewed = true;
@@ -334,6 +358,10 @@ namespace EcisApi.Services
             if (process == null)
             {
                 throw new BadHttpRequestException("VerificationProcessNotExist");
+            }
+            if (process.Status != AppConstants.VerificationProcessStatus.Classified)
+            {
+                throw new BadHttpRequestException("InvalidVerificationProcess");
             }
 
             process.IsFinished = true;
@@ -379,6 +407,10 @@ namespace EcisApi.Services
             if (process == null)
             {
                 throw new BadHttpRequestException("VerificationProcessNotExist");
+            }
+            if (process.Status != AppConstants.VerificationProcessStatus.Classified)
+            {
+                throw new BadHttpRequestException("InvalidVerificationProcess");
             }
 
             process.Status = AppConstants.VerificationProcessStatus.Reviewed;

@@ -14,7 +14,7 @@ namespace EcisApi.Services
     {
         ICollection<CompanyReport> GetAll();
         ICollection<CompanyReport> GetPending();
-        CompanyReport GetCurrentUnhandled(int companyId);
+        bool CanCreateReport(int companyId);
         CompanyReport GetById(int id);
         Task<CompanyReport> AddAsync(CompanyReportDTO payload);
         Task<CompanyReport> ApproveAsync(int id);
@@ -51,9 +51,19 @@ namespace EcisApi.Services
             return companyReportRepository.GetPending();
         }
 
-        public CompanyReport GetCurrentUnhandled(int companyId)
+        public bool CanCreateReport(int companyId)
         {
-            return companyReportRepository.GetCurrentUnhandled(companyId);
+            var report = companyReportRepository.GetCurrentUnhandled(companyId);
+            if (report != null)
+            {
+                return false;
+            }
+            var process = verificationProcessService.GetCompanyLast(companyId);
+            if (process != null && process.Status != AppConstants.VerificationProcessStatus.Finished)
+            {
+                return false;
+            }
+            return true;
         }
 
         public CompanyReport GetById(int id)
@@ -65,7 +75,7 @@ namespace EcisApi.Services
         {
             CompanyReport companyReport = new()
             {
-                Status = AppConstants.CompanyReportStatus.PEDNING,
+                Status = AppConstants.CompanyReportStatus.PENDING,
                 ActionTitle = payload.ActionTitle,
                 Description = payload.Description,
                 CompanyReportTypeId = payload.CompanyReportTypeId,
@@ -90,6 +100,10 @@ namespace EcisApi.Services
             {
                 throw new BadHttpRequestException("CompanyReportNotFound");
             }
+            if (report.Status != AppConstants.CompanyReportStatus.PENDING)
+            {
+                throw new BadHttpRequestException("CompanyReportInvalid");
+            }
 
             report.Status = AppConstants.CompanyReportStatus.APPROVED;
             report.IsHandled = true;
@@ -107,6 +121,10 @@ namespace EcisApi.Services
             if (report == null)
             {
                 throw new BadHttpRequestException("CompanyReportNotFound");
+            }
+            if (report.Status != AppConstants.CompanyReportStatus.PENDING)
+            {
+                throw new BadHttpRequestException("CompanyReportInvalid");
             }
 
             report.Status = AppConstants.CompanyReportStatus.REJECTED;

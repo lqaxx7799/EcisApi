@@ -23,14 +23,14 @@ namespace EcisApi.Repositories
 
         public ICollection<CompanyReport> GetPending()
         {
-            return db.Set<CompanyReport>().Where(x => x.Status == AppConstants.CompanyReportStatus.PEDNING && !x.IsDeleted).ToList();
+            return db.Set<CompanyReport>().Where(x => x.Status == AppConstants.CompanyReportStatus.PENDING && !x.IsDeleted).ToList();
         }
 
         public CompanyReport GetCurrentUnhandled(int companyId)
         {
             return db.Set<CompanyReport>()
                 .Where(x => 
-                    x.Status == AppConstants.CompanyReportStatus.PEDNING
+                    x.Status == AppConstants.CompanyReportStatus.PENDING
                     && !x.IsDeleted
                     && x.TargetedCompanyId == companyId)
                 .FirstOrDefault();
