@@ -37,6 +37,8 @@ namespace EcisApi
         {
             services.AddDbContext<DataContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHealthChecks()
+                .AddCheck<DbPendingMigrationHealthCheck<DataContext>>("db-migration-check");
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -141,6 +143,7 @@ namespace EcisApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/_Health");
             });
         }
     }
