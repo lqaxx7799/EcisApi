@@ -11,6 +11,7 @@ COPY ["EcisApi/EcisApi.csproj", "EcisApi/"]
 RUN dotnet restore "EcisApi/EcisApi.csproj"
 COPY . .
 WORKDIR "/src/EcisApi"
+CMD ["dotnet", "ef", "--project", "./EcisApi", "database", "update"]
 RUN dotnet build "EcisApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -22,6 +23,3 @@ COPY --from=publish /app/publish .
 EXPOSE 5000/tcp
 ENV ASPNETCORE_URLS http://*:5000
 ENTRYPOINT ["dotnet", "EcisApi.dll", "--server.urls", "http://*:5000"]
-
-WORKDIR /src
-CMD ["dotnet", "ef", "--project", "./EcisApi", "database", "update"]
