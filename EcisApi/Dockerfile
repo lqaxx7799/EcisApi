@@ -11,7 +11,7 @@ COPY ["EcisApi/EcisApi.csproj", "EcisApi/"]
 RUN dotnet restore "EcisApi/EcisApi.csproj"
 COPY . .
 WORKDIR "/src/EcisApi"
-CMD ["dotnet", "ef", "--project", "./EcisApi", "database", "update"]
+CMD ["dotnet", "ef", "--project", "./", "database", "update"]
 RUN dotnet build "EcisApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
