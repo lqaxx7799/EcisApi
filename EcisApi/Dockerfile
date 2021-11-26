@@ -23,5 +23,5 @@ COPY --from=publish /app/publish .
 EXPOSE 5000/tcp
 ENV ASPNETCORE_URLS http://*:5000
 #ENTRYPOINT ["dotnet", "EcisApi.dll", "--server.urls", "http://*:5000"]
-RUN ["chmod", "+x", "commands.sh"]
-ENTRYPOINT ["commands.sh"]
+RUN ["chmod", "+x", "/commands.sh"]
+ENTRYPOINT ["/commands.sh"]
