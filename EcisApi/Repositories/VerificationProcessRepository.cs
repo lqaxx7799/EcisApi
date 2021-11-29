@@ -22,7 +22,7 @@ namespace EcisApi.Repositories
 
         public ICollection<VerificationProcess> GetByCompany(int companyId)
         {
-            return db.Set<VerificationProcess>().Where(x => x.CompanyId == companyId).ToList();
+            return db.Set<VerificationProcess>().Where(x => x.CompanyId == companyId && !x.IsDeleted).ToList();
         }
 
         public ICollection<VerificationProcess> Find(Func<VerificationProcess, bool> filter)
