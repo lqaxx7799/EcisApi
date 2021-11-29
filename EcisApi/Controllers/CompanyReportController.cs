@@ -29,11 +29,11 @@ namespace EcisApi.Controllers
             return Ok(companyReportService.GetAll());
         }
 
-        [HttpGet("CurrentUnhandled/{id}")]
+        [HttpGet("CanCreateReport/{id}")]
         [Authorize]
-        public ActionResult<CompanyReport> GetCurrentUnhandled([FromRoute] int id)
+        public ActionResult<bool> CanCreateReport([FromRoute] int id)
         {
-            return Ok(companyReportService.GetCurrentUnhandled(id));
+            return Ok(companyReportService.CanCreateReport(id));
         }
 
 

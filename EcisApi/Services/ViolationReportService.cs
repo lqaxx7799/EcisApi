@@ -63,7 +63,7 @@ namespace EcisApi.Services
                 Description = payload.Description,
                 CompanyId = payload.CompanyId,
                 ReportAgentId = payload.ReportAgentId,
-                Status = AppConstants.ViolationReportStatus.PEDNING
+                Status = AppConstants.ViolationReportStatus.PENDING
             };
             var createdReport = await violationReportRepository.AddAsync(report);
             foreach (var item in payload.ViolationReportDocuments)
@@ -86,6 +86,10 @@ namespace EcisApi.Services
             if (report == null)
             {
                 throw new BadHttpRequestException("ViolationReportNotFound");
+            }
+            if (report.Status != AppConstants.ViolationReportStatus.PENDING)
+            {
+                throw new BadHttpRequestException("ViolationReportInvalid");
             }
 
             report.Status = AppConstants.ViolationReportStatus.APPROVED;
@@ -130,6 +134,10 @@ namespace EcisApi.Services
             if (report == null)
             {
                 throw new BadHttpRequestException("ViolationReportNotFound");
+            }
+            if (report.Status != AppConstants.ViolationReportStatus.PENDING)
+            {
+                throw new BadHttpRequestException("ViolationReportInvalid");
             }
 
             report.Status = AppConstants.ViolationReportStatus.REJECTED;

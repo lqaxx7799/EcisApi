@@ -142,7 +142,8 @@ namespace EcisApi.Services
                 throw new Exception("Lỗi: không tồn tại role trong hệ thống");
             }
 
-            var rawPassword = Guid.NewGuid().ToString();
+            var rawPassword = "abcd1234";
+            //var rawPassword = Guid.NewGuid().ToString();
             var account = new Account
             {
                 Email = data.Email,

@@ -38,14 +38,14 @@ namespace EcisApi.Helpers
 
         public static class ViolationReportStatus
         {
-            public static readonly string PEDNING = "PENDING";
+            public static readonly string PENDING = "PENDING";
             public static readonly string APPROVED = "APPROVED";
             public static readonly string REJECTED = "REJECTED";
         }
 
         public static class CompanyReportStatus
         {
-            public static readonly string PEDNING = "PENDING";
+            public static readonly string PENDING = "PENDING";
             public static readonly string APPROVED = "APPROVED";
             public static readonly string REJECTED = "REJECTED";
         }

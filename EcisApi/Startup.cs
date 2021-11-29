@@ -37,6 +37,8 @@ namespace EcisApi
         {
             services.AddDbContext<DataContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHealthChecks()
+                .AddCheck<DbPendingMigrationHealthCheck<DataContext>>("db-migration-check");
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -123,6 +125,12 @@ namespace EcisApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsProduction())
+            {
+                using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+                serviceScope.ServiceProvider.GetService<DataContext>().Database.Migrate();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -141,6 +149,7 @@ namespace EcisApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/_Health");
             });
         }
     }
