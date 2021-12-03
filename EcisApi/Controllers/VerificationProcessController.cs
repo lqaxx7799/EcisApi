@@ -49,12 +49,12 @@ namespace EcisApi.Controllers
             return Ok(verificationProcessService.GetAllReviewed());
         }
 
-        [HttpGet("GetClassified")]
-        [Authorize("Agent", "Admin")]
-        public ActionResult<ICollection<VerificationProcess>> GetAllClassified()
-        {
-            return Ok(verificationProcessService.GetAllClassified());
-        }
+        //[HttpGet("GetClassified")]
+        //[Authorize("Agent", "Admin")]
+        //public ActionResult<ICollection<VerificationProcess>> GetAllClassified()
+        //{
+        //    return Ok(verificationProcessService.GetAllClassified());
+        //}
 
         [HttpGet("GetByCompany/{companyId}")]
         [Authorize("Company", "Agent", "Admin")]
@@ -142,9 +142,41 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpPut("SubmitClassify/{id}")]
-        [Authorize("Admin", "Agent")]
-        public async Task<ActionResult<VerificationProcess>> SubmitClassify([FromRoute] int id, [FromQuery] int? companyTypeId)
+        [HttpPut("RejectReviewed/{id}")]
+        [Authorize("Agent", "Admin")]
+        public async Task<ActionResult<VerificationProcess>> RejectReviewed([FromRoute] int id)
+        {
+            try
+            {
+                return await verificationProcessService.RejectReviewedAsync(id);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        //[HttpPut("SubmitClassify/{id}")]
+        //[Authorize("Admin", "Agent")]
+        //public async Task<ActionResult<VerificationProcess>> SubmitClassify([FromRoute] int id, [FromQuery] int? companyTypeId)
+        //{
+        //    if (companyTypeId == null)
+        //    {
+        //        return BadRequest(new { Message = "CompanyTypeIdMissing" });
+        //    }
+        //    try
+        //    {
+        //        return await verificationProcessService.SubmitClassifyAsync(id, companyTypeId.Value);
+        //    }
+        //    catch (BadHttpRequestException e)
+        //    {
+        //        return BadRequest(new { e.Message });
+        //    }
+        //}
+
+        [HttpPut("Finish/{id}")]
+        [Authorize("Agent", "Admin")]
+        public async Task<ActionResult<VerificationProcess>> Finish([FromRoute] int id, [FromQuery] int? companyTypeId)
         {
             if (companyTypeId == null)
             {
@@ -152,7 +184,7 @@ namespace EcisApi.Controllers
             }
             try
             {
-                return await verificationProcessService.SubmitClassifyAsync(id, companyTypeId.Value);
+                return await verificationProcessService.FinishAsync(id, companyTypeId.Value);
             }
             catch (BadHttpRequestException e)
             {
@@ -160,33 +192,19 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpPut("Finish/{id}")]
-        [Authorize("Agent", "Admin")]
-        public async Task<ActionResult<VerificationProcess>> Finish([FromRoute] int id)
-        {
-            try
-            {
-                return await verificationProcessService.FinishAsync(id);
-            }
-            catch (BadHttpRequestException e)
-            {
-                return BadRequest(new { e.Message });
-            }
-        }
-
-        [HttpPut("RejectClassified/{id}")]
-        [Authorize("Agent", "Admin")]
-        public async Task<ActionResult<VerificationProcess>> RejectClassified([FromRoute] int id)
-        {
-            try
-            {
-                return await verificationProcessService.RejectClassifiedAsync(id);
-            }
-            catch (BadHttpRequestException e)
-            {
-                return BadRequest(new { e.Message });
-            }
-        }
+        //[HttpPut("RejectClassified/{id}")]
+        //[Authorize("Agent", "Admin")]
+        //public async Task<ActionResult<VerificationProcess>> RejectClassified([FromRoute] int id)
+        //{
+        //    try
+        //    {
+        //        return await verificationProcessService.RejectClassifiedAsync(id);
+        //    }
+        //    catch (BadHttpRequestException e)
+        //    {
+        //        return BadRequest(new { e.Message });
+        //    }
+        //}
 
         [HttpPut("Update")]
         public async Task<ActionResult<VerificationProcess>> Update([FromBody] VerificationProcess payload)

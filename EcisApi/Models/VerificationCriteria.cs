@@ -10,7 +10,7 @@ namespace EcisApi.Models
     {
         public int Id { get; set; }
         public string ApprovedStatus { get; set; }
-        public bool CompanyRate { get; set; }
+        public bool? CompanyRate { get; set; }
         public string CompanyOpinion { get; set; }
 
         public string ReviewResult { get; set; }

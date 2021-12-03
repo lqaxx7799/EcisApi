@@ -15,7 +15,7 @@ namespace EcisApi.Services
         ICollection<VerificationProcess> GetAllPending();
         ICollection<VerificationProcess> GetAllSupport();
         ICollection<VerificationProcess> GetAllReviewed();
-        ICollection<VerificationProcess> GetAllClassified();
+        //ICollection<VerificationProcess> GetAllClassified();
         ICollection<VerificationProcess> GetByCompany(int companyId);
         VerificationProcess GetById(int id);
         VerificationProcess GetCompanyCurrentPending(int companyId);
@@ -25,10 +25,11 @@ namespace EcisApi.Services
         Task<VerificationProcess> UpdateAsync(VerificationProcess verificationProcess);
         Task<VerificationProcess> SubmitProcessAsync(int id);
         Task<VerificationProcess> SubmitReviewAsync(int id, int assignedAgentId);
-        Task<VerificationProcess> SubmitClassifyAsync(int id, int companyTypeId);
+        //Task<VerificationProcess> SubmitClassifyAsync(int id, int companyTypeId);
         Task<VerificationProcess> RequestSupportAsync(int id);
-        Task<VerificationProcess> FinishAsync(int id);
-        Task<VerificationProcess> RejectClassifiedAsync(int id);
+        Task<VerificationProcess> RejectReviewedAsync(int id);
+        Task<VerificationProcess> FinishAsync(int id, int companyTypeId);
+        //Task<VerificationProcess> RejectClassifiedAsync(int id);
     }
 
     public class VerificationProcessService : IVerificationProcessService
@@ -154,26 +155,26 @@ namespace EcisApi.Services
                 .ToList();
         }
 
-        public ICollection<VerificationProcess> GetAllClassified()
-        {
-            var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
-            if (role == null)
-            {
-                return Array.Empty<VerificationProcess>();
-            }
-            var processes = verificationProcessRepository
-                    .Find(x => x.Status == AppConstants.VerificationProcessStatus.Classified && !x.IsDeleted);
-            if (role.RoleName == "Admin")
-            {
-                return processes.ToList();
-            }
-            var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
-            var agent = agentRepository.GetByAccountId(account.Id);
+        //public ICollection<VerificationProcess> GetAllClassified()
+        //{
+        //    var role = (Role)_httpContextAccessor.HttpContext.Items["Role"];
+        //    if (role == null)
+        //    {
+        //        return Array.Empty<VerificationProcess>();
+        //    }
+        //    var processes = verificationProcessRepository
+        //            .Find(x => x.Status == AppConstants.VerificationProcessStatus.Classified && !x.IsDeleted);
+        //    if (role.RoleName == "Admin")
+        //    {
+        //        return processes.ToList();
+        //    }
+        //    var account = (Account)_httpContextAccessor.HttpContext.Items["Account"];
+        //    var agent = agentRepository.GetByAccountId(account.Id);
 
-            return processes
-                .Where(x => x.AssignedAgentId == agent.Id)
-                .ToList();
-        }
+        //    return processes
+        //        .Where(x => x.AssignedAgentId == agent.Id)
+        //        .ToList();
+        //}
 
         public ICollection<VerificationProcess> GetByCompany(int companyId)
         {
@@ -331,7 +332,27 @@ namespace EcisApi.Services
             return await verificationProcessRepository.UpdateAsync(process);
         }
 
-        public async Task<VerificationProcess> SubmitClassifyAsync(int id, int companyTypeId)
+        //public async Task<VerificationProcess> SubmitClassifyAsync(int id, int companyTypeId)
+        //{
+        //    var process = verificationProcessRepository.GetById(id);
+
+        //    if (process == null)
+        //    {
+        //        throw new BadHttpRequestException("VerificationProcessNotExist");
+        //    }
+        //    if (process.Status != AppConstants.VerificationProcessStatus.Reviewed)
+        //    {
+        //        throw new BadHttpRequestException("InvalidVerificationProcess");
+        //    }
+
+        //    process.IsReviewed = true;
+        //    process.ReviewedAt = DateTime.Now;
+        //    process.Status = AppConstants.VerificationProcessStatus.Classified;
+        //    process.CompanyTypeId = companyTypeId;
+        //    return await verificationProcessRepository.UpdateAsync(process);
+        //}
+
+        public async Task<VerificationProcess> RejectReviewedAsync(int id)
         {
             var process = verificationProcessRepository.GetById(id);
 
@@ -344,14 +365,11 @@ namespace EcisApi.Services
                 throw new BadHttpRequestException("InvalidVerificationProcess");
             }
 
-            process.IsReviewed = true;
-            process.ReviewedAt = DateTime.Now;
-            process.Status = AppConstants.VerificationProcessStatus.Classified;
-            process.CompanyTypeId = companyTypeId;
+            process.Status = AppConstants.VerificationProcessStatus.Submitted;
             return await verificationProcessRepository.UpdateAsync(process);
         }
 
-        public async Task<VerificationProcess> FinishAsync(int id)
+        public async Task<VerificationProcess> FinishAsync(int id, int companyTypeId)
         {
             var process = verificationProcessRepository.GetById(id);
 
@@ -359,13 +377,14 @@ namespace EcisApi.Services
             {
                 throw new BadHttpRequestException("VerificationProcessNotExist");
             }
-            if (process.Status != AppConstants.VerificationProcessStatus.Classified)
+            if (process.Status != AppConstants.VerificationProcessStatus.Reviewed)
             {
                 throw new BadHttpRequestException("InvalidVerificationProcess");
             }
 
             process.IsFinished = true;
             process.FinishedAt = DateTime.Now;
+            process.CompanyTypeId = companyTypeId;
             process.Status = AppConstants.VerificationProcessStatus.Finished;
             await verificationProcessRepository.UpdateAsync(process);
 
@@ -375,13 +394,13 @@ namespace EcisApi.Services
             {
                 CompanyId = process.CompanyId,
                 PreviousCompanyTypeId = company.CompanyTypeId,
-                UpdatedCompanyTypeId = process.CompanyTypeId,
+                UpdatedCompanyTypeId = companyTypeId,
                 Modification = AppConstants.CompanyModificationType.VERIFICATION,
                 VerificationProcessId = process.Id,
             };
             await companyTypeModificationRepository.AddAsync(currentModification);
 
-            company.CompanyTypeId = process.CompanyTypeId;
+            company.CompanyTypeId = companyTypeId;
             await companyRepository.UpdateAsync(company);
 
             try
@@ -400,21 +419,21 @@ namespace EcisApi.Services
             return process;
         }
 
-        public async Task<VerificationProcess> RejectClassifiedAsync(int id)
-        {
-            var process = verificationProcessRepository.GetById(id);
+        //public async Task<VerificationProcess> RejectClassifiedAsync(int id)
+        //{
+        //    var process = verificationProcessRepository.GetById(id);
 
-            if (process == null)
-            {
-                throw new BadHttpRequestException("VerificationProcessNotExist");
-            }
-            if (process.Status != AppConstants.VerificationProcessStatus.Classified)
-            {
-                throw new BadHttpRequestException("InvalidVerificationProcess");
-            }
+        //    if (process == null)
+        //    {
+        //        throw new BadHttpRequestException("VerificationProcessNotExist");
+        //    }
+        //    if (process.Status != AppConstants.VerificationProcessStatus.Classified)
+        //    {
+        //        throw new BadHttpRequestException("InvalidVerificationProcess");
+        //    }
 
-            process.Status = AppConstants.VerificationProcessStatus.Reviewed;
-            return await verificationProcessRepository.UpdateAsync(process);
-        }
+        //    process.Status = AppConstants.VerificationProcessStatus.Reviewed;
+        //    return await verificationProcessRepository.UpdateAsync(process);
+        //}
     }
 }
