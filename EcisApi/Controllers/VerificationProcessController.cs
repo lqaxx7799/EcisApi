@@ -1,4 +1,5 @@
-﻿using EcisApi.Helpers;
+﻿using EcisApi.DTO;
+using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Services;
 using Microsoft.AspNetCore.Http;
@@ -61,6 +62,18 @@ namespace EcisApi.Controllers
         public ActionResult<ICollection<VerificationProcess>> GetByCompany([FromRoute] int companyId)
         {
             return Ok(verificationProcessService.GetByCompany(companyId));
+        }
+
+        [HttpGet("RatingCount")]
+        [Authorize("Agent", "Admin")]
+        public ActionResult<ICollection<VerificationProcessRatingDTO>> GetRatingCount([FromQuery] string processIds)
+        {
+            var input = processIds
+                .Split(',')
+                .Select(x => Convert.ToInt32(x.Trim()))
+                .ToArray();
+
+            return Ok(verificationProcessService.GetRatingCount(input));
         }
 
         [HttpGet("{id}")]
