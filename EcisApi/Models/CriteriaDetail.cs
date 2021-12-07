@@ -11,6 +11,7 @@ namespace EcisApi.Models
         public int Id { get; set; }
         public string CriteriaDetailName { get; set; }
         public string Description { get; set; }
+        public bool? IsRequired { get; set; }
 
         public int? CriteriaId { get; set; }
 
