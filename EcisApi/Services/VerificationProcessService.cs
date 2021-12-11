@@ -242,6 +242,17 @@ namespace EcisApi.Services
                 throw new BadHttpRequestException("CompanyNotExist");
             }
 
+            var pendingProcess = verificationProcessRepository
+                .Find(x =>
+                    x.CompanyId == companyId
+                    && x.IsDeleted
+                    && x.Status != AppConstants.VerificationProcessStatus.Finished)
+                .FirstOrDefault();
+            if (pendingProcess != null)
+            {
+                throw new BadHttpRequestException("HasUnfinishedVerificationProcess");
+            }
+
             var process = new VerificationProcess
             {
                 IsDeleted = false,
