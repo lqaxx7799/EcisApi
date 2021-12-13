@@ -206,7 +206,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria1.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail1);
 
@@ -217,7 +218,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria1.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail2);
 
@@ -228,7 +230,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria2.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false,
             };
             context.CriteriaDetails.Add(criteriaDetail3);
 
@@ -239,7 +242,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria2.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail4);
 
@@ -250,7 +254,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria2.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail5);
 
@@ -261,7 +266,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria2.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail6);
 
@@ -272,7 +278,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria3.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail7);
 
@@ -283,7 +290,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria4.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail8);
 
@@ -294,7 +302,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria5.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail9);
 
@@ -305,7 +314,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria5.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail10);
 
@@ -316,7 +326,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria5.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail11);
 
@@ -327,7 +338,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria5.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail12);
 
@@ -338,7 +350,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria5.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = true
             };
             context.CriteriaDetails.Add(criteriaDetail13);
 
@@ -349,7 +362,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria6.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail14);
 
@@ -360,7 +374,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria6.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail15);
 
@@ -371,7 +386,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria6.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail16);
 
@@ -382,7 +398,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria7.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail17);
 
@@ -393,7 +410,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria7.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail18);
 
@@ -404,7 +422,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria8.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail19);
 
@@ -415,7 +434,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria8.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail20);
 
@@ -426,7 +446,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria9.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail21);
 
@@ -437,7 +458,8 @@ namespace EcisApi.Data
                 CriteriaId = criteria9.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail22);
 

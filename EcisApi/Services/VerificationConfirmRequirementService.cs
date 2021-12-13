@@ -154,6 +154,11 @@ namespace EcisApi.Services
                 throw new BadHttpRequestException("VerificationConfirmRequirementNotExist");
             }
 
+            if (confirmRequirement.ConfirmedAt != null)
+            {
+                throw new BadHttpRequestException("VerificationConfirmRequirementAlreadyFinished");
+            }
+
             confirmRequirement.ConfirmDocumentContent = payload.DocumentContent;
             confirmRequirement.ConfirmedAt = DateTime.Now;
 

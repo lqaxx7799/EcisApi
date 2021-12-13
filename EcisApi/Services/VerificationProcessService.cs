@@ -1,4 +1,5 @@
-﻿using EcisApi.Helpers;
+﻿using EcisApi.DTO;
+using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ namespace EcisApi.Services
         ICollection<VerificationProcess> GetAllReviewed();
         //ICollection<VerificationProcess> GetAllClassified();
         ICollection<VerificationProcess> GetByCompany(int companyId);
+        ICollection<VerificationProcessRatingDTO> GetRatingCount(int[] processIds);
         VerificationProcess GetById(int id);
         VerificationProcess GetCompanyCurrentPending(int companyId);
         VerificationProcess GetCompanyLast(int companyId);
@@ -181,6 +183,25 @@ namespace EcisApi.Services
             return verificationProcessRepository.GetByCompany(companyId);
         }
 
+        public ICollection<VerificationProcessRatingDTO> GetRatingCount(int[] processIds)
+        {
+            var results = new List<VerificationProcessRatingDTO>();
+            foreach (var processId in processIds)
+            {
+                var criterias = verificationCriteriaRepository.GetByProcessId(processId);
+                VerificationProcessRatingDTO rating = new()
+                {
+                    VerificationProcessId = processId,
+                    TotalCount = criterias.Count,
+                    PendingCount = criterias.Where(x => x.ApprovedStatus == AppConstants.VerificationCriteriaStatus.PENDING).Count(),
+                    RejectedCount = criterias.Where(x => x.ApprovedStatus == AppConstants.VerificationCriteriaStatus.REJECTED).Count(),
+                    VerifiedCount = criterias.Where(x => x.ApprovedStatus == AppConstants.VerificationCriteriaStatus.VERIFIED).Count(),
+                };
+                results.Add(rating);
+            }
+            return results;
+        }
+
         public VerificationProcess GetById(int id)
         {
             return verificationProcessRepository.GetById(id);
@@ -219,6 +240,17 @@ namespace EcisApi.Services
             if (company == null || company.IsDeleted)
             {
                 throw new BadHttpRequestException("CompanyNotExist");
+            }
+
+            var pendingProcess = verificationProcessRepository
+                .Find(x =>
+                    x.CompanyId == companyId
+                    && x.IsDeleted
+                    && x.Status != AppConstants.VerificationProcessStatus.Finished)
+                .FirstOrDefault();
+            if (pendingProcess != null)
+            {
+                throw new BadHttpRequestException("HasUnfinishedVerificationProcess");
             }
 
             var process = new VerificationProcess

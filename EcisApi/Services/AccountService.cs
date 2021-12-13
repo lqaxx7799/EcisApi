@@ -46,7 +46,7 @@ namespace EcisApi.Services
             var hashedPassword = CommonUtils.GenerateSHA1(model.Password);
             var account = accountRepository.GetOne(x => x.Email == model.Email && x.Password == hashedPassword);
             
-            if (account == null) return null;
+            if (account == null || !account.IsVerified) return null;
 
             var token = CommonUtils.GenerateJwtToken(account, appSettings.Secret);
             return new AuthenticateResponseDTO
@@ -70,7 +70,7 @@ namespace EcisApi.Services
                 throw new BadHttpRequestException("Sai email hoặc mật khẩu");
             }
 
-            if (!account.Role.HasManagement)
+            if (!account.IsVerified || !account.Role.HasManagement)
             {
                 throw new BadHttpRequestException("Tài khoản không có quyền đăng nhập");
             }
