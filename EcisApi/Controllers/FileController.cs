@@ -44,7 +44,18 @@ namespace EcisApi.Controllers
         {
             if (data == null || data.File == null || data.File.Length == 0)
             {
-                return BadRequest("file not selected");
+                return BadRequest("EmptyFile");
+            }
+
+            var extension = CommonUtils.GetFileExtension(data.File.FileName);
+            if (!AppConstants.AllowedExtensions.Contains(extension))
+            {
+                return BadRequest("InvalidFileExtension");
+            }
+
+            if (data.File.Length > AppConstants.MaxFileSize)
+            {
+                return BadRequest("FileTooLarge");
             }
 
             var fileName = cloudStorageHelper.UploadFile(data.File);
@@ -52,7 +63,7 @@ namespace EcisApi.Controllers
             {
                 Name = fileName,
                 Size = data.File.Length,
-                Type = fileName.Split(".").LastOrDefault(),
+                Type = extension,
                 Url = $"/File/{fileName}"
             };
             return Ok(response);

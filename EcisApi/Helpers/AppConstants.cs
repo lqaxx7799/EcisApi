@@ -7,6 +7,9 @@ namespace EcisApi.Helpers
 {
     public class AppConstants
     {
+        public static readonly string[] AllowedExtensions = { "jpg", "jpeg", "png", "doc", "docx", "xls", "xlsx", "pdf" };
+        public static readonly long MaxFileSize = 25 * 1024 * 1024;
+
         public static class VerificationProcessSubmitMethod
         {
             public static readonly string ByCustomer = "BY_CUSTOMER";

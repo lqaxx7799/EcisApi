@@ -44,5 +44,10 @@ namespace EcisApi.Helpers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        public static string GetFileExtension(string fileName)
+        {
+            return (fileName.Split(".").LastOrDefault() ?? "").ToLower();
+        }
     }
 }
