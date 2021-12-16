@@ -13,6 +13,8 @@ namespace EcisApi.Helpers
 {
     public class CommonUtils
     {
+        public const string StringChars = "0123456789abcdef";
+
         public static string GenerateSHA1(string input)
         {
             using (SHA1Managed sha1 = new SHA1Managed())
@@ -48,6 +50,21 @@ namespace EcisApi.Helpers
         public static string GetFileExtension(string fileName)
         {
             return (fileName.Split(".").LastOrDefault() ?? "").ToLower();
+        }
+
+        public static string GenerateRandomHexString(int length)
+        {
+            Random rand = new Random();
+            var charList = StringChars.ToArray();
+            string hexString = "";
+
+            for (int i = 0; i < length; i++)
+            {
+                int randIndex = rand.Next(0, charList.Length);
+                hexString += charList[randIndex];
+            }
+
+            return hexString;
         }
     }
 }

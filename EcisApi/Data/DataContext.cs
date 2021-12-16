@@ -28,6 +28,7 @@ namespace EcisApi.Data
         public DbSet<CriteriaType> CriteriaTypes { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<ThirdParty> ThirdParties { get; set; }
         public DbSet<VerificationConfirmRequirement> VerificationConfirmRequirements { get; set; }
         public DbSet<VerificationConfirmDocument> VerificationConfirmDocuments { get; set; }
         public DbSet<VerificationCriteria> VerificationCriterias { get; set; }
@@ -70,6 +71,7 @@ namespace EcisApi.Data
             modelBuilder.Entity<CriteriaType>().ToTable("CriteriaType");
             modelBuilder.Entity<Province>().ToTable("Province");
             modelBuilder.Entity<Role>().ToTable("Role");
+            modelBuilder.Entity<ThirdParty>().ToTable("ThirdParty");
             modelBuilder.Entity<VerificationConfirmDocument>().ToTable("VerificationConfirmDocument");
 
             modelBuilder.Entity<VerificationConfirmRequirement>().ToTable("VerificationConfirmRequirement");

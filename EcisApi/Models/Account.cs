@@ -23,5 +23,7 @@ namespace EcisApi.Models
         public virtual Company Company { get; set; }
         [JsonIgnore]
         public virtual Agent Agent { get; set; }
+        [JsonIgnore]
+        public virtual ThirdParty ThirdParty { get; set; }
     }
 }

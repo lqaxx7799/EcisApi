@@ -57,6 +57,7 @@ namespace EcisApi
             services.AddTransient<IDocumentReviewRepository, DocumentReviewRepository>();
             services.AddTransient<IProvinceRepository, ProvinceRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IThirdPartyRepository, ThirdPartyRepository>();
             services.AddTransient<IVerificationConfirmRequirementRepository, VerificationConfirmRequirementRepository>();
             services.AddTransient<IVerificationConfirmDocumentRepository, VerificationConfirmDocumentRepository>();
             services.AddTransient<IVerificationCriteriaRepository, VerificationCriteriaRepository>();
@@ -77,6 +78,7 @@ namespace EcisApi
             services.AddTransient<IDocumentReviewService, DocumentReviewService>();
             services.AddTransient<IProvinceService, ProvinceService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IV1Service, V1Service>();
             services.AddTransient<IVerificationConfirmRequirementService, VerificationConfirmRequirementService>();
             services.AddTransient<IVerificationCriteriaService, VerificationCriteriaService>();
             services.AddTransient<IVerificationDocumentService, VerificationDocumentService>();
