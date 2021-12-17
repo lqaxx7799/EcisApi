@@ -90,6 +90,7 @@ namespace EcisApi.Helpers
 
     public static class EmailTemplate
     {
+        public static readonly string AgentCreated = "AgentCreated";
         public static readonly string CompanyRegistrationSuccess = "CompanyRegistrationSuccess";
         public static readonly string CompanyRegistrationVerified = "CompanyRegistrationVerified";
         public static readonly string VerificationConfirmRequirementAnnounceAgent = "VerificationConfirmRequirementAnnounceAgent";

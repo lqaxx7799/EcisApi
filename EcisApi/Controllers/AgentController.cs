@@ -1,6 +1,8 @@
-﻿using EcisApi.Helpers;
+﻿using EcisApi.DTO;
+using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,15 +39,32 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("ByAccount/{accountId}")]
+        [Authorize]
         public ActionResult<Agent> GetByCompanyId([FromRoute] int accountId)
         {
             return agentService.GetByAccountId(accountId);
         }
 
         [HttpGet("{accountId}")]
+        [Authorize]
         public ActionResult<Agent> GetById([FromRoute] int id)
         {
             return agentService.GetById(id);
+        }
+
+        [HttpPost("Add")]
+        [Authorize("Admin")]
+        public async Task<ActionResult<Agent>> Add([FromBody] AgentCreateDTO payload)
+        {
+            try
+            {
+                var result = await agentService.AddAsync(payload);
+                return Ok(result);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
         }
     }
 }

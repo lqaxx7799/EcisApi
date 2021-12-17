@@ -118,6 +118,7 @@ namespace EcisApi
             // configure strongly typed settings object
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
+            services.AddTransient<IValidator<AgentCreateDTO>, AgentCreateDTOValidator>();
             services.AddTransient<IValidator<AuthenticateRequestDTO>, AuthenticateRequestDTOValidator>();
             services.AddTransient<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
             services.AddTransient<IValidator<CompanyRegistrationDTO>, CompanyRegistrationDTOValidator>();

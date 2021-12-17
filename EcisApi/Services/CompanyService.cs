@@ -170,11 +170,18 @@ namespace EcisApi.Services
                 { "password", rawPassword }
             };
 
-            await emailHelper.SendEmailAsync(
-                new string[] { account.Email },
-                "Thông tin tài khoản đăng nhập",
-                EmailTemplate.CompanyRegistrationVerified,
-                mailParams);
+            try
+            {
+                await emailHelper.SendEmailAsync(
+                    new string[] { account.Email },
+                    "Thông tin tài khoản đăng nhập",
+                    EmailTemplate.CompanyRegistrationVerified,
+                    mailParams);
+            }
+            catch (Exception)
+            {
+
+            }
 
             await verificationProcessService.GenerateAsync(company.Id);
 
