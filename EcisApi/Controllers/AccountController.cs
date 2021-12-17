@@ -30,13 +30,13 @@ namespace EcisApi.Controllers
 
         [HttpPost("ChangePassword")]
         [Authorize]
-        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDTO payload)
+        public async Task<ActionResult<bool>> ChangePassword([FromBody] ChangePasswordDTO payload)
         {
             var account = (Account)HttpContext.Items["Account"];
             try
             {
                 await accountService.ChangePassword(account, payload);
-                return Ok();
+                return Ok(true);
             }
             catch (BadHttpRequestException e)
             {

@@ -91,7 +91,7 @@ namespace EcisApi.Services
         {
             if (account.Password != CommonUtils.GenerateSHA1(payload.OldPassword))
             {
-                throw new BadHttpRequestException("Mật khẩu cũ sai");
+                throw new BadHttpRequestException("WrongOldPassword");
             }
             account.Password = CommonUtils.GenerateSHA1(payload.NewPassword);
             await accountRepository.UpdateAsync(account);
