@@ -12,33 +12,29 @@ namespace EcisApi.Services
 {
     public interface IV1Service
     {
-        ICollection<ThirdParty> GetAll();
         ThirdParty GetById(int id);
-        Task<ThirdParty> AddAsync(ThirdPartyRegisterDTO payload);
-        Task<ThirdParty> ResetClientSecretAsync(int id);
-        Task<ThirdParty> ActivateAsync(int id);
-        Task<ThirdParty> DeactivateAsync(int id);
+
+        ICollection<PublicCompanyTypeModificationDTO> GetModificationReport(int month, int year);
+        ICollection<PublicCompanyTypeModificationDTO> GetModificationReportByCompanyId(int id);
+
+        ICollection<PublicCompanyDTO> GetCompanies();
+        PublicCompanyDTO GetCompanyById(int id);
     }
 
     public class V1Service : IV1Service
     {
-        private readonly IAccountRepository accountRepository;
-        private readonly IRoleRepository roleRepository;
+        private readonly ICompanyRepository companyRepository;
+        private readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
         private readonly IThirdPartyRepository thirdPartyRepository;
-        
+
         public V1Service(
-            IAccountRepository accountRepository,
-            IRoleRepository roleRepository,
+            ICompanyRepository companyRepository,
+            ICompanyTypeModificationRepository companyTypeModificationRepository,
             IThirdPartyRepository thirdPartyRepository)
         {
-            this.accountRepository = accountRepository;
-            this.roleRepository = roleRepository;
+            this.companyRepository = companyRepository;
+            this.companyTypeModificationRepository = companyTypeModificationRepository;
             this.thirdPartyRepository = thirdPartyRepository;
-        }
-
-        public ICollection<ThirdParty> GetAll()
-        {
-            return thirdPartyRepository.GetAll();
         }
 
         public ThirdParty GetById(int id)
@@ -46,86 +42,73 @@ namespace EcisApi.Services
             return thirdPartyRepository.GetById(id);
         }
 
-        public async Task<ThirdParty> AddAsync(ThirdPartyRegisterDTO payload)
+        public ICollection<PublicCompanyTypeModificationDTO> GetModificationReport(int month, int year)
         {
-            var existingAccount = accountRepository.GetByEmail(payload.Email);
-            if (existingAccount != null)
+            var data = companyTypeModificationRepository.GetModificationReport(month, year);
+            var result = data.Select(x => new PublicCompanyTypeModificationDTO
             {
-                throw new BadHttpRequestException("EmailExisted");
+                Id = x.Id,
+                AnnouncedAt = x.AnnouncedAt,
+                CompanyId = x.CompanyId,
+                ModificationType = x.Modification,
+                PreviousCompanyType = x.PreviousCompanyType.TypeName,
+                UpdatedCompanyType = x.UpdatedCompanyType.TypeName
+            })
+                .ToList();
+            return result;
+        }
+
+        public ICollection<PublicCompanyTypeModificationDTO> GetModificationReportByCompanyId(int id)
+        {
+            var data = companyTypeModificationRepository.GetCompanyModificationReport(id);
+            var result = data.Select(x => new PublicCompanyTypeModificationDTO
+            {
+                Id = x.Id,
+                AnnouncedAt = x.AnnouncedAt,
+                CompanyId = x.CompanyId,
+                ModificationType = x.Modification,
+                PreviousCompanyType = x.PreviousCompanyType.TypeName,
+                UpdatedCompanyType = x.UpdatedCompanyType.TypeName
+            })
+                .ToList();
+            return result;
+        }
+
+        public ICollection<PublicCompanyDTO> GetCompanies()
+        {
+            var companies = companyRepository.GetAllActivated();
+            var result = companies.Select(x => new PublicCompanyDTO
+            {
+                Id = x.Id,
+                CompanyCode = x.CompanyCode,
+                CompanyNameEN = x.CompanyNameEN,
+                CompanyNameVI = x.CompanyNameVI,
+                CompanyType = x.CompanyType.TypeName,
+                Email = x.Account.Email,
+                LogoUrl = x.LogoUrl,
+                CreatedAt = x.CreatedAt
+            }).ToList();
+            return result;
+        }
+
+        public PublicCompanyDTO GetCompanyById(int id)
+        {
+            var company = companyRepository.GetById(id);
+            if (company == null || company.IsDeleted || !company.Account.IsVerified || company.Account.IsDeleted)
+            {
+                throw new BadHttpRequestException("InvalidCompany");
             }
-            var role = roleRepository.GetRoleByName("Third Party");
-            if (role == null)
+            return new()
             {
-                throw new BadHttpRequestException("RoleNotFound");
-            }
-            Account account = new()
-            {
-                Email = payload.Email,
-                Password = CommonUtils.GenerateSHA1(payload.Password),
-                IsVerified = false,
-                RoleId = role.Id,
-                IsDeleted = false
+                Id = company.Id,
+                CompanyCode = company.CompanyCode,
+                CompanyNameEN = company.CompanyNameEN,
+                CompanyNameVI = company.CompanyNameVI,
+                CompanyType = company.CompanyType.TypeName,
+                Email = company.Account.Email,
+                LogoUrl = company.LogoUrl,
+                CreatedAt = company.CreatedAt
             };
-            await accountRepository.AddAsync(account);
-            ThirdParty thirdParty = new()
-            {
-                UserName = payload.UserName,
-                ClientId = Guid.NewGuid().ToString(),
-                ClientSecret = CommonUtils.GenerateRandomHexString(32),
-                IsActive = false,
-                IsDeleted = false,
-                AccountId = account.Id
-            };
-            return await thirdPartyRepository.AddAsync(thirdParty);
-        }
-
-        public async Task<ThirdParty> ResetClientSecretAsync(int id)
-        {
-            var thirdParty = thirdPartyRepository.GetById(id);
-            if (thirdParty == null)
-            {
-                throw new BadHttpRequestException("ThirdPartyNotExisted");
-            }
-            if (!thirdParty.IsActive || thirdParty.IsDeleted || !thirdParty.Account.IsVerified || thirdParty.Account.IsDeleted)
-            {
-                throw new BadHttpRequestException("ThirdPartyInvalid");
-            }
-            thirdParty.ClientSecret = CommonUtils.GenerateRandomHexString(32);
-            return await thirdPartyRepository.UpdateAsync(thirdParty);
-        }
-
-        public async Task<ThirdParty> ActivateAsync(int id)
-        {
-            var thirdParty = thirdPartyRepository.GetById(id);
-            if (thirdParty == null)
-            {
-                throw new BadHttpRequestException("ThirdPartyNotExisted");
-            }
-            if (!thirdParty.IsActive || thirdParty.IsDeleted || !thirdParty.Account.IsVerified || thirdParty.Account.IsDeleted)
-            {
-                throw new BadHttpRequestException("ThirdPartyInvalid");
-            }
-            thirdParty.IsActive = true;
-            await thirdPartyRepository.UpdateAsync(thirdParty);
-
-            thirdParty.Account.IsVerified = true;
-            await accountRepository.UpdateAsync(thirdParty.Account);
-            return thirdParty;
-        }
-
-        public async Task<ThirdParty> DeactivateAsync(int id)
-        {
-            var thirdParty = thirdPartyRepository.GetById(id);
-            if (thirdParty == null)
-            {
-                throw new BadHttpRequestException("ThirdPartyNotExisted");
-            }
-            if (!thirdParty.IsActive || thirdParty.IsDeleted || !thirdParty.Account.IsVerified || thirdParty.Account.IsDeleted)
-            {
-                throw new BadHttpRequestException("ThirdPartyInvalid");
-            }
-            thirdParty.IsActive = false;
-            return await thirdPartyRepository.UpdateAsync(thirdParty);
         }
     }
 }

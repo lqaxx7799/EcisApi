@@ -1,4 +1,5 @@
 ﻿using EcisApi.DTO;
+using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Services;
 using Microsoft.AspNetCore.Http;
@@ -12,21 +13,22 @@ namespace EcisApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class V1Controller : ControllerBase
+    public class ThirdPartyController : ControllerBase
     {
-        private readonly IV1Service v1Service;
+        private readonly IThirdPartyService thirdPartyService;
 
-        public V1Controller(IV1Service v1Service)
+        public ThirdPartyController(IThirdPartyService thirdPartyService)
         {
-            this.v1Service = v1Service;
+            this.thirdPartyService = thirdPartyService;
         }
 
-        [HttpGet("Account/{id}")]
-        public ActionResult<ThirdParty> GetThirdPartyById([FromRoute] int id)
+        [HttpGet("GetAll")]
+        [Authorize("Admin")]
+        public ActionResult<ICollection<ThirdParty>> GetAll()
         {
             try
             {
-                var result = v1Service.GetById(id);
+                var result = thirdPartyService.GetAll();
                 return Ok(result);
             }
             catch (BadHttpRequestException e)
@@ -35,12 +37,13 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpGet("Companies")]
-        public ActionResult<ICollection<PublicCompanyDTO>> GetCompanies()
+        [HttpGet("ById/{id}")]
+        [Authorize]
+        public ActionResult<ThirdParty> GetById([FromRoute] int id)
         {
             try
             {
-                var result = v1Service.GetCompanies();
+                var result = thirdPartyService.GetById(id);
                 return Ok(result);
             }
             catch (BadHttpRequestException e)
@@ -49,12 +52,12 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpGet("Company/{id}")]
-        public ActionResult<PublicCompanyDTO> GetCompanyById([FromRoute] int id)
+        [HttpPost("Register")]
+        public async Task<ActionResult<ThirdParty>> Register([FromBody] ThirdPartyRegisterDTO payload)
         {
             try
             {
-                var result = v1Service.GetCompanyById(id);
+                var result = await thirdPartyService.AddAsync(payload);
                 return Ok(result);
             }
             catch (BadHttpRequestException e)
@@ -63,12 +66,13 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpGet("Report/ByTime")]
-        public ActionResult<ICollection<PublicCompanyDTO>> GetModificationReport([FromQuery] int? month, [FromQuery] int? year)
+        [HttpPut("Activate/{id}")]
+        [Authorize("Admin")]
+        public async Task<ActionResult<ThirdParty>> Activate([FromRoute] int id)
         {
             try
             {
-                var result = v1Service.GetModificationReport(month.GetValueOrDefault(DateTime.Now.Month), year.GetValueOrDefault(DateTime.Now.Year));
+                var result = await thirdPartyService.ActivateAsync(id);
                 return Ok(result);
             }
             catch (BadHttpRequestException e)
@@ -77,12 +81,13 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpGet("Report/ByCompanyId/{id}")]
-        public ActionResult<ICollection<PublicCompanyDTO>> GetModificationReportByCompanyId([FromRoute] int id)
+        [HttpPut("Deactivate/{id}")]
+        [Authorize]
+        public async Task<ActionResult<ThirdParty>> Deactivate([FromRoute] int id)
         {
             try
             {
-                var result = v1Service.GetModificationReportByCompanyId(id);
+                var result = await thirdPartyService.DeactivateAsync(id);
                 return Ok(result);
             }
             catch (BadHttpRequestException e)
