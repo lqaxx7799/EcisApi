@@ -14,6 +14,7 @@ namespace EcisApi.Services
     {
         ICollection<Agent> GetAll();
         ICollection<Agent> GetAllAgents();
+        ICollection<AgentAssignment> GetAssignmentsByAgentId(int agentId);
         Agent GetById(int id);
         Agent GetByAccountId(int accountId);
         Task<Agent> AddAsync(AgentCreateDTO payload);
@@ -65,6 +66,11 @@ namespace EcisApi.Services
         public Agent GetByAccountId(int accountId)
         {
             return agentRepository.GetByAccountId(accountId);
+        }
+
+        public ICollection<AgentAssignment> GetAssignmentsByAgentId(int agentId)
+        {
+            return agentAssignmentRepository.GetByAgentId(agentId);
         }
 
         public async Task<Agent> AddAsync(AgentCreateDTO payload)

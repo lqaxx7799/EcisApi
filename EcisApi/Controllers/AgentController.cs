@@ -45,7 +45,14 @@ namespace EcisApi.Controllers
             return agentService.GetByAccountId(accountId);
         }
 
-        [HttpGet("{accountId}")]
+        [HttpGet("GetAssignments/{agentId}")]
+        [Authorize]
+        public ActionResult<ICollection<AgentAssignment>> GetAssignmentsByAgentId([FromRoute] int agentId)
+        {
+            return Ok(agentService.GetAssignmentsByAgentId(agentId));
+        }
+
+        [HttpGet("ById/{id}")]
         [Authorize]
         public ActionResult<Agent> GetById([FromRoute] int id)
         {
