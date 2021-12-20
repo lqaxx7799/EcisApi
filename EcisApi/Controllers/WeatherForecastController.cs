@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EcisApi.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,14 @@ namespace EcisApi.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IEmailHelper _emailHelper;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(
+            ILogger<WeatherForecastController> logger,
+            IEmailHelper emailHelper)
         {
             _logger = logger;
+            _emailHelper = emailHelper;
         }
 
         [HttpGet]
@@ -34,6 +39,26 @@ namespace EcisApi.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost("TestEmail")]
+        public async Task<ActionResult<bool>> TestEmail([FromBody] EmailDTO payload)
+        {
+            await _emailHelper.SendEmailAsync(
+                new string[] { payload.RecipientEmail },
+                payload.Subject,
+                payload.TemplateName,
+                payload.Params
+                );
+            return Ok(true);
+        }
+
+        public class EmailDTO
+        {
+            public string Subject { get; set; }
+            public string TemplateName { get; set; }
+            public string RecipientEmail { get; set; }
+            public Dictionary<string, string> Params { get; set; }
         }
     }
 }
