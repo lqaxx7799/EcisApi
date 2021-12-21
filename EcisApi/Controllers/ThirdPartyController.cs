@@ -52,6 +52,21 @@ namespace EcisApi.Controllers
             }
         }
 
+        [HttpGet("ByAccount/{accountId}")]
+        [Authorize]
+        public ActionResult<ThirdParty> GetByAccountId([FromRoute] int accountId)
+        {
+            try
+            {
+                var result = thirdPartyService.GetByAccountId(accountId);
+                return Ok(result);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
         [HttpPost("Register")]
         public async Task<ActionResult<ThirdParty>> Register([FromBody] ThirdPartyRegisterDTO payload)
         {
@@ -88,6 +103,21 @@ namespace EcisApi.Controllers
             try
             {
                 var result = await thirdPartyService.DeactivateAsync(id);
+                return Ok(result);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        [HttpPut("ResetSecret/{id}")]
+        [Authorize]
+        public async Task<ActionResult<ThirdParty>> ResetClientSecret([FromRoute] int id)
+        {
+            try
+            {
+                var result = await thirdPartyService.ResetClientSecretAsync(id);
                 return Ok(result);
             }
             catch (BadHttpRequestException e)

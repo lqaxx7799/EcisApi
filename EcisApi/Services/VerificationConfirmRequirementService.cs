@@ -102,7 +102,7 @@ namespace EcisApi.Services
                     EmailTemplate.VerificationConfirmRequirementAnnounceAgent,
                     new Dictionary<string, string>());
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

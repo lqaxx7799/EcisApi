@@ -1,4 +1,5 @@
 ﻿using EcisApi.DTO;
+using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Services;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("Account/{id}")]
+        [V1Authorize]
         public ActionResult<ThirdParty> GetThirdPartyById([FromRoute] int id)
         {
             try
@@ -36,6 +38,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("Companies")]
+        [V1Authorize]
         public ActionResult<ICollection<PublicCompanyDTO>> GetCompanies()
         {
             try
@@ -50,6 +53,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("Company/{id}")]
+        [V1Authorize]
         public ActionResult<PublicCompanyDTO> GetCompanyById([FromRoute] int id)
         {
             try
@@ -64,6 +68,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("Report/ByTime")]
+        [V1Authorize]
         public ActionResult<ICollection<PublicCompanyDTO>> GetModificationReport([FromQuery] int? month, [FromQuery] int? year)
         {
             try
@@ -78,6 +83,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpGet("Report/ByCompanyId/{id}")]
+        [V1Authorize]
         public ActionResult<ICollection<PublicCompanyDTO>> GetModificationReportByCompanyId([FromRoute] int id)
         {
             try
@@ -88,6 +94,20 @@ namespace EcisApi.Controllers
             catch (BadHttpRequestException e)
             {
                 return BadRequest(new { e.Message });
+            }
+        }
+
+        [HttpPost("Authenticate")]
+        public ActionResult<PublicV1AuthenticateResponseDTO> Authenticate([FromBody] PublicV1AuthenticateDTO payload)
+        {
+            try
+            {
+                var result = v1Service.Authenticate(payload);
+                return Ok(result);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return Unauthorized(new { e.Message });
             }
         }
     }

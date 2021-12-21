@@ -126,6 +126,7 @@ namespace EcisApi
             services.AddTransient<IValidator<AuthenticateRequestDTO>, AuthenticateRequestDTOValidator>();
             services.AddTransient<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
             services.AddTransient<IValidator<CompanyRegistrationDTO>, CompanyRegistrationDTOValidator>();
+            services.AddTransient<IValidator<PublicV1AuthenticateDTO>, PublicV1AuthenticateDTOValidator>();
             services.AddTransient<IValidator<VerifyCompanyDTO>, VerifyCompanyDTOValidator>();
 
         }

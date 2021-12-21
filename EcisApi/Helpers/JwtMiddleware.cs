@@ -58,6 +58,13 @@ namespace EcisApi.Helpers
                 {
                     context.Items["Role"] = roleService.GetById(account.RoleId);
                 }
+
+                var type = jwtToken.Claims.First(x => x.Type == "Type").Value;
+                if (type == "ThirdParty")
+                {
+                    context.Items["ClientSecret"] = jwtToken.Claims.First(x => x.Type == "ClientSecret").Value;
+                    context.Items["ClientId"] = jwtToken.Claims.First(x => x.Type == "ClientId").Value;
+                }
             }
             catch
             {

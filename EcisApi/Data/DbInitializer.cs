@@ -19,6 +19,17 @@ namespace EcisApi.Data
                 return;   // DB has been seeded
             }
 
+            // SystemConfiguration seeding
+            SystemConfiguration systemConfiguration1 = new()
+            {
+                ConfigurationKey = ConfigurationKeys.MODIFICATION_VALID_DURATION,
+                ConfigurationValue = "1-year",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                IsDeleted = false
+            };
+            context.SystemConfigurations.Add(systemConfiguration1);
+
             // Role seeding
             Role adminRole = new() { 
                 RoleName = "Admin",

@@ -47,6 +47,26 @@ namespace EcisApi.Helpers
             return tokenHandler.WriteToken(token);
         }
 
+        public static string GenerateV1JwtToken(Account account, string clientSecret, string clientId, string secret)
+        {
+            // generate token that is valid for 30 days
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { 
+                    new Claim("Id", account.Id.ToString()),
+                    new Claim("Type", "ThirdParty"),
+                    new Claim("ClientSecret", clientSecret),
+                    new Claim("ClientId", clientId),
+                }),
+                Expires = DateTime.UtcNow.AddDays(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
         public static string GetFileExtension(string fileName)
         {
             return (fileName.Split(".").LastOrDefault() ?? "").ToLower();

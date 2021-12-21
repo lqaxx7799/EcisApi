@@ -3,6 +3,7 @@ using EcisApi.Helpers;
 using EcisApi.Models;
 using EcisApi.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,22 +20,31 @@ namespace EcisApi.Services
 
         ICollection<PublicCompanyDTO> GetCompanies();
         PublicCompanyDTO GetCompanyById(int id);
+
+        PublicV1AuthenticateResponseDTO Authenticate(PublicV1AuthenticateDTO payload);
     }
 
     public class V1Service : IV1Service
     {
+        private readonly IAccountRepository accountRepository;
         private readonly ICompanyRepository companyRepository;
         private readonly ICompanyTypeModificationRepository companyTypeModificationRepository;
         private readonly IThirdPartyRepository thirdPartyRepository;
 
+        private readonly AppSettings appSettings;
+
         public V1Service(
+            IAccountRepository accountRepository,
             ICompanyRepository companyRepository,
             ICompanyTypeModificationRepository companyTypeModificationRepository,
-            IThirdPartyRepository thirdPartyRepository)
+            IThirdPartyRepository thirdPartyRepository,
+            IOptions<AppSettings> appSettings)
         {
+            this.accountRepository = accountRepository;
             this.companyRepository = companyRepository;
             this.companyTypeModificationRepository = companyTypeModificationRepository;
             this.thirdPartyRepository = thirdPartyRepository;
+            this.appSettings = appSettings.Value;
         }
 
         public ThirdParty GetById(int id)
@@ -83,7 +93,7 @@ namespace EcisApi.Services
                 CompanyCode = x.CompanyCode,
                 CompanyNameEN = x.CompanyNameEN,
                 CompanyNameVI = x.CompanyNameVI,
-                CompanyType = x.CompanyType.TypeName,
+                CompanyType = x.CompanyType?.TypeName,
                 Email = x.Account.Email,
                 LogoUrl = x.LogoUrl,
                 CreatedAt = x.CreatedAt
@@ -108,6 +118,38 @@ namespace EcisApi.Services
                 Email = company.Account.Email,
                 LogoUrl = company.LogoUrl,
                 CreatedAt = company.CreatedAt
+            };
+        }
+
+        public PublicV1AuthenticateResponseDTO Authenticate(PublicV1AuthenticateDTO payload)
+        {
+            var account = accountRepository.GetByEmail(payload.Email);
+            if (account == null || !account.IsVerified || account.IsDeleted)
+            {
+                throw new BadHttpRequestException("InvalidAccount");
+            }
+            if (account.Role.RoleName != "ThirdParty")
+            {
+                throw new BadHttpRequestException("InvalidAccount");
+            }
+            var thirdParty = account.ThirdParty;
+            if (thirdParty == null)
+            {
+                throw new BadHttpRequestException("InvalidThirdParty");
+            }
+            if (thirdParty.ClientSecret != payload.ClientSecret || thirdParty.ClientId != payload.ClientId)
+            {
+                throw new BadHttpRequestException("IncorrectThirdPartyInformation");
+            }
+            if (!thirdParty.IsActive)
+            {
+                throw new BadHttpRequestException("ThirdPartyDeactivated");
+            }
+
+            var token = CommonUtils.GenerateV1JwtToken(account, payload.ClientSecret, payload.ClientId, appSettings.Secret);
+            return new PublicV1AuthenticateResponseDTO
+            {
+                AccessToken = token
             };
         }
     }

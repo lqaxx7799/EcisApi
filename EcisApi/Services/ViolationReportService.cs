@@ -120,7 +120,7 @@ namespace EcisApi.Services
                    EmailTemplate.VerificationFinished,
                    new Dictionary<string, string>());
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

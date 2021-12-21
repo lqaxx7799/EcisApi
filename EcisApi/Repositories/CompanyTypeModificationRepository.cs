@@ -25,7 +25,6 @@ namespace EcisApi.Repositories
         public ICollection<CompanyTypeModification> GetModificationReport(int month, int year)
         {
             return db.Set<CompanyTypeModification>().Where(x =>
-                x.IsAnnounced &&
                 x.CreatedAt.Month == month &&
                 x.CreatedAt.Year == year &&
                 !x.IsDeleted

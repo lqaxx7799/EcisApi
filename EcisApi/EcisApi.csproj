@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\EmailTemplates\ThirdPartyCreated.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\EmailTemplates\AgentCreated.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

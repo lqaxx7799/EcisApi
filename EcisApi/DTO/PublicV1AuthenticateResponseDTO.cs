@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace EcisApi.DTO
 {
-    public class ThirdPartyRegisterDTO
+    public class PublicV1AuthenticateResponseDTO
     {
-        public string UserName { get; set; }
-        public string Email { get; set; }
+        public string AccessToken { get; set; }
     }
 }

@@ -133,7 +133,9 @@ namespace EcisApi.Services
             }
             var mailParams = new Dictionary<string, string>
             {
-                { "agentName", $"{agent.LastName} {agent.FirstName}" }
+                { "agentName", $"{agent.LastName} {agent.FirstName}" },
+                { "email", account.Email },
+                { "password", rawPassword }
             };
             try
             {
