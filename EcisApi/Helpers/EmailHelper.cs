@@ -37,7 +37,6 @@ namespace EcisApi.Helpers
                 string path = Path.Combine(
                     Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                     @$"Assets\EmailTemplates\{templateName}.html");
-                Console.WriteLine($"path: {path}");
 
                 StreamReader str = new(path);
                 string mailText = str.ReadToEnd();
@@ -47,7 +46,6 @@ namespace EcisApi.Helpers
                 {
                     mailText = mailText.Replace($"[{param.Key}]", param.Value);
                 }
-                Console.WriteLine($"mailText: {mailText}");
                 return mailText;
             }
             catch (Exception)

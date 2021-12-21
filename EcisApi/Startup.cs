@@ -57,6 +57,7 @@ namespace EcisApi
             services.AddTransient<IDocumentReviewRepository, DocumentReviewRepository>();
             services.AddTransient<IProvinceRepository, ProvinceRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<ISystemConfigurationRepository, SystemConfigurationRepository>();
             services.AddTransient<IThirdPartyRepository, ThirdPartyRepository>();
             services.AddTransient<IVerificationConfirmRequirementRepository, VerificationConfirmRequirementRepository>();
             services.AddTransient<IVerificationConfirmDocumentRepository, VerificationConfirmDocumentRepository>();
@@ -76,6 +77,7 @@ namespace EcisApi
             services.AddTransient<ICriteriaDetailService, CriteriaDetailService>();
             services.AddTransient<ICriteriaTypeService, CriteriaTypeService>();
             services.AddTransient<IDocumentReviewService, DocumentReviewService>();
+            services.AddTransient<IJobService, JobService>();
             services.AddTransient<IProvinceService, ProvinceService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IThirdPartyService, ThirdPartyService>();
@@ -86,6 +88,8 @@ namespace EcisApi
             services.AddTransient<IVerificationProcessService, VerificationProcessService>();
             services.AddTransient<IViolationReportService, ViolationReportService>();
             services.AddTransient<IViolationReportDocumentService, ViolationReportDocumentService>();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<ICloudStorageHelper, CloudStorageHelper>();
             services.AddTransient<IEmailHelper, EmailHelper>();

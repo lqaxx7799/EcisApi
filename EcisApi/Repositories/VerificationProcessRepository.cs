@@ -11,6 +11,7 @@ namespace EcisApi.Repositories
     {
         ICollection<VerificationProcess> GetByCompany(int companyId);
         ICollection<VerificationProcess> Find(Func<VerificationProcess, bool> filter);
+        VerificationProcess GetLatestByCompanyId(int companyId);
     }
 
     public class VerificationProcessRepository : Repository<VerificationProcess>, IVerificationProcessRepository
@@ -28,6 +29,11 @@ namespace EcisApi.Repositories
         public ICollection<VerificationProcess> Find(Func<VerificationProcess, bool> filter)
         {
             return db.Set<VerificationProcess>().Where(filter).ToList();
+        }
+
+        public VerificationProcess GetLatestByCompanyId(int companyId)
+        {
+            return db.Set<VerificationProcess>().Where(x => !x.IsDeleted && x.CompanyId == companyId).OrderBy(x => x.CreatedAt).FirstOrDefault();
         }
     }
 }

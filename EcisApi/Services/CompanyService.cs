@@ -38,6 +38,7 @@ namespace EcisApi.Services
 
         protected readonly IVerificationProcessService verificationProcessService;
 
+        protected readonly IUnitOfWork unitOfWork;
         protected readonly IEmailHelper emailHelper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -51,6 +52,7 @@ namespace EcisApi.Services
 
             IVerificationProcessService verificationProcessService,
 
+            IUnitOfWork unitOfWork,
             IEmailHelper emailHelper,
             IHttpContextAccessor httpContextAccessor
             )
@@ -64,6 +66,7 @@ namespace EcisApi.Services
 
             this.verificationProcessService = verificationProcessService;
 
+            this.unitOfWork = unitOfWork;
             this.emailHelper = emailHelper;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -142,6 +145,7 @@ namespace EcisApi.Services
                 throw new Exception("Lỗi: không tồn tại role trong hệ thống");
             }
 
+            using var transaction = unitOfWork.BeginTransaction();
             var rawPassword = "abcd1234";
             //var rawPassword = Guid.NewGuid().ToString();
             var account = new Account
@@ -182,6 +186,7 @@ namespace EcisApi.Services
             {
 
             }
+            transaction.Commit();
 
             await verificationProcessService.GenerateAsync(company.Id);
 

@@ -28,6 +28,7 @@ namespace EcisApi.Services
         protected readonly IProvinceRepository provinceRepository;
         protected readonly IRoleRepository roleRepository;
 
+        protected readonly IUnitOfWork unitOfWork;
         protected readonly IEmailHelper emailHelper;
 
         public AgentService(
@@ -36,6 +37,7 @@ namespace EcisApi.Services
             IAgentAssignmentRepository agentAssignmentRepository,
             IProvinceRepository provinceRepository,
             IRoleRepository roleRepository,
+            IUnitOfWork unitOfWork,
             IEmailHelper emailHelper
             )
         {
@@ -45,6 +47,7 @@ namespace EcisApi.Services
             this.provinceRepository = provinceRepository;
             this.roleRepository = roleRepository;
 
+            this.unitOfWork = unitOfWork;
             this.emailHelper = emailHelper;
         }
 
@@ -93,6 +96,8 @@ namespace EcisApi.Services
             {
                 throw new BadHttpRequestException("RoleNotExisted");
             }
+
+            using var transaction = unitOfWork.BeginTransaction();
             var rawPassword = "abcd1234";
 
             var account = new Account
@@ -142,6 +147,7 @@ namespace EcisApi.Services
             {
 
             }
+            transaction.Commit();
             return agent;
         }
     }

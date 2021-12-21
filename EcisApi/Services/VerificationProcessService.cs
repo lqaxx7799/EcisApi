@@ -44,6 +44,7 @@ namespace EcisApi.Services
         protected readonly IVerificationCriteriaRepository verificationCriteriaRepository;
         protected readonly IVerificationProcessRepository verificationProcessRepository;
 
+        protected readonly IUnitOfWork unitOfWork;
         protected readonly IEmailHelper emailHelper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -55,6 +56,7 @@ namespace EcisApi.Services
             ICriteriaDetailRepository criteriaDetailRepository,
             IVerificationCriteriaRepository verificationCriteriaRepository,
             IVerificationProcessRepository verificationProcessRepository,
+            IUnitOfWork unitOfWork,
             IEmailHelper emailHelper,
             IHttpContextAccessor _httpContextAccessor
             )
@@ -67,6 +69,7 @@ namespace EcisApi.Services
             this.verificationCriteriaRepository = verificationCriteriaRepository;
             this.verificationProcessRepository = verificationProcessRepository;
 
+            this.unitOfWork = unitOfWork;
             this.emailHelper = emailHelper;
             this._httpContextAccessor = _httpContextAccessor;
         }
@@ -253,6 +256,7 @@ namespace EcisApi.Services
                 throw new BadHttpRequestException("HasUnfinishedVerificationProcess");
             }
 
+            using var transaction = unitOfWork.BeginTransaction();
             var process = new VerificationProcess
             {
                 IsDeleted = false,
@@ -277,7 +281,7 @@ namespace EcisApi.Services
                 };
                 await verificationCriteriaRepository.AddAsync(verificationCriteria);
             }
-
+            transaction.Commit();
             return process;
         }
 
@@ -414,6 +418,7 @@ namespace EcisApi.Services
                 throw new BadHttpRequestException("InvalidVerificationProcess");
             }
 
+            using var transaction = unitOfWork.BeginTransaction();
             process.IsFinished = true;
             process.FinishedAt = DateTime.Now;
             process.CompanyTypeId = companyTypeId;
@@ -438,16 +443,17 @@ namespace EcisApi.Services
             try
             {
                 await emailHelper.SendEmailAsync(
-                   new string[] { process.Company.Account.Email },
-                   "Kết quả đánh giá doanh nghiệp",
-                   EmailTemplate.VerificationFinished,
-                   new Dictionary<string, string>());
+                    new string[] { process.Company.Account.Email },
+                    "Kết quả đánh giá doanh nghiệp",
+                    EmailTemplate.VerificationFinished,
+                    new Dictionary<string, string>());
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
+                Console.WriteLine("FinishAsync SendEmail Error");
             }
 
+            transaction.Commit();
             return process;
         }
 

@@ -21,23 +21,17 @@ namespace EcisApi.Controllers
 
         [HttpPost("CheckGenerateVerification")]
         [Authorize("SuperUser")]
-        public ActionResult<bool> CheckGenerateVerification()
+        public async Task<ActionResult<bool>> CheckGenerateVerification()
         {
-            Task.Run(() =>
-            {
-                jobService.CheckGenerateVerification();
-            });
+            await jobService.CheckGenerateVerification();
             return Ok(true);
         }
 
         [HttpPost("CheckVerificationDeadline")]
         [Authorize("SuperUser")]
-        public ActionResult<bool> CheckVerificationDeadline()
+        public async Task<ActionResult<bool>> CheckVerificationDeadline()
         {
-            Task.Run(() =>
-            {
-                jobService.CheckVerificationDeadline();
-            });
+            await jobService.CheckVerificationDeadline();
             return Ok(true);
         }
     }
