@@ -25,7 +25,6 @@ namespace EcisApi.Controllers
         /// <summary>
         /// Lấy thông tin tài khoản của bên thụ hưởng
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("Me")]
         [V1Authorize]
