@@ -1,6 +1,7 @@
 ﻿using EcisApi.Helpers;
 using EcisApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,26 +13,52 @@ namespace EcisApi.Controllers
     [ApiController]
     public class JobController : ControllerBase
     {
-        private readonly IJobService jobService;
+        private readonly IServiceScopeFactory serviceScopeFactory;
 
-        public JobController(IJobService jobService)
+        public JobController(
+            IServiceScopeFactory serviceScopeFactory
+            )
         {
-            this.jobService = jobService;
+            this.serviceScopeFactory = serviceScopeFactory;
         }
 
         [HttpPost("CheckGenerateVerification")]
         [Authorize("SuperUser")]
-        public async Task<ActionResult<bool>> CheckGenerateVerification()
+        public ActionResult<bool> CheckGenerateVerification()
         {
-            await jobService.CheckGenerateVerification();
+            Task.Run(async () =>
+            {
+                try
+                {
+                    using var scope = serviceScopeFactory.CreateScope();
+                    var jobService = scope.ServiceProvider.GetRequiredService<IJobService>();
+                    await jobService.CheckGenerateVerification();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
             return Ok(true);
         }
 
         [HttpPost("CheckVerificationDeadline")]
         [Authorize("SuperUser")]
-        public async Task<ActionResult<bool>> CheckVerificationDeadline()
+        public ActionResult<bool> CheckVerificationDeadline()
         {
-            await jobService.CheckVerificationDeadline();
+            Task.Run(async () =>
+            {
+                try
+                {
+                    using var scope = serviceScopeFactory.CreateScope();
+                    var jobService = scope.ServiceProvider.GetRequiredService<IJobService>();
+                    await jobService.CheckVerificationDeadline();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
             return Ok(true);
         }
     }
