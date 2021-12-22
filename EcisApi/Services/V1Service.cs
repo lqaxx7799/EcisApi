@@ -20,6 +20,7 @@ namespace EcisApi.Services
 
         ICollection<PublicCompanyDTO> GetCompanies();
         PublicCompanyDTO GetCompanyById(int id);
+        PublicCompanyDTO GetCompanyByCode(string code);
 
         PublicV1AuthenticateResponseDTO Authenticate(PublicV1AuthenticateDTO payload);
     }
@@ -104,6 +105,26 @@ namespace EcisApi.Services
         public PublicCompanyDTO GetCompanyById(int id)
         {
             var company = companyRepository.GetById(id);
+            if (company == null || company.IsDeleted || !company.Account.IsVerified || company.Account.IsDeleted)
+            {
+                throw new BadHttpRequestException("InvalidCompany");
+            }
+            return new()
+            {
+                Id = company.Id,
+                CompanyCode = company.CompanyCode,
+                CompanyNameEN = company.CompanyNameEN,
+                CompanyNameVI = company.CompanyNameVI,
+                CompanyType = company.CompanyType.TypeName,
+                Email = company.Account.Email,
+                LogoUrl = company.LogoUrl,
+                CreatedAt = company.CreatedAt
+            };
+        }
+
+        public PublicCompanyDTO GetCompanyByCode(string code)
+        {
+            var company = companyRepository.GetByCompanyCode(code);
             if (company == null || company.IsDeleted || !company.Account.IsVerified || company.Account.IsDeleted)
             {
                 throw new BadHttpRequestException("InvalidCompany");

@@ -52,13 +52,28 @@ namespace EcisApi.Controllers
             }
         }
 
-        [HttpGet("Company/{id}")]
+        [HttpGet("Company/ById/{id}")]
         [V1Authorize]
         public ActionResult<PublicCompanyDTO> GetCompanyById([FromRoute] int id)
         {
             try
             {
                 var result = v1Service.GetCompanyById(id);
+                return Ok(result);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        [HttpGet("Company/ByCode/{id}")]
+        [V1Authorize]
+        public ActionResult<PublicCompanyDTO> GetCompanyByCode([FromRoute] string code)
+        {
+            try
+            {
+                var result = v1Service.GetCompanyByCode(code);
                 return Ok(result);
             }
             catch (BadHttpRequestException e)
