@@ -20,6 +20,7 @@ using FluentValidation.AspNetCore;
 using EcisApi.DTO;
 using FluentValidation;
 using EcisApi.Helpers;
+using System.IO;
 
 namespace EcisApi
 {
@@ -117,6 +118,8 @@ namespace EcisApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcisApi", Version = "v1" });
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "EcisApi.xml");
+                c.IncludeXmlComments(filePath);
             });
 
             // configure strongly typed settings object

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EcisApi</name>
+    </assembly>
+    <members>
+        <member name="M:EcisApi.Controllers.V1Controller.GetSelfThirdParty">
+            <summary>
+            Lấy thông tin tài khoản của bên thụ hưởng
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EcisApi.Controllers.V1Controller.GetCompanies">
+            <summary>
+            Lấy danh sách tất cả các doanh nghiệp đã đăng ký sử dụng hệ thống ECIS
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EcisApi.Controllers.V1Controller.GetCompanyById(System.Int32)">
+            <summary>
+            Lấy thông tin chi tiết doanh nghiệp theo id doanh nghiệp
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EcisApi.Controllers.V1Controller.GetCompanyByCode(System.String)">
+            <summary>
+            Lấy thông tin chi tiết doanh nghiệp theo mã đăng ký hoạt động của doanh nghiệp
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EcisApi.Controllers.V1Controller.GetModificationReport(System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Lấy báo cáo phân loại theo tháng
+            </summary>
+            <param name="month"></param>
+            <param name="year"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EcisApi.Controllers.V1Controller.GetModificationReportByCompanyId(System.Int32)">
+            <summary>
+            Lấy báo cáo phân loại theo id doanh nghiệp
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EcisApi.Controllers.V1Controller.Authenticate(EcisApi.DTO.PublicV1AuthenticateDTO)">
+            <summary>
+            Lấy access token để sử dụng ECIS API V1
+            </summary>
+            <param name="payload"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

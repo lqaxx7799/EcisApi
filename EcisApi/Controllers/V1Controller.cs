@@ -22,13 +22,24 @@ namespace EcisApi.Controllers
             this.v1Service = v1Service;
         }
 
-        [HttpGet("Account/{id}")]
+        /// <summary>
+        /// Lấy thông tin tài khoản của bên thụ hưởng
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Me")]
         [V1Authorize]
-        public ActionResult<ThirdParty> GetThirdPartyById([FromRoute] int id)
+        public ActionResult<ThirdParty> GetSelfThirdParty()
         {
             try
             {
-                var result = v1Service.GetById(id);
+                var account = (Account)HttpContext.Items["Account"];
+                var id = account.ThirdParty?.Id;
+                if (id == null)
+                {
+                    return BadRequest(new { Message = "InvalidToken" });
+                }
+                var result = v1Service.GetById(id.Value);
                 return Ok(result);
             }
             catch (BadHttpRequestException e)
@@ -37,6 +48,10 @@ namespace EcisApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy danh sách tất cả các doanh nghiệp đã đăng ký sử dụng hệ thống ECIS
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("Companies")]
         [V1Authorize]
         public ActionResult<ICollection<PublicCompanyDTO>> GetCompanies()
@@ -52,6 +67,11 @@ namespace EcisApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy thông tin chi tiết doanh nghiệp theo id doanh nghiệp
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("Company/ById/{id}")]
         [V1Authorize]
         public ActionResult<PublicCompanyDTO> GetCompanyById([FromRoute] int id)
@@ -67,9 +87,14 @@ namespace EcisApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy thông tin chi tiết doanh nghiệp theo mã đăng ký hoạt động của doanh nghiệp
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
         [HttpGet("Company/ByCode/{id}")]
         [V1Authorize]
-        public ActionResult<PublicCompanyDTO> GetCompanyByCode([FromRoute] string code)
+        public ActionResult<PublicCompanyTypeModificationDTO> GetCompanyByCode([FromRoute] string code)
         {
             try
             {
@@ -82,9 +107,15 @@ namespace EcisApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy báo cáo phân loại theo tháng
+        /// </summary>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
         [HttpGet("Report/ByTime")]
         [V1Authorize]
-        public ActionResult<ICollection<PublicCompanyDTO>> GetModificationReport([FromQuery] int? month, [FromQuery] int? year)
+        public ActionResult<ICollection<PublicCompanyTypeModificationDTO>> GetModificationReport([FromQuery] int? month, [FromQuery] int? year)
         {
             try
             {
@@ -97,6 +128,11 @@ namespace EcisApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy báo cáo phân loại theo id doanh nghiệp
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("Report/ByCompanyId/{id}")]
         [V1Authorize]
         public ActionResult<ICollection<PublicCompanyDTO>> GetModificationReportByCompanyId([FromRoute] int id)
@@ -112,6 +148,11 @@ namespace EcisApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy access token để sử dụng ECIS API V1
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         [HttpPost("Authenticate")]
         public ActionResult<PublicV1AuthenticateResponseDTO> Authenticate([FromBody] PublicV1AuthenticateDTO payload)
         {
