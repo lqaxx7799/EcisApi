@@ -13,7 +13,7 @@ namespace EcisApi.Services
 {
     public interface IV1Service
     {
-        ThirdParty GetById(int id);
+        PublicV1ThirdPartyDTO GetById(int id);
 
         ICollection<PublicCompanyTypeModificationDTO> GetModificationReport(int month, int year);
         ICollection<PublicCompanyTypeModificationDTO> GetModificationReportByCompanyId(int id);
@@ -48,9 +48,19 @@ namespace EcisApi.Services
             this.appSettings = appSettings.Value;
         }
 
-        public ThirdParty GetById(int id)
+        public PublicV1ThirdPartyDTO GetById(int id)
         {
-            return thirdPartyRepository.GetById(id);
+            var thirdParty = thirdPartyRepository.GetById(id);
+            return new PublicV1ThirdPartyDTO()
+            {
+                Id = thirdParty.Id,
+                ClientId = thirdParty.ClientId,
+                ClientSecret = thirdParty.ClientSecret,
+                CreatedAt = thirdParty.CreatedAt,
+                Email = thirdParty.Account?.Email,
+                IsActive = thirdParty.IsActive,
+                UserName = thirdParty.UserName
+            };
         }
 
         public ICollection<PublicCompanyTypeModificationDTO> GetModificationReport(int month, int year)

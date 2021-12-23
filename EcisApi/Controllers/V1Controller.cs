@@ -28,7 +28,7 @@ namespace EcisApi.Controllers
         /// <returns></returns>
         [HttpGet("Me")]
         [V1Authorize]
-        public ActionResult<ThirdParty> GetSelfThirdParty()
+        public ActionResult<PublicV1ThirdPartyDTO> GetSelfThirdParty()
         {
             try
             {
