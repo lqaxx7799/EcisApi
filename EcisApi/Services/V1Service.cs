@@ -62,8 +62,8 @@ namespace EcisApi.Services
                 AnnouncedAt = x.AnnouncedAt,
                 CompanyId = x.CompanyId,
                 ModificationType = x.Modification,
-                PreviousCompanyType = x.PreviousCompanyType.TypeName,
-                UpdatedCompanyType = x.UpdatedCompanyType.TypeName
+                PreviousCompanyType = x.PreviousCompanyType?.TypeName,
+                UpdatedCompanyType = x.UpdatedCompanyType?.TypeName
             })
                 .ToList();
             return result;
@@ -78,8 +78,8 @@ namespace EcisApi.Services
                 AnnouncedAt = x.AnnouncedAt,
                 CompanyId = x.CompanyId,
                 ModificationType = x.Modification,
-                PreviousCompanyType = x.PreviousCompanyType.TypeName,
-                UpdatedCompanyType = x.UpdatedCompanyType.TypeName
+                PreviousCompanyType = x.PreviousCompanyType?.TypeName,
+                UpdatedCompanyType = x.UpdatedCompanyType?.TypeName
             })
                 .ToList();
             return result;
@@ -95,7 +95,7 @@ namespace EcisApi.Services
                 CompanyNameEN = x.CompanyNameEN,
                 CompanyNameVI = x.CompanyNameVI,
                 CompanyType = x.CompanyType?.TypeName,
-                Email = x.Account.Email,
+                Email = x.Account?.Email,
                 LogoUrl = x.LogoUrl,
                 CreatedAt = x.CreatedAt
             }).ToList();
@@ -115,8 +115,8 @@ namespace EcisApi.Services
                 CompanyCode = company.CompanyCode,
                 CompanyNameEN = company.CompanyNameEN,
                 CompanyNameVI = company.CompanyNameVI,
-                CompanyType = company.CompanyType.TypeName,
-                Email = company.Account.Email,
+                CompanyType = company.CompanyType?.TypeName,
+                Email = company.Account?.Email,
                 LogoUrl = company.LogoUrl,
                 CreatedAt = company.CreatedAt
             };
@@ -135,8 +135,8 @@ namespace EcisApi.Services
                 CompanyCode = company.CompanyCode,
                 CompanyNameEN = company.CompanyNameEN,
                 CompanyNameVI = company.CompanyNameVI,
-                CompanyType = company.CompanyType.TypeName,
-                Email = company.Account.Email,
+                CompanyType = company.CompanyType?.TypeName,
+                Email = company.Account?.Email,
                 LogoUrl = company.LogoUrl,
                 CreatedAt = company.CreatedAt
             };
