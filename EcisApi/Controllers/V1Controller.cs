@@ -91,9 +91,9 @@ namespace EcisApi.Controllers
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        [HttpGet("Company/ByCode/{id}")]
+        [HttpGet("Company/ByCode/{code}")]
         [V1Authorize]
-        public ActionResult<PublicCompanyTypeModificationDTO> GetCompanyByCode([FromRoute] string code)
+        public ActionResult<PublicCompanyDTO> GetCompanyByCode([FromRoute] string code)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace EcisApi.Controllers
         /// <returns></returns>
         [HttpGet("Report/ByCompanyId/{id}")]
         [V1Authorize]
-        public ActionResult<ICollection<PublicCompanyDTO>> GetModificationReportByCompanyId([FromRoute] int id)
+        public ActionResult<ICollection<PublicCompanyTypeModificationDTO>> GetModificationReportByCompanyId([FromRoute] int id)
         {
             try
             {
