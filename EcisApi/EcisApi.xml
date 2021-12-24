@@ -8,7 +8,6 @@
             <summary>
             Lấy thông tin tài khoản của bên thụ hưởng
             </summary>
-            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:EcisApi.Controllers.V1Controller.GetCompanies">
