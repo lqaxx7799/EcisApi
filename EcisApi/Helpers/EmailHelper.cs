@@ -43,10 +43,10 @@ namespace EcisApi.Helpers
                     path = Path.Combine(
                         Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                         @$"Assets\EmailTemplates\{templateName}.html");
-
-                } else
+                }
+                else
                 {
-                    path = @$"app\Assets\EmailTemplates\{templateName}.html";
+                    path = @$"/app/Assets/EmailTemplates/{templateName}.html";
                 }
 
                 StreamReader str = new(path);
