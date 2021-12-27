@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,13 +31,23 @@ namespace EcisApi.Helpers
             await InnerSendEmail(recipients, subject, content);
         }
 
+        private static bool IsDevelopment => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
         private string InnerGetContent(string templateName, Dictionary<string, string> parameters)
         {
             try
             {
-                string path = Path.Combine(
-                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                    @$"Assets\EmailTemplates\{templateName}.html");
+                string path;
+                if (IsDevelopment)
+                {
+                    path = Path.Combine(
+                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                        @$"Assets\EmailTemplates\{templateName}.html");
+
+                } else
+                {
+                    path = @$"app\Assets\EmailTemplates\{templateName}.html";
+                }
 
                 StreamReader str = new(path);
                 string mailText = str.ReadToEnd();
