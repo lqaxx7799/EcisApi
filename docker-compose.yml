@@ -41,3 +41,11 @@ services:
       - ecis-api
     depends_on:
       - ecis-api
+
+  do-backend:
+    image: jsmitterha99/datn-backend:latest
+    container_name: do-backend
+    expose:
+      - "8091"
+    ports:
+      - "8091:8091"
