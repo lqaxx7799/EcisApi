@@ -37,7 +37,6 @@ services:
     ports:
       - "443:443"
       - "80:80"
-      - "8091:8091"
     links:
       - ecis-api
     depends_on:
