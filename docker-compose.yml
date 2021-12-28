@@ -41,7 +41,6 @@ services:
       - ecis-api
     depends_on:
       - ecis-api
-      - do-backend
 
   do-backend:
     image: jsmitterha99/datn-backend:latest
