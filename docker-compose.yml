@@ -39,8 +39,10 @@ services:
       - "80:80"
     links:
       - ecis-api
+      - do-backend
     depends_on:
       - ecis-api
+      - do-backend
 
   do-backend:
     image: jsmitterha99/datn-backend:latest
