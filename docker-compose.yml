@@ -49,3 +49,9 @@ services:
     container_name: do-backend
     ports:
       - "8091:8091"
+
+  do-frontend:
+    image: jsmitterha99/datn-frontend:latest
+    container_name: do-frontend
+    ports:
+      - "3000:3000"
