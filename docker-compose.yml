@@ -40,9 +40,11 @@ services:
     links:
       - ecis-api
       - do-backend
+      - do-frontend
     depends_on:
       - ecis-api
       - do-backend
+      - do-frontend
 
   do-backend:
     image: jsmitterha99/datn-backend:latest
