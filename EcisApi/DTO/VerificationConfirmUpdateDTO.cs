@@ -1,4 +1,5 @@
 ﻿using EcisApi.Models;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,21 @@ namespace EcisApi.DTO
         public string DocumentName { get; set; }
 
         public VerificationConfirmDocument[] VerificationConfirmDocuments { get; set; }
+    }
+
+    public class VerificationConfirmUpdateDTOValidator : AbstractValidator<VerificationConfirmUpdateDTO>
+    {
+        public VerificationConfirmUpdateDTOValidator()
+        {
+            RuleFor(x => x.VerificationConfirmRequirementId)
+                .NotNull()
+                .WithMessage("Không được để trống mã yêu cầu")
+                .GreaterThan(0)
+                .WithMessage("Không được để trống mã yêu cầu");
+
+            RuleFor(x => x.DocumentContent)
+                .NotNull()
+                .WithMessage("Không được để trống nội dung");
+        }
     }
 }
