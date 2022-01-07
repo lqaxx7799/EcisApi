@@ -30,9 +30,9 @@ echo "Backup started!"
 
 docker exec -it mssql mkdir -p /var/opt/mssql/backup
 docker exec -it mssql /opt/mssql-tools/bin/sqlcmd \
-   -S localhost -U SA -P 'mssql' \
+   -S localhost -U SA -P 'EcisDBSecret2021' \
    -Q "BACKUP DATABASE [ecis_db_v2] TO DISK = N'/var/opt/mssql/backup/ecis_db_v2_${FILENAME}.bak' WITH NOFORMAT, NOINIT, NAME = 'ecis_db_v2-full', SKIP, NOREWIND, NOUNLOAD, STATS = 10"
-cd ../backup
-docker cp mssql:"/var/opt/mssql/backup/ecis_db_v2_${FILENAME}.bak" "ecis_db_v2_${FILENAME}.bak"
+
+docker cp mssql:"/var/opt/mssql/backup/ecis_db_v2_${FILENAME}.bak" "../backup/ecis_db_v2_${FILENAME}.bak"
 
 echo "Backup created at ecis_db_v2_${FILENAME}.bak"
