@@ -24,7 +24,7 @@ namespace EcisApi.Controllers
         }
 
         [HttpPost("Authenticate")]
-        public IActionResult Authenticate([FromBody]AuthenticateRequestDTO model)
+        public IActionResult Authenticate([FromBody] AuthenticateRequestDTO model)
         {
             var response = accountService.Authenticate(model);
 

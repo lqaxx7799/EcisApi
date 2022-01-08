@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,5 +30,27 @@ namespace EcisApi.Models
         public virtual VerificationCriteria VerificationCriteria { get; set; }
 
         public virtual ICollection<VerificationConfirmDocument> VerificationConfirmDocuments { get; set; }
+    }
+
+    public class VerificationConfirmRequirementValidator : AbstractValidator<VerificationConfirmRequirement>
+    {
+        public VerificationConfirmRequirementValidator()
+        {
+            RuleFor(x => x.AnnounceAgentDocumentContent)
+                .NotEmpty()
+                .WithMessage("Không được để trống nội dung yêu cầu");
+
+            RuleFor(x => x.AssignedAgentId)
+                .NotNull()
+                .WithMessage("Không được để trống cán bộ xử lý")
+                .GreaterThan(0)
+                .WithMessage("Không được để trống cán bộ xử lý");
+
+            RuleFor(x => x.VerificationCriteriaId)
+                .NotNull()
+                .WithMessage("Không được để trống tiêu chí")
+                .GreaterThan(0)
+                .WithMessage("Không được để trống tiêu chí");
+        }
     }
 }

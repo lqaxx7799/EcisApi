@@ -39,32 +39,40 @@ namespace EcisApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().ToTable("Account");
+            modelBuilder.Entity<Account>()
+                .HasIndex(x => x.Email);
+
             modelBuilder.Entity<Agent>().ToTable("Agent");
             modelBuilder.Entity<AgentAssignment>().ToTable("AgentAssignment");
+
             modelBuilder.Entity<Company>().ToTable("Company");
+            modelBuilder.Entity<Company>()
+                .HasIndex(x => x.CompanyCode);
 
             modelBuilder.Entity<CompanyReport>().ToTable("CompanyReport");
             modelBuilder.Entity<CompanyReport>()
-                    .HasOne(s => s.CreatorCompany)
-                    .WithMany(g => g.CreatorCompanyReports)
-                    .HasForeignKey(s => s.CreatorCompanyId);
+                .HasOne(s => s.CreatorCompany)
+                .WithMany(g => g.CreatorCompanyReports)
+                .HasForeignKey(s => s.CreatorCompanyId);
             modelBuilder.Entity<CompanyReport>()
-                   .HasOne(s => s.TargetedCompany)
-                   .WithMany(g => g.TargetedCompanyReports)
-                   .HasForeignKey(s => s.TargetedCompanyId);
+                .HasOne(s => s.TargetedCompany)
+                .WithMany(g => g.TargetedCompanyReports)
+                .HasForeignKey(s => s.TargetedCompanyId);
+            modelBuilder.Entity<CompanyReport>()
+                .HasIndex(x => new { x.Status, x.IsDeleted });
 
             modelBuilder.Entity<CompanyReportDocument>().ToTable("CompanyReportDocument");
             modelBuilder.Entity<CompanyType>().ToTable("CompanyType");
 
             modelBuilder.Entity<CompanyTypeModification>().ToTable("CompanyTypeModification");
             modelBuilder.Entity<CompanyTypeModification>()
-                   .HasOne(s => s.PreviousCompanyType)
-                   .WithMany(g => g.PreviousCompanyTypeModifications)
-                   .HasForeignKey(s => s.PreviousCompanyTypeId);
+                .HasOne(s => s.PreviousCompanyType)
+                .WithMany(g => g.PreviousCompanyTypeModifications)
+                .HasForeignKey(s => s.PreviousCompanyTypeId);
             modelBuilder.Entity<CompanyTypeModification>()
-                   .HasOne(s => s.UpdatedCompanyType)
-                   .WithMany(g => g.UpdatedCompanyTypeModifications)
-                   .HasForeignKey(s => s.UpdatedCompanyTypeId);
+                .HasOne(s => s.UpdatedCompanyType)
+                .WithMany(g => g.UpdatedCompanyTypeModifications)
+                .HasForeignKey(s => s.UpdatedCompanyTypeId);
 
             modelBuilder.Entity<DocumentReview>().ToTable("DocumentReview");
             modelBuilder.Entity<Criteria>().ToTable("Criteria");
@@ -78,23 +86,23 @@ namespace EcisApi.Data
 
             modelBuilder.Entity<VerificationConfirmRequirement>().ToTable("VerificationConfirmRequirement");
             modelBuilder.Entity<VerificationConfirmRequirement>()
-                    .HasOne(s => s.AssignedAgent)
-                    .WithMany(g => g.VerificationConfirmRequirements)
-                    .HasForeignKey(s => s.AssignedAgentId);
+                .HasOne(s => s.AssignedAgent)
+                .WithMany(g => g.VerificationConfirmRequirements)
+                .HasForeignKey(s => s.AssignedAgentId);
             modelBuilder.Entity<VerificationConfirmRequirement>()
-                   .HasOne(s => s.ConfirmCompanyType)
-                   .WithMany(g => g.VerificationConfirmRequirements)
-                   .HasForeignKey(s => s.ConfirmCompanyTypeId);
+                .HasOne(s => s.ConfirmCompanyType)
+                .WithMany(g => g.VerificationConfirmRequirements)
+                .HasForeignKey(s => s.ConfirmCompanyTypeId);
 
             modelBuilder.Entity<VerificationCriteria>().ToTable("VerificationCriteria");
             modelBuilder.Entity<VerificationDocument>().ToTable("VerificationDocument");
 
             modelBuilder.Entity<VerificationProcess>().ToTable("VerificationProcess");
             modelBuilder.Entity<VerificationProcess>()
-                    .HasOne(s => s.Company)
-                    .WithMany(g => g.VerificationProcesses)
-                    .HasForeignKey(s => s.CompanyId)
-                    .IsRequired(false);
+                .HasOne(s => s.Company)
+                .WithMany(g => g.VerificationProcesses)
+                .HasForeignKey(s => s.CompanyId)
+                .IsRequired(false);
         }
     }
 }

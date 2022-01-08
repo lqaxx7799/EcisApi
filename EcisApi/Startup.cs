@@ -21,6 +21,7 @@ using EcisApi.DTO;
 using FluentValidation;
 using EcisApi.Helpers;
 using System.IO;
+using EcisApi.Models;
 
 namespace EcisApi
 {
@@ -129,8 +130,13 @@ namespace EcisApi
             services.AddTransient<IValidator<AuthenticateRequestDTO>, AuthenticateRequestDTOValidator>();
             services.AddTransient<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
             services.AddTransient<IValidator<CompanyRegistrationDTO>, CompanyRegistrationDTOValidator>();
+            services.AddTransient<IValidator<CompanyReportDTO>, CompanyReportDTOValidator>();
             services.AddTransient<IValidator<PublicV1AuthenticateDTO>, PublicV1AuthenticateDTOValidator>();
+            services.AddTransient<IValidator<ThirdPartyRegisterDTO>, ThirdPartyRegisterDTOValidator>();
+            services.AddTransient<IValidator<VerificationConfirmRequirement>, VerificationConfirmRequirementValidator>();
+            services.AddTransient<IValidator<VerificationConfirmUpdateDTO>, VerificationConfirmUpdateDTOValidator>();
             services.AddTransient<IValidator<VerifyCompanyDTO>, VerifyCompanyDTOValidator>();
+            services.AddTransient<IValidator<ViolationReportDTO>, ViolationReportDTOValidator>();
 
         }
 
