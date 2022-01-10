@@ -19,13 +19,16 @@ namespace EcisApi.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IEmailHelper _emailHelper;
+        private readonly ILoggerHelper _loggerHelper;
 
         public WeatherForecastController(
             ILogger<WeatherForecastController> logger,
-            IEmailHelper emailHelper)
+            IEmailHelper emailHelper,
+            ILoggerHelper loggerHelper)
         {
             _logger = logger;
             _emailHelper = emailHelper;
+            _loggerHelper = loggerHelper;
         }
 
         [HttpGet]
@@ -50,6 +53,19 @@ namespace EcisApi.Controllers
                 payload.TemplateName,
                 payload.Params
                 );
+            return Ok(true);
+        }
+
+        [HttpGet("TestLogger")]
+        public async Task<ActionResult<bool>> TestLogger([FromQuery] string message, [FromQuery] string type)
+        {
+            Func<string, Task> Handler = type.ToLower() switch
+            {
+                "information" => _loggerHelper.LogInformation,
+                "error" => _loggerHelper.LogError,
+                _ => throw new ArgumentException("Invalid type"),
+            };
+            await Handler(message);
             return Ok(true);
         }
 

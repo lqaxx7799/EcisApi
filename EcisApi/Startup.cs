@@ -95,6 +95,7 @@ namespace EcisApi
 
             services.AddTransient<ICloudStorageHelper, CloudStorageHelper>();
             services.AddTransient<IEmailHelper, EmailHelper>();
+            services.AddTransient<ILoggerHelper, LoggerHelper>();
 
             services.AddCors(options =>
             {
@@ -138,6 +139,7 @@ namespace EcisApi
             services.AddTransient<IValidator<VerifyCompanyDTO>, VerifyCompanyDTOValidator>();
             services.AddTransient<IValidator<ViolationReportDTO>, ViolationReportDTOValidator>();
 
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

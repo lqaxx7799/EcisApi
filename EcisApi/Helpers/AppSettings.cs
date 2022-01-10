@@ -15,5 +15,10 @@ namespace EcisApi.Helpers
         public string EmailPassword { get; set; }
         public string SmtpServer { get; set; }
         public int SmtpPortNumber { get; set; }
+
+        // Telegram bot
+        public string TelegramBotToken { get; set; }
+        public string TelegramBotPath { get; set; }
+        public string TelegramBotChatId { get; set; }
     }
 }
