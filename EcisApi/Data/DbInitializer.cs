@@ -212,8 +212,8 @@ namespace EcisApi.Data
             // CriteriaDetail seeding
             CriteriaDetail criteriaDetail1 = new()
             {
-                CriteriaDetailName = "Giấy chứng nhận đăng ký doanh nghiệp (đối với doanh nghiệp không có vốn đầu tư nước ngoài)",
-                Description = "Giấy chứng nhận đăng ký doanh nghiệp (đối với doanh nghiệp không có vốn đầu tư nước ngoài)",
+                CriteriaDetailName = "Giấy chứng nhận đăng ký doanh nghiệp",
+                Description = "Giấy chứng nhận đăng ký doanh nghiệp",
                 CriteriaId = criteria1.Id,
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
@@ -230,7 +230,7 @@ namespace EcisApi.Data
                 IsDeleted = false,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                IsRequired = true
+                IsRequired = false
             };
             context.CriteriaDetails.Add(criteriaDetail2);
 

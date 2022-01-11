@@ -42,5 +42,20 @@ namespace EcisApi.Controllers
                 return BadRequest(new { e.Message });
             }
         }
+
+        [HttpPut("ApproveAll/{processId}")]
+        [Authorize("Agent", "Admin")]
+        public async Task<ActionResult<ICollection<VerificationCriteria>>> ApproveAll([FromRoute] int processId)
+        {
+            try
+            {
+                var updated = await verificationCriteriaService.ApproveAllAsync(processId);
+                return Ok(updated);
+            }
+            catch (BadHttpRequestException e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
     }
 }

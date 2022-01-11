@@ -1,4 +1,5 @@
-﻿using EcisApi.Models;
+﻿using EcisApi.Helpers;
+using EcisApi.Models;
 using EcisApi.Repositories;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -13,17 +14,21 @@ namespace EcisApi.Services
         ICollection<VerificationCriteria> GetByProcessId(int processId);
         Task<VerificationCriteria> AddAsync(VerificationCriteria payload);
         Task<VerificationCriteria> UpdateAsync(VerificationCriteria payload);
+        Task<ICollection<VerificationCriteria>> ApproveAllAsync(int processId);
     }
 
     public class VerificationCriteriaService : IVerificationCriteriaService
     {
         protected readonly IVerificationCriteriaRepository verificationCriteriaRepository;
+        protected readonly IUnitOfWork unitOfWork;
 
         public VerificationCriteriaService(
-            IVerificationCriteriaRepository verificationCriteriaRepository
+            IVerificationCriteriaRepository verificationCriteriaRepository,
+            IUnitOfWork unitOfWork
             )
         {
             this.verificationCriteriaRepository = verificationCriteriaRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public ICollection<VerificationCriteria> GetByProcessId(int processId)
@@ -49,6 +54,23 @@ namespace EcisApi.Services
             verificationCriteria.ReviewComment = payload.ReviewComment;
             verificationCriteria.ReviewResult = payload.ReviewResult;
             return await verificationCriteriaRepository.UpdateAsync(verificationCriteria);
+        }
+        
+        public async Task<ICollection<VerificationCriteria>> ApproveAllAsync(int processId)
+        {
+            var verificationCriterias = verificationCriteriaRepository.GetByProcessId(processId);
+            if (verificationCriterias.Count == 0)
+            {
+                throw new BadHttpRequestException("VerificationCriteriaEmpty");
+            }
+            using var transaction = unitOfWork.BeginTransaction();
+            foreach(var criteria in verificationCriterias)
+            {
+                criteria.ApprovedStatus = AppConstants.VerificationCriteriaStatus.VERIFIED;
+                await verificationCriteriaRepository.UpdateAsync(criteria);
+            }
+            transaction.Commit();
+            return verificationCriterias;
         }
     }
 }
