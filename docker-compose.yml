@@ -39,21 +39,21 @@ services:
       - "80:80"
     links:
       - ecis-api
-      - do-backend
-      - do-frontend
+      #- do-backend
+      #- do-frontend
     depends_on:
       - ecis-api
-      - do-backend
-      - do-frontend
+      #- do-backend
+      #- do-frontend
 
-  do-backend:
-    image: jsmitterha99/datn-backend:latest
-    container_name: do-backend
-    ports:
-      - "8091:8091"
+  #do-backend:
+  #  image: jsmitterha99/datn-backend:latest
+  #  container_name: do-backend
+  #  ports:
+  #    - "8091:8091"
 
-  do-frontend:
-    image: jsmitterha99/datn-frontend:fev1.0
-    container_name: do-frontend
-    ports:
-      - "3000:3000"
+  #do-frontend:
+  #  image: jsmitterha99/datn-frontend:fev1.0
+  #  container_name: do-frontend
+  #  ports:
+  #    - "3000:3000"
