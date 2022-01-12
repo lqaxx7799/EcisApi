@@ -33,9 +33,9 @@ BACKUP_NAME="ecis_db_v2_${FILENAME}.bak"
 docker exec -it mssql mkdir -p /var/opt/mssql/backup
 docker exec -it mssql /opt/mssql-tools/bin/sqlcmd \
    -S localhost -U SA -P 'EcisDBSecret2021' \
-   -Q "BACKUP DATABASE [ecis_db_v2] TO DISK = N'/var/opt/mssql/backup/${BACKUP_NAME}.bak' WITH NOFORMAT, NOINIT, NAME = 'ecis_db_v2-full', SKIP, NOREWIND, NOUNLOAD, STATS = 10"
+   -Q "BACKUP DATABASE [ecis_db_v2] TO DISK = N'/var/opt/mssql/backup/${BACKUP_NAME}' WITH NOFORMAT, NOINIT, NAME = 'ecis_db_v2-full', SKIP, NOREWIND, NOUNLOAD, STATS = 10"
 
-docker cp mssql:"/var/opt/mssql/backup/${BACKUP_NAME}.bak" "../backup/${BACKUP_NAME}.bak"
+docker cp mssql:"/var/opt/mssql/backup/${BACKUP_NAME}" "../backup/${BACKUP_NAME}"
 
 chown ubuntu "../backup/${BACKUP_NAME}"
 
