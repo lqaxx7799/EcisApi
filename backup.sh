@@ -28,7 +28,7 @@ fi
 
 echo "Backup started!"
 
-BACKUP_NAME = "ecis_db_v2_${FILENAME}.bak"
+BACKUP_NAME="ecis_db_v2_${FILENAME}.bak"
 
 docker exec -it mssql mkdir -p /var/opt/mssql/backup
 docker exec -it mssql /opt/mssql-tools/bin/sqlcmd \
