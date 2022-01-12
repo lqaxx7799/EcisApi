@@ -68,6 +68,10 @@ namespace EcisApi.Controllers
         [Authorize("Agent", "Admin")]
         public ActionResult<ICollection<VerificationProcessRatingDTO>> GetRatingCount([FromQuery] string processIds)
         {
+            if (processIds == null)
+            {
+                return BadRequest("EmptyProcessIds");
+            }
             var input = processIds
                 .Split(',')
                 .Select(x => Convert.ToInt32(x.Trim()))
